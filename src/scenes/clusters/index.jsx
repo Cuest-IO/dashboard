@@ -1,4 +1,4 @@
-import ClusterTable from "../../components/clusterTable";  
+import ClusterTable from "./clusterTable";
 import "./clusters.css";
 
 const Clusters = () =>{

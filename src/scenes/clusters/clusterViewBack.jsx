@@ -1,4 +1,4 @@
-import NodeViewCard from "../../components/nodeViewCard";
+import NodeViewCard from "../clusterview/nodeViewCard";
 import { clusterDataView } from "../../data/mockData";
 import { useEffect, useState, React} from 'react';
 import io from 'socket.io-client';

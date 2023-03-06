@@ -1,9 +1,7 @@
-import NodeViewCard from "../../components/nodeViewCard";
+import NodeViewCard from "./nodeViewCard";
 import { useEffect, useState, React} from 'react';
 import { formatMBytes } from "../../utils/utilities";  
 import io from 'socket.io-client';
-
-const moment = require('moment'); 
 
 const localURL='http://localhost:3000';
 const awsURL= 'wss://clzc5avz50.execute-api.us-east-1.amazonaws.com/dev?type=web';

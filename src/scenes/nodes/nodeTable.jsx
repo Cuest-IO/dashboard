@@ -13,55 +13,67 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 
-import { clusterRows as rows  } from "../data/mockData";
-import { getComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar} from "./tableComp.jsx";
-import "./table.css";
-import { NavLink } from 'react-router-dom';
+import { rows } from "../../data/mockData";
+import { getComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar} from "../../components/tableComp.jsx";
+
+
 const headCells = [
   {
-    id: 'id',
+    id: 'nodeId',
     numeric: false,
     disablePadding: true,
-    label: 'Cluster Name',
+    label: 'Node Id',
   },
   {
-    id: 'groups',
+    id: 'activeSince',
     numeric: false,
     disablePadding: false,
-    label: 'Node Groups',
+    label: 'Active Since',
   },
   {
-    id: 'runningPods',
+    id: 'group',
     numeric: false,
     disablePadding: false,
-    label: 'Running Pods',
+    label: 'Group',
   },
   {
-    id: 'completePods',
+    id: 'cores',
     numeric: false,
     disablePadding: false,
-    label: 'Completed Pods',
+    label: 'Cores',
   },
   {
-    id: 'interruptPods',
+    id: 'memory',
     numeric: false,
     disablePadding: false,
-    label: 'Interrupted Pods',
+    label: 'Memory',
   },
   {
-    id: 'execTime',
+    id: 'coresUsed',
     numeric: false,
     disablePadding: false,
-    label: 'Execution Time',
-  }
+    label: 'Cores Used',
+  },
+  {
+    id: 'memoryUsed',
+    numeric: false,
+    disablePadding: false,
+    label: 'Memory Used',
+  },
+  {
+    id: 'runtimeHours',
+    numeric: false,
+    disablePadding: false,
+    label: 'Runtime Hours',
+  },
 ];
 
 
 
-export default function ClusterTable() {
+export default function NodesTable() {
    
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('id');
+    const [orderBy, setOrderBy] = React.useState('nodeId');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -74,7 +86,7 @@ export default function ClusterTable() {
 
     const handleSelectAllClick = (event) => {
       if (event.target.checked) {
-        const newSelected = rows.map((n) => n.id);
+        const newSelected = rows.map((n) => n.nodeId);
         setSelected(newSelected);
         return;
       }
@@ -141,23 +153,22 @@ export default function ClusterTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row.nodeId);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
+                      onClick={(event) => handleClick(event, row.nodeId)}
+                      role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={row.nodeId}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
-                          onClick={(event) => handleClick(event, row.id)}
-                      
-                          role="checkbox"
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
@@ -171,18 +182,15 @@ export default function ClusterTable() {
                         padding="none"
                         align="left"
                       >
-                        <NavLink
-                        className="tableLink"
-                        to="/clusterview"
-                        >
-                          {row.id}
-                        </NavLink>
+                        {row.nodeId}
                       </TableCell>
+                      <TableCell align="left">{row.activeSince}</TableCell>
                       <TableCell align="left">{row.group}</TableCell>
-                      <TableCell align="left">{row.running}</TableCell>
-                      <TableCell align="left">{row.completed}</TableCell>
-                      <TableCell align="left">{row.interrupted}</TableCell>
-                      <TableCell align="left">{row.totalTime}</TableCell>
+                      <TableCell align="left">{row.cores}</TableCell>
+                      <TableCell align="left">{row.memory}</TableCell>
+                      <TableCell align="left">{row.coresUsed}</TableCell>
+                      <TableCell align="left">{row.memoryUsed}</TableCell>
+                      <TableCell align="left">{row.runtimeHours}</TableCell>
                     </TableRow>
                   );
                 })}

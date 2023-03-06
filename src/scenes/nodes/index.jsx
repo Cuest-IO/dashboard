@@ -1,4 +1,4 @@
-import NodesTable from "../../components/nodeTable";  
+import NodesTable from "./nodeTable";  
 
 const Nodes = () =>{
   return (

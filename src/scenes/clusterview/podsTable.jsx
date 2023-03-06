@@ -5,14 +5,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableBody';
 
 import TableRow from '@mui/material/TableRow';
-import { useEffect, useState} from 'react';
+import { useState} from 'react';
 
 
 export default function PodsTable(props) {
-    const [workloads, setNode] = useState(props.node.workloads);
-    workloads.forEach((row, key, map)=> {
-        console.log ( row );
-});
+    const [workloads, setWorkloads] = useState(props.node.workloads);
+    
     const cellTableStyle ={
         padding: "0px 0px",
         width: '20%'

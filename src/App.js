@@ -4,7 +4,7 @@ import Sidebar from "./scenes/global/sidebar";
 import Dashboard from "./scenes/dashboard";
 import Nodes from "./scenes/nodes";
 import Clusters from "./scenes/clusters";
-import ClusterView from "./scenes/clusters/clusterView";
+import ClusterView from "./scenes/clusterview/clusterView";
 import React from "react";
 import {    Routes,  Route} from "react-router-dom";
 

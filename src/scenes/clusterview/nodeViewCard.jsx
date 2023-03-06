@@ -1,11 +1,15 @@
 import * as React from 'react';
-import './components.css';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, Label } from 'recharts';
+import './clusterview.css';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,  ResponsiveContainer } from 'recharts';
 
-import { useEffect, useState} from 'react';
+import {useState} from 'react';
 import PodsTable from './podsTable';
-import BatteryChart from './batteryChart';
+// import numeral from "numeral";
+import moment from "moment";
 
+
+const timeFormatter = item => moment(item).format("mm:ss");
+// const numberFormatter = item => numeral(item).format("0,0");
 
 const NodeViewCard = (props) =>{
 
@@ -67,7 +71,7 @@ const NodeViewCard = (props) =>{
                     tick={false} 
                     />
 
-                <Tooltip />
+                <Tooltip labelFormatter={timeFormatter} />
                 <Area type="linearClosed" dataKey="totalCPU"   stroke="#82ca9d" fill="#82ca9d" />
                 <Area type="monotone" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
                 <Area type="monotone" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
@@ -126,64 +130,3 @@ const NodeViewCard = (props) =>{
 };     
 
 export default NodeViewCard;
-
-
-
-// <div className='chartsArea'>
-// <TableContainer
-//   sx={{  
-//     width:'50%'
-//   }}
-//   >
-//   <Table 
-//     sx={{
-//         width: "100%",
-//         fontSize: '10px',
-//         borderCollapse: "separate",
-//         borderSpacing: "0px 0px",
-//         padding: "0px"
-//     }}
-//     >
-//     <TableHead
-//     sx={{
-//       minWidth: 480,
-//       borderCollapse: "separate",
-//       borderSpacing: "0px 0px",
-//       padding: "0px"
-//   }}
-//     >
-//       <TableRow
-//       sx={{
-//         minWidth: 480,
-//         borderCollapse: "separate",
-//         borderSpacing: "0px 0px",
-//         padding:"0px"
-  
-//     }}
-//     >
-//         <TableCell sx={{...cellTableStyle, width: '40%'}} align="left">Image name</TableCell>
-//         <TableCell sx={{...cellTableStyle}} align="left">Status</TableCell>
-//         <TableCell sx={{...cellTableStyle}} align="left">CPU (Cores)</TableCell>
-//         <TableCell sx={{...cellTableStyle}} align="left">Memory (MB)</TableCell>
-//       </TableRow>
-//     </TableHead>
-//     <TableBody>
-//       {node.workloads.map((row) => (
-//         <TableRow
-//           key={row.imageId}
-//           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-//         >
-//           <TableCell sx={{...cellTableStyle, width: '40%'}} scope="row">
-//             {row.imageId}
-//           </TableCell>
-//           <TableCell sx={{...cellTableStyle}} >
-//             {row.status}
-//           </TableCell>
-//           <TableCell sx={{...cellTableStyle}} align="right">{row.cpu}</TableCell>
-//           <TableCell sx={{...cellTableStyle}} align="right">{row.memory}</TableCell>
-//           </TableRow>
-//       ))}
-//   </TableBody>
-// </Table>
-// </TableContainer>
-// </div>

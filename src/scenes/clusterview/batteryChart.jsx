@@ -1,6 +1,6 @@
 
 import { PieChart, Cell, Pie, ResponsiveContainer } from 'recharts';
-import { useEffect, useState} from 'react';
+import { useState} from 'react';
 
 
 export default function BatteryChart(props) {

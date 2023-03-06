@@ -186,3 +186,37 @@ body {
   border: 1px solid #979797;
 
 }
+
+.tableHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  
+  
+  height: 24px;
+
+
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 146%;
+  /* or 20px */
+
+  text-transform: uppercase;
+
+  /* Main/Blue */
+
+  color: #00A1EF;
+
+}
+
+.tableLink{
+  list-style: none;
+  text-decoration: none;
+  font-weight: 400;
+  color: #00A1EF;
+  
+}
