@@ -30,7 +30,7 @@ function streamNode(nodeName){
         //   console.log("node:"+nodeName+" msg type: "+nextMsg);
         if(nextMsg){
             const device ={
-                    
+                     
                 device: nodeName,
                 "time":moment().utc().valueOf(),
                 info:{
@@ -38,7 +38,7 @@ function streamNode(nodeName){
                     state: {
                         "battery": {
                             "isCharging": false,
-                            "current": 91,
+                            "current": 25,
                             "min": 20,
                             "enough": true
                         },

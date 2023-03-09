@@ -17,7 +17,6 @@ export default function PodsTable(props) {
     };
 
     return (
-
         <TableContainer
             sx={{  
                 width:'100%',
@@ -58,7 +57,7 @@ export default function PodsTable(props) {
                 </TableHead>
                 <TableBody>
                     {
-                        workloads.map((row) => (
+                        props.node.connected && workloads.map((row) => (
                             <TableRow
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -1,6 +1,6 @@
 
 
-export const formatMBytes = (mBytes, decimals = 1) => {
+export const formatMBytes = (mBytes, percentage=1, decimals = 1) => {
     if (mBytes === 0) {
       return 0;
     }
@@ -8,5 +8,5 @@ export const formatMBytes = (mBytes, decimals = 1) => {
     const dm = decimals < 0 ? 0 : decimals;
 
 
-    return parseFloat((mBytes / k).toFixed(dm));
+    return (parseFloat(((mBytes* percentage) / k).toFixed(dm)));
   } 

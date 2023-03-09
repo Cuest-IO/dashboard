@@ -28,11 +28,12 @@ function populateNodes () {
 }
 
 function populateClusters () {
-  let content = [];
-  for (let i = 0; i < 5; i++) {
-    content.push(createClusterData("Cluster"+i, "Default", 3, 10, 2, 40));
-  }
-  return content;
+  return [createClusterData("Default", "Default", 3, 10, 2, 40)];
+  // let content = [];
+  // for (let i = 0; i < 5; i++) {
+  //   content.push(createClusterData("Cluster"+i, "Default", 3, 10, 2, 40));
+  // }
+  // return content;
 }
 
 export const rows = populateNodes () ;

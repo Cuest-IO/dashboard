@@ -5,8 +5,10 @@ import {Link} from "react-router-dom";
 const NodeCard = (props) =>{
     return (
 <div className="card"  style={props.style}>
-    <div className='title'> 
-      Nodes
+    <div className="cardHeader">
+      <div className='title'> 
+          Nodes
+      </div>
     </div>
     <div className="actions">
       <Link to="/nodes">

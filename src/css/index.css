@@ -109,8 +109,6 @@ body {
 
 .title{
   height: 29px;
-  margin-top: 24px;
-  margin-left: 24px;
   
   font-family: 'Product Sans';
   font-style: normal;
@@ -122,6 +120,15 @@ body {
   color: #575757;
 }
 
+.cardHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
 
 .actions{
   display: flex;

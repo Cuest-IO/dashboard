@@ -2,10 +2,11 @@
 const SystemCard = (props) =>{
     return (
 <div className="card" style={props.style}>
+  <div className="cardHeader">
     <div className='title'> 
-      System card
+        System card
     </div>
-    
+  </div>
   </div>
     ) ;
 }    
