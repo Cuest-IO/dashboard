@@ -1,5 +1,8 @@
 {
-  "projectName": "Dash",
+  "providers": [
+    "awscloudformation"
+  ],
+  "projectName": "dashboard",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
@@ -8,10 +11,7 @@
       "SourceDir": "src",
       "DistributionDir": "build",
       "BuildCommand": "npm.cmd run-script build",
-      "StartCommand": "npm.cmd run-script start"
+      "StartCommand": "npm client start"
     }
-  },
-  "providers": [
-    "awscloudformation"
-  ]
+  }
 }
