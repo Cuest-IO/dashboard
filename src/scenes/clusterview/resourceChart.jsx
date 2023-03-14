@@ -103,9 +103,9 @@ const ResourceChart = (props) =>{
                 <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
                 <Tooltip />
                 <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
-                <Area type="monotone" dataKey="availMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
-                <Area type="monotone" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
                 <Area type="monotone" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
+                <Area type="monotone" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+                <Area type="monotone" dataKey="availMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
             </AreaChart>
 
         </ResponsiveContainer> 

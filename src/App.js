@@ -7,15 +7,31 @@ import Clusters from "./scenes/clusters";
 import ClusterView from "./scenes/clusterview/clusterView";
 import React from "react";
 import {    Routes,  Route} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css'
+Amplify.configure(awsconfig);
 
 
 
-function App() {
+export const params = new Map();
+
+function App({ signOut, user }) {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  searchParams.forEach((value, key) => {
+    params.set(key, value);
+  });
+ 
+   console.log(user);
   return (
     
     <div className="app">
        <main className ="content">
-          <Topbar userProfile={userProfile}/>
+          <Topbar userProfile={user} action={signOut}/>
           <div>
             <Sidebar/>
             <Routes>
@@ -33,7 +49,7 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);
 
 
 // <div className="app">
