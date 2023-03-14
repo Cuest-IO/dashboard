@@ -2,24 +2,31 @@ import NodeViewCard from "./nodeViewCard";
 import { useEffect, useState, React} from 'react';
 import { formatMBytes } from "../../utils/utilities";  
 import io from 'socket.io-client';
+import {params} from "../../App"; 
+// import tenant from "../../App";
 
-const localURL='http://localhost:3000';
-const awsURL= 'wss://fwwq5j6sd5.execute-api.us-east-1.amazonaws.com/dev?type=web&tenant=123456789';
-// Local Simulator
-// const socket=io(localURL, {
-//           transports: ['websocket', 'polling']
-//         });
-
-
-// AWS real 
-const socket= new WebSocket(awsURL);
         
 
 const nodes=new Map([]);
 const cardList  = [];
         
 const ClusterView = () =>{ 
-  
+
+  //Local Simulator
+  // const url=new URL('http://localhost:3000').searchParams.append("tenant", params.get("tenant"));
+  // params.get("tenant") && url.searchParams.append("tenant", params.get("tenant"));
+  // const socket=io(url, {
+  //         transports: ['websocket', 'polling']
+  //       });
+
+
+  // AWS real 
+  const url= new URL('wss://fwwq5j6sd5.execute-api.us-east-1.amazonaws.com/dev?type=web');
+  params.get("tenant") && url.searchParams.append("tenant", params.get("tenant"));
+  const socket= new WebSocket(url);
+
+
+
   const [cards, setCards] = useState(cardList);
 
   
@@ -156,9 +163,9 @@ const ClusterView = () =>{
   function memoryUsage(state, timestamp) {
     
     const totalMem=formatMBytes(state.device.system.ram);
-    const vmMem=formatMBytes(state.device.system.ram, state.vm.load.ram);
-    const sysMem=formatMBytes(state.device.system.ram, state.device.load.ram);
-    let freeMem = (totalMem - vmMem - sysMem).toFixed(1);
+    const vmMem=formatMBytes(state.vm.system.ram);
+    const sysMem=(formatMBytes(state.device.system.ram, state.device.load.ram) - vmMem).toFixed(1);
+    let freeMem = (totalMem - sysMem - vmMem).toFixed(1);
     freeMem = (freeMem < 0) ? 0 : freeMem;   
 
     return {

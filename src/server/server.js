@@ -46,8 +46,7 @@ function streamNode(nodeName){
                             "load": {
                                 "cpu": Math.floor(Math.random() * 100)/100,
                                 "disk": Math.floor(Math.random() * 100000),
-                                "ram": os.freemem(),
-                            },
+                                "ram": 1-os.freememPercentage(),                            },
                             "system": { 
                                 "cpu": 8,
                                 "disk": 476802,
@@ -63,7 +62,7 @@ function streamNode(nodeName){
                             "system": {
                                 "cpu": 2,
                                 "disk": 20480,
-                                "ram": 700
+                                "ram": 2200
                             }
                         }
                     },
