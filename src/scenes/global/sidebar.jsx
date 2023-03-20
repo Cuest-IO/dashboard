@@ -27,14 +27,14 @@ const Sidebar = () => {
                     <ul className="sideBarList">
                         {firstMenu.map((item, index)=>{
                            return (   
-                          <RenderSideBar item={item}/>
+                          <RenderSideBar item={item} key={index}/>
                            );
                         })}
                     </ul>
                     <ul className="sideBarList" style={{top: "347px"}}>
                         {secondMenu.map((item, index)=>{
                            return (   
-                          <RenderSideBar item={item}/>
+                          <RenderSideBar item={item} key={index}/>
                            );
                         })}
                     </ul>

@@ -5,7 +5,7 @@ import { useState } from "react";
 
 
 const Topbar = (props) =>{
-    console.log(props);
+    console.log(props.userProfile.attributes);
 
   const [anchor, setAnchor] = useState(null);
   
@@ -24,11 +24,11 @@ const Topbar = (props) =>{
     setSelected(index);
   };
 
-
+  const company = props.userProfile.attributes['custom:Company']
     return (
         <div className="topBar">
             <div className='topBarTitle'>
-                {props.userProfile.account}
+                {company}
             </div>
             
             <div className="userProfile" onClick={openMenu} variant="contained">

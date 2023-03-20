@@ -1,6 +1,6 @@
 {
-  "authSelections": "userPoolOnly",
-  "resourceName": "dashboard",
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "stageadmin",
   "serviceType": "imported",
   "region": "us-east-1",
   "usernameAttributes": [
