@@ -48,7 +48,7 @@
     padding: 0px 24px;
     gap: 16px;
     cursor: pointer;
-    width: 240px;
+    width: 288px;
     height: 44px;
     font-family: 'Product Sans';
     font-style: normal;
@@ -105,8 +105,8 @@
 }
    
 .upgradePlan{
-    width: 224px;
-    height: 281px;
+    /* width: 224px;
+    height: 281px; */
     left: 32px;
     position: absolute;    
     background: linear-gradient(180deg, rgba(183, 233, 255, 0.7) 0%, rgba(136, 169, 255, 0.7) 100%);
