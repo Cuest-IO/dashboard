@@ -34,7 +34,8 @@ body {
   position: relative;
   display: flex;
   flex-direction: row;
-
+  height: 868px;
+  border-radius: 18px;
 }
 
 .leftMenu{
@@ -71,6 +72,7 @@ body {
 
   height: 48px;
   width: 1080px;
+  margin-top: 24px;
   margin-left: 24px;
 }
 
@@ -226,4 +228,11 @@ body {
   font-weight: 400;
   color: #00A1EF;
   
+}
+
+.authLogo{
+  width: 237px;
+  height: 54px;
+  margin-top: 24px;
+  margin-left: 32px; 
 }

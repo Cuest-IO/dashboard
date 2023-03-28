@@ -1,0 +1,19 @@
+{
+
+    "accountStatus":{
+        "accountId":1234567890,
+        "status":"Ready"
+    },
+    "nodes":[
+        {
+            "nodeId":"12254",
+            "activeSince": "Feb1", 
+            "group": "Default", 
+            "cores": 8, 
+            "memory":"12GB", 
+            "coresUsed": 2, 
+            "memoryUsed": "6GB", 
+            "runtimeHours": 10
+        }
+    ]
+}

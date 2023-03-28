@@ -2,10 +2,9 @@ import NodeViewCard from "./nodeViewCard";
 import { useEffect, useState, React} from 'react';
 import { formatMBytes } from "../../utils/utilities";  
 import io from 'socket.io-client';
-import {params} from "../../App"; 
-// import tenant from "../../App";
-
-        
+import {userAttr} from "../global/mainApp"; 
+import { Auth } from "aws-amplify";
+import Loading from "../../components/loadingComp";        
 
 const nodes=new Map([]);
 const cardList  = [];
@@ -13,20 +12,18 @@ const cardList  = [];
 const ClusterView = () =>{ 
 
   //Local Simulator
-  // const url=new URL('http://localhost:3000').searchParams.append("tenant", params.get("tenant"));
-  // params.get("tenant") && url.searchParams.append("tenant", params.get("tenant"));
+  // const url=new URL('http://localhost:3000')
+  // userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
   // const socket=io(url, {
   //         transports: ['websocket', 'polling']
   //       });
-
-
+  
   // AWS real 
-  const url= new URL('wss://fwwq5j6sd5.execute-api.us-east-1.amazonaws.com/dev?type=web');
-  params.get("tenant") && url.searchParams.append("tenant", params.get("tenant"));
+  const url= new URL(process.env.REACT_APP_WSS_URI);
+  userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
   const socket= new WebSocket(url);
-
-
-
+  // console.log(userAttr["custom:AccountId"]);
+  console.log(url);
   const [cards, setCards] = useState(cardList);
 
   
@@ -146,7 +143,7 @@ const ClusterView = () =>{
   }
 
   function cpuUsage(state, timestamp) {
-    const vmCPU=state.vm.load.cpu * 100;
+    const vmCPU=(state.vm) ? state.vm.load.cpu * 100 : 0;
     const sysCPU=state.device.load.cpu *100;
     let freeCPU = 100 - vmCPU - sysCPU;
     freeCPU = (freeCPU < 0) ? 0 : freeCPU;   
@@ -163,7 +160,7 @@ const ClusterView = () =>{
   function memoryUsage(state, timestamp) {
     
     const totalMem=formatMBytes(state.device.system.ram);
-    const vmMem=formatMBytes(state.vm.system.ram);
+    const vmMem=(state.vm) ? formatMBytes(state.vm.system.ram) : 0;
     const sysMem=(formatMBytes(state.device.system.ram, state.device.load.ram) - vmMem).toFixed(1);
     let freeMem = (totalMem - sysMem - vmMem).toFixed(1);
     freeMem = (freeMem < 0) ? 0 : freeMem;   
@@ -193,13 +190,12 @@ const ClusterView = () =>{
   }
 
   function render () {
-    // console.log("start rendering");
     return (
-    <>
-      {cards.map((card) => (
-        <NodeViewCard node={card} key={card.nodeName}/> 
-      ))}
-    </>
+      <Loading>
+        {cards.map((card) => (
+          <NodeViewCard node={card} key={card.nodeName}/> 
+        ))}
+    </Loading>  
     )
   }
 

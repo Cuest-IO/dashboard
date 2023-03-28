@@ -2,13 +2,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import './topbar.css';
 import { Menu, MenuItem, Grow } from "@material-ui/core";
 import { useState } from "react";
-
+import {ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Topbar = (props) =>{
     console.log(props.userProfile.attributes);
 
-  const [anchor, setAnchor] = useState(null);
-  
+  const [anchor, setAnchor] = useState(null);  
   const [selected, setSelected] = useState(-1);
 
   const openMenu = (event) => {
@@ -24,11 +24,13 @@ const Topbar = (props) =>{
     setSelected(index);
   };
 
+  //toast.success("account created succesfully");
   const company = props.userProfile.attributes['custom:Company']
+
     return (
         <div className="topBar">
             <div className='topBarTitle'>
-                {company}
+                {company} 
             </div>
             
             <div className="userProfile" onClick={openMenu} variant="contained">
@@ -38,6 +40,7 @@ const Topbar = (props) =>{
                 <div className='userName'>
                     <b>{props.userProfile.attributes.given_name} {props.userProfile.attributes.family_name}</b>
                 </div>
+                <ToastContainer position="top-center"/>
             </div>
       <Menu
         open={Boolean(anchor)}

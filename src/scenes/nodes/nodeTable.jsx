@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 
-import { rows } from "../../data/mockData";
+// import { rows } from "../../data/mockData";
 import { getComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar} from "../../components/tableComp.jsx";
 
 
@@ -70,8 +70,9 @@ const headCells = [
 
 
 
-export default function NodesTable() {
-   
+export default function NodesTable(props) {
+  
+    const [rows, setRows] = React.useState(props.nodes);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('nodeId');
     const [selected, setSelected] = React.useState([]);

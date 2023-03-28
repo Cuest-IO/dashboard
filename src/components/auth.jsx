@@ -1,17 +1,18 @@
 import { Authenticator, CheckboxField, useAuthenticator } from "@aws-amplify/ui-react";
-import { Amplify, Auth } from 'aws-amplify';
 import { useTheme, View, Image, Text, Heading } from "@aws-amplify/ui-react";
+import '../css/index.css';
 
 export const components = {
     Header() {
       const { tokens } = useTheme();
   
       return (
-        <View textAlign="center" padding={tokens.space.large}>
-          <Image
-            alt="Cuest logo"
-            src={'/icons/horizontal.png'}
-          />
+        <View textAlign="left">
+            <Image 
+              src="/icons/horizontal.png" 
+              alt="logo"
+              height="54px"
+              width="237px"/>      
         </View>
       );
     },
@@ -34,7 +35,7 @@ export const components = {
   
         return (
           <Heading
-            padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+            padding={`${tokens.space.medium} 0 0 ${tokens.space.xl}`}
             level={3}
           >
             Sign in to your account
