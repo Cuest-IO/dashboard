@@ -45,7 +45,7 @@ function showBattery(battery){
 }
 
 function renderBattery(battery){
-    if(battery.current){
+    if(battery && battery.current){
         return (
            
            <Tooltip title={"".concat(battery.current, "%")}>

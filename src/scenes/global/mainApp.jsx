@@ -17,18 +17,21 @@ Window.accountStatus = "Unknown";
 
 function MainApp() {   
   console.log(process.env.REACT_APP_REST_URI);
-  const { isLoading, error, data } = useQuery(
-    ['accountStatus'],
-    async () => {
-      const { data } = await axios.get("".concat(process.env.REACT_APP_REST_URI, "/accountStatus"));
+  // const { isLoading, error, data } = useQuery(
+  //   ['accountStatus'],
+  //   async () => {
+  //     const { data } = await axios.get("".concat(process.env.REACT_APP_REST_URI, "/accountStatus"));
         
       
       
-      console.log(data.status);
-      Window.accountStatus = data?.status;
-      return data;
-    },{refetchInterval: (Window.accountStatus != "Ready") ? 2000 : 0});
+  //     console.log(data.status);
+  //     Window.accountStatus = data?.status;
+  //     return data;
+  //   },{refetchInterval: (Window.accountStatus != "Ready") ? 2000 : 0});
     
+  Window.accountStatus = 'Ready'
+
+
     const { signOut, user } = useAuthenticator();
     Object.assign(userAttr, user.attributes);
       

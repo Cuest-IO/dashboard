@@ -23,7 +23,7 @@ const ClusterView = () =>{
   userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
   const socket= new WebSocket(url);
   // console.log(userAttr["custom:AccountId"]);
-  console.log(url);
+  //console.log(url);
   const [cards, setCards] = useState(cardList);
 
   
@@ -38,7 +38,7 @@ const ClusterView = () =>{
       
       
       const node = nodes.get(nodeStat.device);
-  
+        console.log(node);
       if(node){
           updateNode(node, nodeStat); 
       }
