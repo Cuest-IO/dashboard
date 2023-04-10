@@ -1,7 +1,7 @@
 
 @font-face {
   font-family: "Product Sans";
-  src: url('./fonts/ProductSansRegular.ttf');
+  src: url('ProductSansRegular.ttf');
 }
 
 html{
@@ -9,7 +9,7 @@ html{
   position: relative;
   width: 1440px;
   height: 1024px;
-  
+
 }
 body {
   display: flex;
@@ -22,13 +22,13 @@ body {
   font-size: 2rem;
   font-weight: 400;
   font-style: normal;
-      
+
 }
 
 .app {
   display: flex;
   position: relative;
-} 
+}
 
 .container{
   position: relative;
@@ -84,7 +84,7 @@ body {
   gap: 8px;
 
   height: 36px;
-  
+
   font-family: 'Product Sans';
   font-style: normal;
   font-weight: 700;
@@ -105,13 +105,13 @@ body {
   border-radius: 20px;
   margin-top: 24px;
   margin-left: 24px;
-  flex-grow: 0; 
+  flex-grow: 0;
   flex-shrink: 0;
 }
 
 .title{
   height: 29px;
-  
+
   font-family: 'Product Sans';
   font-style: normal;
   font-weight: 700;
@@ -144,7 +144,7 @@ body {
   top: 69px;
   margin-top: 16px;
   margin-left: 24px;
-  
+
 }
 
 .charts{
@@ -157,7 +157,7 @@ body {
   height: 145px;
   margin-top: 16px;
   margin-left: 24px;
-  
+
 }
 
 .button{
@@ -171,7 +171,7 @@ body {
   height: 29px;
 
   filter: drop-shadow(0px 4px 17px rgba(0, 0, 0, 0.04));
-  
+
   border-radius: 20px;
   background-color: #FFFFFF;
 
@@ -202,8 +202,8 @@ body {
   align-items: center;
   padding: 0px;
   gap: 4px;
-  
-  
+
+
   height: 24px;
 
 
@@ -227,12 +227,12 @@ body {
   text-decoration: none;
   font-weight: 400;
   color: #00A1EF;
-  
+
 }
 
 .authLogo{
   width: 237px;
   height: 54px;
   margin-top: 24px;
-  margin-left: 32px; 
+  margin-left: 32px;
 }

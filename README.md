@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+**TWIG+React Config** позволяет легко и быстро начать работу над новым проектом.
+Однако никто не отменяет необходимости **настроек или удаления лишнего**, в зависимости от требований.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Для достижения максимальных SEO показателей и производительности, React и HTML части независимы друг от друга. Однако они могут использовать общие файлы окружения, хелперы и ресурсы.
 
-## Available Scripts
+## Запуск сборки и файлы окружения
+| Файл                   | Описание                                       | Команда                     |
+ |------------------------|------------------------------------------------|-----------------------------|
+| ```.env.local```       | Конфигурация локального окружения              | ```> npm run start```       |
+| ```.env.development``` | Конфгурация окружения в **development** режиме | ```> npm run build:dev```   |
+| ```.env.production```  | Конфигурация **production** окружения          | ```> npm run build:prod```  |
 
-In the project directory, you can run:
+## Переменные окружения
+| Переменная             | Описание                                                                            |
+|------------------------|-------------------------------------------------------------------------------------|
+| ```PROCESS_TWIG```       | Для включения/отключения сборки twig                                                |
+| ```FOLDER_PRIVATE_BASE``` | Точка входа сборки                                                                  |
+| ```FOLDER_PUBLIC_BASE``` | Точка выхода сборки                                                                 |
+| ```KEY_TINY``` | [API ключ для Tinypng](https://tinypng.com/developers), нужен для оптимизации изображений |
 
-### `npm start`
+## Как развернуть среду для проекта
+1. Скачать содержимое репозитория в папку проекта
+1. Установить: **Node.js** (>=16.0.0 <18.12.1)
+1. В папке проекта выполнить команду **`> npm i`**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Если вы запускаете сборку на Windows
++ Для корректной работы переменных окружения на **Windows**, нужно **глобально** установить пакет: [win-node-env](https://www.npmjs.com/package/win-node-env).
+```cmd
+> npm i -g win-node-env
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## <a name="webpack">Webpack</a>
+2. **`> npm run webpack:ОКРУЖЕНИЕ`** - сборка **Twig/JavaScript/SCSS** файлов
+2. **`> npm run webpack:local`** - запуск локального сервера, сборка и отслеживание **Twig/JavaScript/SCSS** файлов
 
-### `npm test`
+## <a name="gulp">Gulp</a>
+3. **`> npm run gulp:ОКРУЖЕНИЕ`** - [оптимизация изображений](#img_work), [создание SVG-sprite](#svg_work), копирование фавиконок и других файлов (например MP4, MP3, PDF, PSD, AI) из *`src/html/**/copy/**/*.*`* в *`build/html/copy`*
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## <a name="react">React</a>
+React часть собирается с использованием https://create-react-app.dev/
+4. **`> npm run react:start`** - запуск локального сервера с React частью приложения
+4. **`> npm run react:build`** - Создает приложение для в build папку. Команда правильно объединяет React в производственном режиме и оптимизирует сборку для достижения наилучшей производительности. Сборка минимизирована, а имена файлов включают хэши.
 
-### `npm run build`
+## <a name="fix">fix команды</a>
+Для приведения кода в единый стиль можно использовать команды:
+5. **`> npm run fix:js`** - автоматические исправления в js файлах(**./src/html/\*\*/\*.js**) согласно правилам из файла **`eslintrc`**
+5. **`> npm run fix:json`** - автоматические исправления в json файлах(**./src/html/\*\*/\*.json**)
+5. **`> npm run fix:scss`** - автоматические исправления в scss файлах(**./src/html/\*\*/\*.scss**) согласно правилам из файла **`eslintrc`**
+5. **`> npm run lint:js`** - проверка файлов **JS**
+5. **`> npm run lint:scss`** - проверка файлов **SCSS**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Структура корневых файлов и папок
++ **src/index.tsx** — определяет корневой элемент приложения, который будет рендериться на странице;
++ **public** — содержит файлы статической части React, которые будут скопированы в папку build при сборке приложения. Эти файлы доступны напрямую из корневого каталога приложения и могут быть использованы для размещения таких ресурсов, как иконки приложения, HTML-файлы, CSS-файлы, файлы роботов, изображения и т.д.
++ **src/assets** — папка с шрифтами, SVG иконками и прочими файлами/библиотеками которые не получилось подключить через [NPM](https://docs.npmjs.com/getting-started/installing-npm-packages-locally);
++ **src/_helpers** — папка с JS функциями помощниками, SCSS переменными и максинами;
+## Структура REACT
++ **src/react/ui** — папка с React компонентами;
++ **src/react/engine** — папка с конфигурациями Redux и бизнес логикой React приложения
+## Структура HTML
++ **src/html/** — папка с исходниками проекта HTML;
++ **src/html/index.js** — глобальные скрипты(нужно уходить от этого к раздельным для каждой страницы), но они не будут включены плагином в html;
++ **src/html/index.scss** — глобальные стили(нужно уходить от этого к раздельным для каждой страницы), но они не будут включены плагином в html;
++ **src/html/pages** — папка для реализации страниц;
++ **src/html/components** — папка для реализации UI компонентов;
++ **src/html/containers** — папка для реализации узконаправленных блоков. Обычно они представляют собой набор UI компонентов или уникальные секции;
++ **src/html/containers/typography** — папка для реализации типографических особенностей проекта;
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Рекомендации к использованию HTML
+Чтобы работа была легче и быстрее, рекомендую придерживаться следующих правил:
+5. Точки входа страниц полностью автоматизированы: все что в src/html/pages и плюс src/html/index.(twig|scss|js)
+5. После сборки, стили и скрипты складываются в общую папку путь к которой указывается в env переменной FOLDER_PUBLIC_BASE
+5. Глобальные стили и скрипты должны называться index и компилируются тоже в /index.(css|js)
+5. В HTML включаются только те стили и скрипты, которые относятся к этому чанку. То есть все что находится в одной папке (например в pages/main/). Если один и тот же компонент используется на нескольких страницах, то нужно позаботится об его import в стили или скрипты нужных страниц (можно вынести в общий файл и его подключать к странице)
+5. Каждой технологии (SCSS, JavaScript, шаблонам, картинкам, тестам, документации) соответствует отдельный файл;
+5. Реализация каждой страницы/блока/модуля/компонента хранится в отдельной папке;
+5. Желательно избегать прямых зависимостей между блоками. Особенно между HTML и React;
+5. Для установки библиотек/плагинов и т.п. используйте [NPM](https://docs.npmjs.com/getting-started/installing-npm-packages-locally);
+5. Все файлы шрифтов желательно хранить в *`src/assets/fonts/папка_с_названием_шрифта/файлы`*.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Как подключать файлы блоков/страниц при работе с HTML?
+6. Для импорта SCSS используйте директиву [@import](http://sass-lang.com/guide#topic-5).
+6. Для импорта JS файлов используйте [ES6 import](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/import).
+6. Для импорта Twig используйте [Twig import](https://twig.symfony.com/doc/2.x/tags/include.html).
+6. При создании новой страницы, старайтесь наследовать шаблон **`index.twig`** [Twig extends](https://twig.symfony.com/doc/2.x/tags/extends.html).
+6. При создании новой страницы, в папке **private/page**, нужно создать файл *`название_страницы.json`* с правильным объектом(например {}). В этот файл можно добавлять данные для вывода в шаблонах. Данные будут доступны на всех страницах. Для облегчения форматирования можно использовать команду **`fix:json`**.
 
-### `npm run eject`
+## <a name="img_work">Работа с изображениями</a>
+#### Временные изображения
+Такие изображения нужны только на этапах вёрстки, а складывать их нужно в *`название_блока_или_страницы/img/tmp/изображение`*.
+Временные изображения не проходят через оптимизацию, а просто копируются в папку с исходниками.
+#### Изображения, которые используются в шаблоне
+Они лежат сразу в *`название_блока_или_страницы/img/`*. Если такие изображения имеют формат **[png,jpg,jpeg]**, они оптимизируются через [TinyPNG](https://tinypng.com/). А так как ***DEV_API_KEY платный***, нужно [генерировать новый ключ](https://tinypng.com/developers) каждые 500 файлов. После чего ключ нужно заменить в нужном файле окружения.
+```javascript
+KEY_TINY = 'w5S0zPvNBKg2Pz0fsKCND5Tnrg3SX7VY'
+```
+#### Изображения, которые используются в SCSS файлах
+Они лежат в *`название_блока_или_страницы/img/style`*. Эти изображения оптимизируется через Webpack, во время компиляции SCSS
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## <a name="svg_work">Работа с SVG спрайтом</a>
+#### Как добавить иконку в спрайт
+7. Положите SVG файл в папку *`src/_heplers/sprite/svg/`*;
+7. Выполните команду **`> npm run gulp:ОКРУЖЕНИЕ`**.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Как вставить SVG спрайт на страницу
+Имя иконки внутри спрайта соответствует названию её исходного SVG файла.
+Например вывести иконку **`facebook.svg`** можно через имя **`#facebook`**.
+ ```html
+ <svg><use xlink:href="img/symbol_sprite.svg#facebook"></use></svg>
+ ```
+Примечание: чтобы увидеть результат, необходим запущенный сервер. Локально это можно сделать запустив команду **`> npm run start`**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## <a name="typography">Работа с типографией</a>
+Если вы делаете крупный/долгий продукт с несколькими разработчиками, то полученный результат может не собраться в единый стиль. Даже с одним техническим заданием. Ведь каждый человек — это разные уровни понимания ТЗ, взгляд на жизнь, версия приложений, жидкость в бутылке у монитора…
+Использование общих стилей типографии, позволяет выделить базовые начертания, цвета, размеры и т.д.
+Стили типографии завязаны на теги, а применить их можно при помощи одного из классов`(.typography | .ckeditor | .cke_editable)`.Однако есть парочка тегов, стили которых применяются в независимости от родительского класса`(h1-h6 | a)`. Если один из стилей вам не подходит, вы можете изменить их. Для этого достаточно переопределить **SCSS** переменные. Результаты типографии можно посмотреть в *`public/typography.html`*
