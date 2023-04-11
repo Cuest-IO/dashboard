@@ -32,29 +32,30 @@
   ],
   "rules": {
     "import/no-cycle": "off",
-    "react/button-has-type": "off",
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
+    "import/no-anonymous-default-export": "off",
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
+    "no-underscore-dangle": "off",
+    "no-trailing-spaces": ["error", {
+      "skipBlankLines": false,
+      "ignoreComments": false
+    }],
+    "object-curly-spacing": ["error", "always"],
+    "jsx-a11y/no-static-element-interactions": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react/button-has-type": "off",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [0],
     "react/jsx-props-no-spreading": ["error", {
       "exceptions": ["TextField", "TextFieldUI", "RadioGroup", "Checkbox", "CheckboxUI", "DaysButton", "OutlinedInput", "Counter", "FormControlLabel", "Tabs", "Tab", "DirectionNew"]
     }],
-    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-curly-spacing": ["error", "never", { "allowMultiline": true }],
     "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
     "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
-    "object-curly-spacing": ["error", "always"],
-    "import/extensions": "off",
-    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
-    "import/no-anonymous-default-export": "off",
     "react/prop-types": 0,
-    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
-    "jsx-a11y/no-static-element-interactions": "off",
-    "no-underscore-dangle": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "no-trailing-spaces": ["error", {
-      "skipBlankLines": false,
-      "ignoreComments": false
-    }]
   }
 }

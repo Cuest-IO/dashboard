@@ -1,57 +1,30 @@
-import React from 'react';
-import logo from '../../../../assets/img/logo.svg';
-import { Counter } from '../../components/Counter/Counter';
-import './App.css';
+// Core
+import { Route, Routes } from 'react-router-dom';
+import { HistoryRouter } from 'redux-first-history/rr6';
+// Parts
+import { Layout } from '../Layout';
+// Engine
+import { routersList } from '../../../engine/config/routes';
+import { history } from '../../../engine/config/store';
+// Helpers
+import '../../../../assets/reset.css';
+import '../../pages/Counter/Counter.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="/" element={<Layout/>}>
+          {routersList.map((route) => (
+            <Route
+              key={route.link}
+              path={route.link}
+              element={route.element}
+            />
+          ))}
+        </Route>
+      </Routes>
+    </HistoryRouter>
   );
 }
 
