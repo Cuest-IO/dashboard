@@ -4,9 +4,93 @@ import NodeCard from "./nodeCard";
 import SystemCard from "./systemCard";
 import MessagePanel from '../global/messagePanel';
 import Loading from '../../components/loadingComp';
-
+import { useQueries } from '@tanstack/react-query'
+import axios from "axios";
+import {userAttr} from "../global/mainApp"; 
 
 const Dashboard = () =>{
+
+    const [clustersData, nodesData] = useQueries({
+        queries: [
+          {
+            queryKey: ['clusters'],
+            queryFn: () =>
+                axios.get(
+                    "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
+                    {
+                        params: {
+                        tenant: userAttr["custom:AccountId"] 
+                        }
+                    }
+              ).then((res) => res.data),
+          },
+    
+          {
+            queryKey: ['nodes'],
+            queryFn: () =>
+            axios.get(
+                "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
+                {
+                    params: {
+                      tenant: userAttr["custom:AccountId"] 
+                    }
+                }
+              ).then((res) => res.data),
+          },
+        ],
+      },{refetchInterval: 10000});
+    
+      const skipRender = clustersData.isLoading || nodesData.isLoading || clustersData.error || nodesData.error;
+      if (clustersData.error)
+        console.log(clustersData.error.message);
+        
+      if (nodesData.error)
+        console.log(nodesData.error.message);
+      
+      console.log(clustersData.data);
+      console.log(nodesData.data);
+
+
+    // const {  clustersRaw  } = useQuery(
+    //     ['clusters'],
+    //     async () => {
+    //       const { data } = await axios.get(
+    //               "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
+    //               {
+    //                   params: {
+    //                     tenant: userAttr["custom:AccountId"] 
+    //                   }
+    //               }
+    //             );
+            
+          
+    //       console.log(data);
+    //       return data;
+    //     },{refetchInterval: 5000});
+
+    //     const {  nodesRaw } = useQuery(
+    //         ['clusters'],
+    //         async () => {
+    //           const { data } = await axios.get(
+    //                   "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
+    //                   {
+    //                       params: {
+    //                         tenant: userAttr["custom:AccountId"] 
+    //                       }
+    //                   }
+    //                 );
+                
+              
+    //           console.log(data);
+    //           return data;
+    //         },{refetchInterval: 2000});
+
+    //         console.log(nodesRaw);
+
+    if(skipRender)
+      return null;
+        
+    
     return (
     <div className="mainPage">
         <div className='mainPageHeader'>
@@ -16,8 +100,8 @@ const Dashboard = () =>{
         </div>
         
         <Loading>
-                <ClusterCard style={{left:"0px"}}/>
-                <NodeCard style={{left:"368px"}}/>
+                <ClusterCard style={{left:"0px"}} clusters={clustersData.data}  nodes={nodesData.data}/>
+                <NodeCard style={{left:"368px"}} nodes={nodesData.data}/>
                 <SystemCard style={{left:"736px"}}/>
         </Loading>
     </div>
@@ -25,6 +109,8 @@ const Dashboard = () =>{
 }    
 
 export default Dashboard;
+
+export const chartColors = ['#00A1EF', '#8995F4', '#B6ED8B', '#00C49F', '#FFBB28', '#FF8042'];
 
   
 // {(Window.accountStatus != 'Ready') ? ( 

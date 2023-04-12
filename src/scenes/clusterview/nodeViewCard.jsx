@@ -32,10 +32,10 @@ const NodeViewCard = (props) =>{
   <div className="nodeViewCard">
   <div className="card" style={{width:'528px'}} >
     <div className="cardHeader">
-        <div className='title'> Node name: {node.nodeName} </div>    
+        <div className='title'> Node #: {node.nodeName} ({node.status})  </div>    
         <div className="cardSubHeader">
             <div>
-                    <BatteryChart battery={node.battery}/> 
+                <BatteryChart battery={node.battery}/> 
             </div>
             <div style={{width: "20", height: "20"}}> 
                 <PowerSettingsNewOutlinedIcon sx={{ fontSize: 29, alignItems:"center"}} color={node.connected ? "success" : "action"}/>  
