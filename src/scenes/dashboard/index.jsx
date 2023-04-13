@@ -38,7 +38,7 @@ const Dashboard = () =>{
               ).then((res) => res.data),
           },
         ],
-      },{refetchInterval: 10000});
+      },{refetchInterval: 180000});
     
       const skipRender = clustersData.isLoading || nodesData.isLoading || clustersData.error || nodesData.error;
       if (clustersData.error)
@@ -49,46 +49,6 @@ const Dashboard = () =>{
       
       console.log(clustersData.data);
       console.log(nodesData.data);
-
-
-    // const {  clustersRaw  } = useQuery(
-    //     ['clusters'],
-    //     async () => {
-    //       const { data } = await axios.get(
-    //               "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
-    //               {
-    //                   params: {
-    //                     tenant: userAttr["custom:AccountId"] 
-    //                   }
-    //               }
-    //             );
-            
-          
-    //       console.log(data);
-    //       return data;
-    //     },{refetchInterval: 5000});
-
-    //     const {  nodesRaw } = useQuery(
-    //         ['clusters'],
-    //         async () => {
-    //           const { data } = await axios.get(
-    //                   "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
-    //                   {
-    //                       params: {
-    //                         tenant: userAttr["custom:AccountId"] 
-    //                       }
-    //                   }
-    //                 );
-                
-              
-    //           console.log(data);
-    //           return data;
-    //         },{refetchInterval: 2000});
-
-    //         console.log(nodesRaw);
-
-    if(skipRender)
-      return null;
         
     
     return (
@@ -98,12 +58,15 @@ const Dashboard = () =>{
                 <MessagePanel />
             </div>
         </div>
-        
-        <Loading>
-                <ClusterCard style={{left:"0px"}} clusters={clustersData.data}  nodes={nodesData.data}/>
-                <NodeCard style={{left:"368px"}} nodes={nodesData.data}/>
-                <SystemCard style={{left:"736px"}}/>
-        </Loading>
+       {
+            (!skipRender) && (
+                <Loading>
+                        <ClusterCard style={{left:"0px"}} clusters={clustersData.data}  nodes={nodesData.data}/>
+                        <NodeCard style={{left:"368px"}} nodes={nodesData.data}/>
+                        <SystemCard style={{left:"736px"}} nodes={nodesData.data} />
+                </Loading>
+            )
+        }
     </div>
     ) ;
 }    

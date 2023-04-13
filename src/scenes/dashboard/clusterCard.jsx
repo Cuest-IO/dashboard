@@ -8,8 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableBody';
 
 import TableRow from '@mui/material/TableRow';
-import WifiIcon from '@mui/icons-material/Wifi';
-import WifiOffIcon from '@mui/icons-material/WifiOff';
 // import {PieChart, Pie, Legend, Cell, ResponsiveContainer } from "recharts";
 // import {chartColors} from "./index"
 
@@ -32,37 +30,27 @@ const ClusterCard = (props) =>{
       ];
   console.log(data);
 
-  // const renderColorfulLegendText = (value, entry) => {
-  //   return (
-  //     <span style={{ color: "#575757", fontWeight:500,  paddingLeft: "5px" }}>
-  //       {value} {entry.payload.value}
-  //     </span>
-  //   );
-  // };
-
   
   return (
   <div className="card"  style={props.style}>
-    <div className="cardHeader">
-      <div className='title'> 
-          Clusters
-      </div>
-    </div>
-          <div className="actions">
-              <Link to="/clusters">
-                <button disabled="true" type="button" className="button lead">Add cluster +</button> 
-              </Link>
-              
-              <Link to="/clusters">
-              
+        <div className="cardHeader">
+            <div className='title'> 
+                Clusters
+            </div>
+        </div>
+        <div className="actions">
+            <Link style={{fontSize:"1rem"}} to="/clusters">
+                <button type="button" className="button lead">View clusters</button> 
+            </Link>  
+            {/* <Link style={{fontSize:"1rem"}} to="/clusters">
                 <button type="button" className="button regular">Report a problem > </button> 
-              </Link>
-              
-          </div>
+            </Link>
+               */}
+        </div>
         
-      <div className='charts' style={{fontSize:"14px"}}>
-          <ClusterTable data={data}/>
-      </div>
+        <div className='charts' style={{fontSize:"14px"}}>
+            <ClusterTable data={data}/>
+        </div>
   </div>
       ) ;
 }    
@@ -124,10 +112,12 @@ const data = props.data;
                               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                           >
                           <TableCell sx={{...cellTableStyle, width: '70%'}} scope="row">
-                          <span>
-                            {
-                              (row.status) ? <WifiIcon fontSize='small' color="success"/> : <WifiOffIcon/> 
-                                }</span><span>{row.id}</span>
+                                {
+                                    (row.status) ? 
+                                        <span className="dot" style={{backgroundColor:"#B6ED8B"}}/> : 
+                                        <span className="dot" style={{backgroundColor:"#E2E2E2"}}/> 
+                                }
+                                {row.id}
                           </TableCell>
                           <TableCell sx={{...cellTableStyle, width: '30%'}} >
                               {row.count}

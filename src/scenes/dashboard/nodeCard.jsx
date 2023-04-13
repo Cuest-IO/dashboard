@@ -18,25 +18,12 @@ for(let node of props.nodes){
 const data = [
      { connected: connectedNodes, idle: (totalNodes - connectedNodes), total: totalNodes}
   ];
-
-const names = [
-      { name: "Connected Nodes" },
-      { name: "Idle Nodes"},
-      { name: "Total Nodes"},
-      ];
-
-const fill = [
-        { name: "Connected Nodes", count: connectedNodes, fill:chartColors[3] },
-        { name: "Idle Nodes", count: (totalNodes - connectedNodes), fill:chartColors[5] },
-        { name: "Total Nodes", count: totalNodes, fill:chartColors[0] },
-        ];
-  
   
 const renderColorfulLegendText = (value, entry, index) => {
-    console.log(index, value, entry)
+    console.log(data[0][entry.dataKey],index, value, entry)
     return (
       <span style={{ color: "#575757", fontWeight:500,  paddingLeft: "5px" }}>
-        {value} 
+        <span>{value}</span> <span style={{position: "absolute", right:"0px"}} >{(data[0]) && (data[0][entry.dataKey])}</span>
       </span>
     );
   };
@@ -49,24 +36,25 @@ return (
       </div>
     </div>
     <div className="actions">
-      <Link to="/nodes">
+      <Link style={{fontSize:"1rem"}} to="/nodes">
       
         <button type="button" className="button lead">View Nodes</button> 
       </Link>
       
-      <Link to="/nodes">
+      {/* <Link style={{fontSize:"1rem"}} to="/nodes">
       
         <button type="button" className="button regular">Report a problem > </button> 
       </Link>
-       
+        */}
 
 
     </div>
     <div className='charts' style={{fontSize:"14px"}}>
     <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={296} height={145} data={data}>
+        <BarChart  data={data} barGap={'10'}
+            margin={{top: 0, right: 0, left: 0, bottom: 0}}>
         <Legend
-          height={145}
+          width="40%"
           fontSize="14px"
           iconType="circle"
           layout="vertical"
@@ -76,9 +64,9 @@ return (
           align="right"
           formatter={renderColorfulLegendText}
         />
-          <Bar dataKey="connected" name="Connected Nodes" fill={chartColors[3]} />
-          <Bar dataKey="idle" name="Idle Nodes" fill={chartColors[5]} />
-          <Bar dataKey="total" name="Total Nodes" fill={chartColors[0]} />
+          <Bar dataKey="connected" name="Online " radius={8} fill="#B6ED8B" />
+          <Bar dataKey="idle" name="Offline " radius={8} fill="#E2E2E2" />
+          <Bar dataKey="total" name="Total " radius={8} fill='#00A1EF' />
         </BarChart>
       </ResponsiveContainer>
 
