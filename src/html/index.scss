@@ -1,6 +1,6 @@
-@import "../assets/reset.css";
+@import "../_helpers/scss/reset.scss";
 @import "bootstrap";
 //Variables
-@import "../_helpers/variables";
+@import "../_helpers/scss/variables";
 //Components
-@import "containers/typography/typography";
+@import "../_helpers/scss/typography";

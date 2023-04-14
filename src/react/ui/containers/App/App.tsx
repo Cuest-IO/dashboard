@@ -7,7 +7,7 @@ import { Layout } from '../Layout';
 import { routersList } from '../../../engine/config/routes';
 import { history } from '../../../engine/config/store';
 // Helpers
-import '../../../../assets/reset.css';
+import '../../../../_helpers/scss/reset.scss';
 import '../../pages/Counter/Counter.css';
 
 function App() {
