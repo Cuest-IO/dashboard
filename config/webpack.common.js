@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const glob = require('glob');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
+// const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const WebpackFavicons = require('webpack-favicons');
 
@@ -120,7 +120,7 @@ module.exports = {
       cache: true,
       quiet: false,
     }),
-    new ErrorOverlayPlugin(),
+    // new ErrorOverlayPlugin(),
     ...generateHTMLPlugins(),
   ],
 };
