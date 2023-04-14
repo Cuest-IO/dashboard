@@ -32,5 +32,60 @@
         </div>
       </div>
     </div>
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <h2 class="mb-0">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+            Button
+          </button>
+        </h2>
+      </div>
+      <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .button-primary</p>
+            <div style='width: 156px'>
+              {% include '@App/components/button/button.twig' with { text: 'Try again', type: 'button', typeButton: 'button', class: 'button button-primary'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .button-secondary</p>
+            <div style='width: 156px'>
+              {% include '@App/components/button/button.twig' with { text: 'Login', type: 'button', typeButton: 'button', class: 'button button-secondary'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .disabled</p>
+            <div style='width: 156px'>
+              {% include '@App/components/button/button.twig' with { text: 'Login', type: 'button', typeButton: 'button', class: 'button disabled'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .button-primary (link)</p>
+            <div style='width: 506px'>
+              {% include '@App/components/button/button.twig' with { text: 'Log in with Instagram', type: 'link', link: '#', class: 'button button-primary', icon: 'instagram'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .button-secondary (link)</p>
+            <div style='width: 506px'>
+              {% include '@App/components/button/button.twig' with { text: 'Log in with Instagram', type: 'link', link: '#', class: 'button button-secondary', icon: 'instagram'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .button-white (link)</p>
+            <div style='width: 506px'>
+              {% include '@App/components/button/button.twig' with { text: 'Log in with Instagram', type: 'link', link: '#', class: 'button button-white', icon: 'instagram'} %}
+            </div>
+          </div>
+          <div class='mb-3 d-flex align-items-center justify-content-between'>
+            <p class='me-3 mb-0'>.button .disabled (link)</p>
+            <div style='width: 506px'>
+              {% include '@App/components/button/button.twig' with { text: 'Log in with Instagram', type: 'link', link: '#', class: 'button disabled', icon: 'instagram'} %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
