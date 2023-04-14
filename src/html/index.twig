@@ -8,6 +8,16 @@
 </head>
 <body class="page {% block pageName %}{% endblock %}">
 <div class="d-flex flex-column vh-100">
+  <header class='header'>
+    <div class='header__container container'>
+      <div class='header__logo'>
+        <svg><use xlink:href="assets/symbol_sprite.svg#logo"></use></svg>
+      </div>
+      <div class='header__login_link'>
+        {% include '@App/components/button/button.twig' with { text: 'Login', type: 'link', link: '#', class: 'button button-secondary'} %}
+      </div>
+    </div>
+  </header>
   <main class="flex-grow-1 flex-shrink-0 container">
     {% block pageContent %}
       <div class="typography">

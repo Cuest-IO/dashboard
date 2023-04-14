@@ -1,0 +1,22 @@
+.header {
+  padding: 27px 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.04);
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    max-height: 54px;
+    svg {
+      max-height: 54px;
+    }
+  }
+
+  &__login_link {
+    width: 156px;
+  }
+}
