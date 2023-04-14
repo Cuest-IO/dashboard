@@ -3,5 +3,8 @@
 {% block pageName %}page--main{% endblock %}
 
 {% block pageContent %}
-  <h1>Main page</h1>
+  {% include '@App/blocks/header/header.twig' %}
+  <div class='container'>
+    <h1>Main page</h1>
+  </div>
 {% endblock %}

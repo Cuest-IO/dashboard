@@ -1,0 +1,10 @@
+<header class='header'>
+  <div class='header__container container'>
+    <div class='header__logo'>
+      <svg><use xlink:href="assets/symbol_sprite.svg#logo"></use></svg>
+    </div>
+    <div class='header__login_link'>
+      {% include '@App/components/button/button.twig' with { text: 'Login', type: 'link', link: '#', class: 'button button_secondary'} %}
+    </div>
+  </div>
+</header>
