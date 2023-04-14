@@ -1,6 +1,8 @@
 // import {accountStatus} from "../../App"
 import App from "../../App";
 import { useState } from "react";
+
+
 const MessagePanel = (props) => {
 
     // const [account, setAccount] = useState(Window.accountStatus);  

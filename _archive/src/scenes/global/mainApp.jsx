@@ -13,6 +13,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 
 export const userAttr = {};
 Window.accountStatus = "Unknown";
+Window.accountType = "Unknown";
 
 
 function MainApp() {   
@@ -30,7 +31,7 @@ function MainApp() {
   //   },{refetchInterval: (Window.accountStatus != "Ready") ? 2000 : 0});
     
   Window.accountStatus = 'Ready'
-
+  Window.accountType = "Free"
 
     const { signOut, user } = useAuthenticator();
     Object.assign(userAttr, user.attributes);

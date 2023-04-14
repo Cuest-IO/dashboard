@@ -11,34 +11,33 @@ const cardList  = [];
         
 const ClusterView = () =>{ 
 
-  //Local Simulator
-  // const url=new URL('http://localhost:3000')
-  // userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
-  // const socket=io(url, {
-  //         transports: ['websocket', 'polling']
-  //       });
-  
-  // AWS real 
-  const url= new URL(process.env.REACT_APP_WSS_URI);
-  userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
-  const socket= new WebSocket(url);
   // console.log(userAttr["custom:AccountId"]);
   //console.log(url);
   const [cards, setCards] = useState(cardList);
 
   
   useEffect(()=>{
-      //Local Test
-      // socket.on('nodeStat', (nodeStat)=>{
-      // nodeStat = JSON.parse(nodeStat);
 
-      //AWS real
+    //Local Simulator
+    // const url=new URL('http://localhost:3000')
+    // userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
+    // const socket=io(url, {
+    //       transports: ['websocket', 'polling']
+    //     });
+    // socket.on('nodeStat', (nodeStat)=>{
+    // nodeStat = JSON.parse(nodeStat);
+
+      
+      // AWS real 
+      const url= new URL(process.env.REACT_APP_WSS_URI);
+      userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
+      const socket= new WebSocket(url);
       socket.onmessage = (e) =>{ 
       const nodeStat = JSON.parse(e.data);
       
       
       const node = nodes.get(nodeStat.device);
-        console.log(node);
+        console.log(nodeStat);
       if(node){
           updateNode(node, nodeStat); 
       }
@@ -59,7 +58,7 @@ const ClusterView = () =>{
       
       if(nodeStat.info){
         const state  = nodeStat.info.state;
-          
+        node.status = setNodeStatus(state.status);  
         node.connected =nodeStat.info.connectivity;
         if(node.connected){
           node.cpuUsage.push(cpuUsage(state, nodeStat.time));
@@ -85,8 +84,7 @@ const ClusterView = () =>{
 
       if(nodeStat.k8s){
         node.workloads = setWorkloads(node.workloads, nodeStat.k8s);
-        console.log(node.nodeName);
-        console.log(nodeStat.k8s);
+        console.log(node.nodeName, nodeStat.k8s);
       }
       
       setCardState(node);
@@ -101,6 +99,7 @@ const ClusterView = () =>{
         nodeId: nodeStat.device,
         nodeName: cardList.length+1,
         connected: true,
+        status: "",
         battery: {},
         system: {},
         cpuUsage:[],
@@ -111,6 +110,7 @@ const ClusterView = () =>{
       if(nodeStat.info){
         const state  = nodeStat.info.state;
         newNode.connected = nodeStat.info.connectivity;
+        newNode.status = setNodeStatus(state.status);
         newNode.battery = state.battery;
         newNode.system = {cpu: state.device.system.cpu, disk: state.device.system.disk, memory: formatMBytes(state.device.system.ram)};
         newNode.cpuUsage=[cpuUsage(state, nodeStat.time)];
@@ -189,12 +189,29 @@ const ClusterView = () =>{
     setCards([].concat(cardList));
   }
 
+  function setNodeStatus(status){
+    switch (status) {
+      case 'Init': return 'Initializing';
+      case 'Ready': return 'Running';
+      case 'Unavailable': return 'Not Enough Resources';
+      case 'Fatal': return 'Fatal Error';
+    }
+    return '';
+  }
+
   function render () {
     return (
       <Loading>
-        {cards.map((card) => (
-          <NodeViewCard node={card} key={card.nodeName}/> 
-        ))}
+      <div className="viewCardContainer" id="cardContainer">
+        {
+          (cards.length == 0) ? (<div className="cardHeader">Loading...</div>):(
+              cards.map((card) => (
+                  <NodeViewCard node={card} key={card.nodeName}/> 
+                ))
+              )
+        }
+
+      </div>
     </Loading>  
     )
   }
@@ -207,9 +224,8 @@ const ClusterView = () =>{
       <div className='mainPageTitle'>
       </div>
     </div>
-  <div className="viewCardContainer" id="cardContainer">
-      {render() }
-  </div>
+    {render() }
+  
 </div>
 )
 };
