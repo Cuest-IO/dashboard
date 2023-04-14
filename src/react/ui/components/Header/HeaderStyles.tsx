@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 // Parts
 import Box from "@mui/material/Box";
 
-export const Wrapper = styled(Box)({
+export const HeaderWrapper = styled(Box)({
   display: 'flex',
   paddingTop: '20px',
   paddingBottom: '20px',
