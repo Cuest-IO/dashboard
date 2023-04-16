@@ -10,9 +10,17 @@
   }
 
   &__logo {
-    max-height: 54px;
-    svg {
+    max-height: 34px;
+    display: block;
+    @include media-breakpoint-up(md) {
       max-height: 54px;
+    }
+    img {
+      display: block;
+      max-height: 34px;
+      @include media-breakpoint-up(md) {
+        max-height: 54px;
+      }
     }
   }
 
