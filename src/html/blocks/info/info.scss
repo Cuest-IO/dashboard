@@ -3,9 +3,16 @@
   display: flex;
   justify-content: space-between;
   padding: 0;
+  flex-direction: column;
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+  }
+
   &__item {
     display: flex;
     flex-direction: column;
+
     &_image {
       display: block;
       position: absolute;
