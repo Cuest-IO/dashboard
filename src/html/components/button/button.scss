@@ -1,0 +1,74 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 14px 20px;
+  line-height: 18px;
+  max-height: 56px;
+  text-decoration: none;
+  font-family: $font-family-primary;
+  @include media-breakpoint-up(md) {
+    font-size: 18px;
+  }
+  @include media-breakpoint-up(lg) {
+    font-size: 22px;
+    line-height: 27px;
+  }
+
+  &:hover,
+  &:active {
+    color: #ffffff;
+  }
+
+  &_primary {
+    background-color: $brand-primary;
+    color: #ffffff;
+  }
+
+  &_secondary {
+    background: linear-gradient(180deg, #FF9CDA 0%, $brand-secondary 100%);
+    color: #ffffff;
+  }
+
+  &_white {
+    background-color: #F8F8F8;
+    color: #575757;
+
+    &:hover,
+    &:active {
+      color: #575757;
+    }
+
+    .button__icon {
+      fill: #575757;
+    }
+  }
+
+  &:disabled,
+  &.disabled {
+    cursor: auto;
+    pointer-events: none;
+    background: linear-gradient(180deg, #DFDFDF 0%, #BEBEBE 100%);
+    color: #575757;
+
+    .button__icon {
+      fill: #575757;
+    }
+  }
+
+  &__icon {
+    max-width: 25px;
+    max-height: 25px;
+    fill: #ffffff;
+    margin-right: 12px;
+    @include media-breakpoint-up(md) {
+      margin-right: 18px;
+    }
+  }
+}
