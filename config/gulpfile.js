@@ -15,7 +15,7 @@ const config = {
     copy: `../${process.env.FOLDER_PUBLIC_BASE}/copy`,
   },
   private: {
-    svg_files: `../${process.env.FOLDER_PRIVATE_BASE}/assets/sprite/svg/*.svg`,
+    svg_files: `../${process.env.FOLDER_PRIVATE_BASE}/../assets/sprite/svg/*.svg`,
     images: [
       `!../${process.env.FOLDER_PRIVATE_BASE}/**/svg/`,
       `!../${process.env.FOLDER_PRIVATE_BASE}/**/img/tmp/`,
