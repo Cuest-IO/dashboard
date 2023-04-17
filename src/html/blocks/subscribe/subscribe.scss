@@ -1,0 +1,112 @@
+.subscribe {
+  padding: 30px 0;
+  color: $font-color-title;
+  @include media-breakpoint-up(sm) {
+    padding: 40px 0;
+  }
+  @include media-breakpoint-up(lg) {
+    padding: 80px 0;
+  }
+
+  &__title_wrapper {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  &__title {
+    margin-bottom: 32px;
+    font-weight: 700;
+    font-size: 54px;
+    line-height: calc(58/54);
+  }
+  &__description {
+    font-size: 24px;
+    line-height: calc(29/24);
+
+  }
+  .cards {
+    &__item {
+      padding: 40px;
+      border: 3px solid $font-color-title;
+      border-radius: 34px;
+      color: #fff;
+      //@include media-breakpoint-up(sm) {
+      //  width: 412px;
+      //}
+      &--left {
+        color: $font-color-title;
+        background: transparent;
+      }
+      &--center {
+        background: linear-gradient(180deg, #FF9CDA 0%, #A777F4 100%), $brand-primary;
+        box-shadow: 0px 25px 44px rgba(129, 45, 236, 0.295755);
+      }
+      &--right {
+        background: linear-gradient(180deg, #01BAF5 0%, #01A3F0 100%);
+        box-shadow: 0px 10px 50px rgba(68, 77, 86, 0.1);
+      }
+    }
+
+    &__pre_title {
+      margin-bottom: 32px;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: calc(39/24);
+
+      &--center {
+        //display: flex;
+        //justify-content: right;
+        //text-align: right;
+        //margin-left: auto;
+        color: $brand-primary;
+        background: #fff;
+        border-radius: 30px;
+        padding: 8px 18px;
+        text-transform: uppercase;
+        font-size: 24px;
+        line-height: calc(29/24);
+        text-align: end;
+      }
+    }
+    &__title {
+      margin-bottom: 32px;
+      font-weight: 400;
+      font-size: 44px;
+      line-height: calc(53/44);
+      color: #fff;
+      &--left {
+        color: $font-color-title;
+      }
+    }
+    &__after_title {
+      margin-bottom: 32px;
+      font-size: 24px;
+      line-height: calc(29/24);
+      color: $font-color-primary;
+    }
+    &__advantages_item:not(:last-child) {
+        margin-bottom: 26px;
+    }
+    &__advantages_list--left {
+      margin-bottom: 50px;
+    }
+    &__advantages_list--center {
+      margin-bottom: 45px;
+    }
+    &__advantages_list--right {
+      margin-bottom: 55px;
+    }
+    &__advantages_item {
+      font-size: 24px;
+      line-height: calc(29/24);
+      &--dark{
+
+      }
+    }
+    //&__advantages_item:not(:last-child) {
+    //  margin-bottom: 26px;
+    //}
+    &__link {
+      width: 226px;
+    }
+  }
+}
