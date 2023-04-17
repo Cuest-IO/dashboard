@@ -14,7 +14,7 @@ let connectedNodes = 0;
 for(let node of props.nodes){
   (node.is_connected) && connectedNodes++;
 }
-
+ 
 const data = [
      { connected: connectedNodes, idle: (totalNodes - connectedNodes), total: totalNodes}
   ];

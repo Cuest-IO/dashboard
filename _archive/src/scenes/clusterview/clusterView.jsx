@@ -15,7 +15,7 @@ const ClusterView = () =>{
   //console.log(url);
   const [cards, setCards] = useState(cardList);
 
-  
+   
   useEffect(()=>{
 
     //Local Simulator

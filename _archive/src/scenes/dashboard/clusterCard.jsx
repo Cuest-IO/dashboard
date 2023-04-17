@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 
 
 const ClusterCard = (props) =>{
-  
+   
   //current version supports 1 cluster per customer
   const id = (props.clusters && props.clusters[0]) ? props.clusters[0].id : "";
   const status = (props.clusters && props.clusters[0]) ? props.clusters[0].is_connected : false;

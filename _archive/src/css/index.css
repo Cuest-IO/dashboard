@@ -1,7 +1,7 @@
 
 @font-face {
   font-family: "Product Sans";
-  src: url('ProductSansRegular.ttf');
+  src: url('./fonts/ProductSansRegular.ttf');
 }
 
 html{

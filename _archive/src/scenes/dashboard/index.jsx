@@ -50,7 +50,7 @@ const Dashboard = () =>{
       console.log(clustersData.data);
       console.log(nodesData.data);
         
-    
+     
     return (
     <div className="mainPage">
         <div className='mainPageHeader'>

@@ -19,7 +19,7 @@ const MessagePanel = (props) => {
         <div className='topBarTitle' style={{fontSize:"24px", lineHeight:"29px"}}>
             {info} 
         </div>
-    )
+    ) 
 }
 
 export default MessagePanel;
