@@ -6,13 +6,18 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 20px 45px;
+  padding: 20px 10px;
   max-height: 201px;
   flex: 0 0 100%;
   max-width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   &:last-child {
     margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(sm) {
+    padding: 20px 45px;
+    margin-bottom: 32px;
   }
   @include media-breakpoint-up(lg) {
     justify-content: center;
@@ -28,9 +33,13 @@
     padding: 10px 45px 100px;
   }
   &_big {
-    padding: 20px 45px;
+    padding: 20px 10px;
     flex: 0 0 100%;
     max-width: 100%;
+
+    @include media-breakpoint-up(sm) {
+      padding: 20px 45px;
+    }
     @include media-breakpoint-up(lg) {
       flex: 0 0 80%;
       max-width: 80%;
@@ -74,21 +83,26 @@
   }
   &__title {
     font-weight: 700;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 39px;
     margin-bottom: 10px;
+    @include media-breakpoint-up(sm) {
+      font-size: 32px;
+    }
     @include media-breakpoint-up(lg) {
       text-align: center;
       margin-bottom: 32px;
-      font-size: 32px;
     }
   }
 
   &__description {
     font-weight: 400;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 24px;
     color: $font-color-primary;
+    @include media-breakpoint-up(sm) {
+      font-size: 18px;
+    }
     @include media-breakpoint-up(lg) {
       font-size: 24px;
       line-height: 29px;
