@@ -17,7 +17,7 @@ const NodeViewCard = (props) =>{
   //console.log("node view card "+props.nodeId);
   //console.log(props);
 
-  const [node, setNode] = useState(props.node);
+  const [node, setNode] = useState(props.node); 
   
   const axisStyle ={
       fontSize: '10px',

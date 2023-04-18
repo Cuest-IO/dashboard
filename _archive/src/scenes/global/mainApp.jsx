@@ -15,7 +15,7 @@ export const userAttr = {};
 Window.accountStatus = "Unknown";
 Window.accountType = "Unknown";
 
-
+ 
 function MainApp() {   
   console.log(process.env.REACT_APP_REST_URI);
   // const { isLoading, error, data } = useQuery(

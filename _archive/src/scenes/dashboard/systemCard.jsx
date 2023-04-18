@@ -15,7 +15,7 @@ const SystemCard = (props) =>{
     {count:0, name:"Online", fill: "#B6ED8B"},
     {count:0, name:"Offline", fill: "#E2E2E2"},
   ]
-
+ 
   for(let node of props.nodes){
     if (node.is_connected){
         systemCPU[0].count+= node.cpu;
