@@ -29,22 +29,39 @@
         border-radius: 50%;
         position: relative;
         background-color: #F1FAFF;
-        margin-bottom: 32px;
+        margin-bottom: 10px;
+
+        @include media-breakpoint-up(sm) {
+          margin-bottom: 32px;
+
+        }
       }
     }
 
     &_title {
       font-weight: 700;
-      font-size: 32px;
+      font-size: 24px;
       line-height: 39px;
-      margin-bottom: 32px;
+      margin-bottom: 10px;
+      @include media-breakpoint-up(sm) {
+        font-size: 32px;
+        margin-bottom: 32px;
+      }
     }
 
     &_description {
       font-weight: 400;
-      font-size: 24px;
-      line-height: 29px;
+      font-size: 14px;
+      line-height: 24px;
       color: $font-color-primary;
+      @include media-breakpoint-up(sm) {
+        font-size: 18px;
+        line-height: 29px;
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: 24px;
+      }
     }
   }
 }

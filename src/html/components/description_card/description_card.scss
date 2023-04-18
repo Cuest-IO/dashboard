@@ -1,0 +1,112 @@
+.description_card {
+  background-color: #FFFFFF;
+  box-shadow: 0 10px 50px rgba(0, 128, 245, 0.1);
+  border-radius: 49px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 10px;
+  max-height: 201px;
+  flex: 0 0 100%;
+  max-width: 100%;
+  margin-bottom: 16px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(sm) {
+    padding: 20px 45px;
+    margin-bottom: 32px;
+  }
+  @include media-breakpoint-up(lg) {
+    justify-content: center;
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
+  @include media-breakpoint-up(xl) {
+    flex: 0 0 30%;
+    max-width: 30%;
+    margin-bottom: 0;
+    max-height: 622px;
+    flex-direction: column;
+    padding: 10px 45px 100px;
+  }
+  &_big {
+    padding: 20px 10px;
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    @include media-breakpoint-up(sm) {
+      padding: 20px 45px;
+    }
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 80%;
+      max-width: 80%;
+    }
+    @include media-breakpoint-up(xl) {
+      flex: 0 0 32%;
+      max-width: 32%;
+      padding: 40px 45px 48px;
+      max-height: 668px;
+    }
+
+    .description_card {
+      &__image {
+        &_container {
+          @include media-breakpoint-up(xl) {
+            margin-bottom: 40px;
+          }
+        }
+      }
+
+      &__title {
+        margin-bottom: 10px;
+        @include media-breakpoint-up(xl) {
+          margin-bottom: 40px;
+        }
+      }
+    }
+
+  }
+
+  &__image {
+    width: 100%;
+    &_container {
+      flex: 0 0 30%;
+      max-width: 30%;
+      @include media-breakpoint-up(xl) {
+        max-width: 100%;
+        margin-bottom: 52px;
+      }
+    }
+  }
+  &__title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 39px;
+    margin-bottom: 10px;
+    @include media-breakpoint-up(sm) {
+      font-size: 32px;
+    }
+    @include media-breakpoint-up(lg) {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: $font-color-primary;
+    @include media-breakpoint-up(sm) {
+      font-size: 18px;
+    }
+    @include media-breakpoint-up(lg) {
+      font-size: 24px;
+      line-height: 29px;
+      text-align: center;
+    }
+  }
+}
