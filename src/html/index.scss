@@ -1,5 +1,5 @@
-@import "../_helpers/scss/reset.scss";
 @import "bootstrap";
+@import "../_helpers/scss/reset.scss";
 //Variables
 @import "../_helpers/scss/variables";
 //Components
@@ -7,4 +7,4 @@
 @import "./components/button/button";
 @import "blocks/header/header";
 @import 'blocks/subscribe/subscribe';
-//@import 'blocks/cards/cards';
+@import 'components/card/card';
