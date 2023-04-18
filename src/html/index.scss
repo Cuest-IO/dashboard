@@ -1,5 +1,5 @@
-@import "../_helpers/scss/reset.scss";
 @import "bootstrap";
+@import "../_helpers/scss/reset.scss";
 //Variables
 @import "../_helpers/scss/variables";
 //Components
@@ -9,7 +9,10 @@
 
 //Blocks
 @import "blocks/header/header";
+@import 'blocks/subscribe/subscribe';
+@import 'components/card/card';
 @import "blocks/first_block/first_block";
 @import "blocks/second_block/second_block";
 @import "blocks/info/info";
+
 
