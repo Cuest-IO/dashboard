@@ -19,7 +19,7 @@
     line-height: calc(58/54);
   }
   &__description {
-    font-size: 24px;
+    font-size: $font-size-body;
     line-height: calc(29/24);
   }
   &__cards {

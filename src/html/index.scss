@@ -6,6 +6,8 @@
 @import "../_helpers/scss/typography";
 @import "components/button/button";
 @import "components/description_card/description_card";
+@import 'components/card/card';
+@import 'components/form/form';
 
 //Blocks
 @import "blocks/header/header";
@@ -13,8 +15,7 @@
 @import "blocks/second_block/second_block";
 @import "blocks/info/info";
 @import 'blocks/subscribe/subscribe';
-@import 'components/card/card';
 @import 'blocks/contact_us/contact_us';
-@import 'components/form/form';
+@import 'blocks/footer/footer';
 
 
