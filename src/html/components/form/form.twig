@@ -1,0 +1,28 @@
+<form action="#" method="post" class="form">
+  <h2 class="form__title">Contact us</h2>
+  <div class="form__input_wrapper">
+    <label class="form__label" for="name">First Name and Last Name</label>
+    <input class="form__input" type="text" id="name" name="name" placeholder="Enter First name and Last name" required>
+  </div>
+  <div class="form__input_wrapper">
+    <label class="form__label" for="email">E-mail</label>
+    <input class="form__input" type="email" id="email" name="email" placeholder="Enter E-mail" required>
+  </div>
+  <div class="form__input_wrapper">
+    <label class="form__label" for="company">Company Name</label>
+    <input class="form__input"  type="text" id="company" name="company" placeholder="Enter Company Name" required>
+  </div>
+  <div class="form__input_wrapper">
+    <label class="form__label" for="size">Company Size</label>
+    <select class="form__input form__select" id="size" name="size" required>
+      <option value="" disabled selected hidden>Choose company size</option>
+      <option value="10-50">10-50 employees</option>
+      <option value="50-100">50-100 employees</option>
+      <option value="100-200">100-200 employees</option>
+    </select>
+    <span class="form__select_arrow"></span>
+  </div>
+  <div class="form__button">
+    {% include '@App/components/button/button.twig' with { text: 'Submit', type: 'submit', class: 'button button_primary'} %}
+  </div>
+</form>

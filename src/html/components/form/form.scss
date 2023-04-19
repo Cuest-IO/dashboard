@@ -1,0 +1,90 @@
+.form {
+  color: #FFFFFF;
+  width: 290px;
+  @include media-breakpoint-up(sm) {
+    width: 412px;
+  }
+
+  &__title {
+    color: #FFFFFF;
+    margin-bottom: 40px;
+    text-align: center;
+    @include media-breakpoint-up(lg) {
+      text-align: left;
+    }
+  }
+
+  &__input_wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+    position: relative;
+    @include media-breakpoint-up(sm) {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__label {
+    font-family: "Product Sans", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: calc(19/16);
+    margin-bottom: 8px;
+  }
+
+  &__input {
+    height: 46px;
+    border-radius: 14px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.04);
+    padding-left: 12px;
+    font-family: "Product Sans", sans-serif;
+    color: $font-color-primary;
+    font-weight: 400;
+    line-height: calc(22/16);
+    font-size: 16px;
+    @include media-breakpoint-up(sm) {
+      height: 56px;
+      padding-left: 32px;
+    }
+    @include media-breakpoint-up(lg) {
+      font-size: 22px;
+      line-height: calc(27/22);
+    }
+  }
+
+  &__select_arrow::after {
+    content: "";
+    display: block;
+    color: $font-color-primary;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    right: 32px;
+    border-bottom: 2px solid $font-color-primary;
+    border-left: 2px solid $font-color-primary;
+    pointer-events: none;
+    transform: translate(35%, 80%) rotate(315deg);
+  }
+
+  &__select:focus + &__select_arrow::after {
+    transform: translate(35%, 80%) rotate(135deg);
+  }
+
+  &__select {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  &__button {
+    margin-right: auto;
+    margin-left: auto;
+    width: 156px;
+    margin-top: 40px;
+    @include media-breakpoint-up(lg) {
+      margin-left: 0;
+    }
+  }
+}
