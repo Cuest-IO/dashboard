@@ -1,0 +1,64 @@
+.footer {
+  padding: 80px 0;
+  color: $white;
+  background-color:$brand-primary;
+  font-family: $font-family-primary;
+  font-size: 22px;
+  line-height: calc(27/22);
+  &__inner_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include media-breakpoint-up(md) {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  &__logo_block {
+    width: 312px;
+    margin-bottom: 30px;
+    @include media-breakpoint-up(sm) {
+      width: 412px;
+    }
+    @include media-breakpoint-up(md) {
+      margin-bottom: 0;
+    }
+  }
+  &__logo_wrapper {
+    width: 237px;
+    height: auto;
+    margin-bottom: 40px;
+  }
+  &__logo {
+    width: 100%;
+  }
+  &__description {
+    color: #FFFFFF99;
+  }
+  &__nav {
+    display: flex;
+    width: 312px;
+    justify-content: space-between;
+    @include media-breakpoint-up(sm) {
+      width: 412px;
+    }
+    @include media-breakpoint-only(md) {
+      justify-content: space-evenly;
+    }
+  }
+  &__title {
+    color: $white;
+    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: calc(34/28);
+  }
+  &__icon_wrapper {
+    width: 30px;
+  }
+  &__icon {
+    width: 100%;
+    height: auto;
+  }
+}

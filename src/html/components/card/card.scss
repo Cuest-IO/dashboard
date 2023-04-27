@@ -1,0 +1,157 @@
+.card {
+  flex-grow: 0;
+  align-self: start;
+  padding: 40px;
+  border-radius: 34px;
+  color: $white;
+  width: 442px;
+  margin-bottom: 32px;
+  @include media-breakpoint-up(xl) {
+    align-self: center;
+    width: 322px;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 412px;
+  }
+  &--first {
+    color: $font-color-title;
+    background: transparent;
+    border: 3px solid $font-color-title;
+  }
+  &--second {
+    background: linear-gradient(180deg, #FF9CDA 0%, $brand-secondary 100%), $brand-primary;
+    box-shadow: 0px 25px 44px rgba(129, 45, 236, 0.295755);
+    padding-bottom: 28px;
+    @include media-breakpoint-only(lg) {
+      order: 2;
+    }
+  }
+  &--third {
+    background: linear-gradient(180deg, #01BAF5 0%, #01A3F0 100%);
+    box-shadow: 0px 10px 50px rgba(68, 77, 86, 0.1);
+    @include media-breakpoint-only(lg) {
+      order: 1;
+    }
+  }
+
+  &__pre_title {
+    margin-bottom: 32px;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: calc(39/32);
+    &_wrapper {
+      display: flex;
+      justify-content: right;
+    }
+
+    &--second {
+      color: $brand-primary;
+      background-color: $white;
+      border-radius: 30px;
+      padding: 8px 18px;
+      text-transform: uppercase;
+      font-size: $font-size-body;
+      line-height: calc(29/24);
+    }
+  }
+  &__price {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+    font-weight: 500;
+    &_wrapper {
+      display: flex;
+    }
+    &_wrapper--cluster {
+      display: flex;
+      align-items: baseline;
+      color: #9A5BEA;
+
+    }
+    &--per_item {
+      font-size: 54px;
+      line-height: calc(46/54);
+      @include media-breakpoint-only(xl) {
+        font-size: 44px;
+        line-height: calc(36/44);
+      }
+    }
+    &--item {
+      font-size: 22px;
+      line-height: calc(29/24);
+      margin-bottom: -5px;
+      @include media-breakpoint-only(xl) {
+        font-size: 18px;
+        line-height: calc(24/18);
+      }
+    }
+    @include media-breakpoint-up(xxl) {
+      font-weight: 700;
+    }
+  }
+  &__title {
+    margin-bottom: 32px;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: calc(53/44);
+    color: $white;
+    &--first {
+      color: $font-color-title;
+    }
+  }
+  &__after_title {
+    margin-bottom: 32px;
+    font-size: $font-size-body;
+    line-height: calc(29/24);
+    color: $white;
+    &--first {
+      color: $font-color-primary
+    }
+    &--third {
+      margin-bottom: 40px;
+    }
+  }
+  &__advantages_item:not(:last-child) {
+    margin-bottom: 25px;
+  }
+  &__advantages_list--first {
+    margin-bottom: 50px;
+  }
+  &__advantages_list--second {
+    margin-bottom: 56px;
+  }
+  &__advantages_list--third {
+    margin-bottom: 45px;
+  }
+  &__advantages_item {
+    display: flex;
+    font-size: $font-size-body;
+    line-height: calc(29/24);
+  }
+  &__icon_wrapper {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+    padding: 7px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    &--first {
+      background-color: rgba(0, 161, 239, 0.1);
+    }
+  }
+  &__icon {
+    width: 100%;
+    height: auto;
+    fill: $white;
+    &--first {
+      fill: $brand-primary;
+    }
+  }
+  &__link {
+    width: 226px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
