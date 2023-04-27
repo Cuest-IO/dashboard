@@ -2,6 +2,10 @@
   "name": "cuest-dashboard",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": ">=8.0.0 <9.0.0",
+    "node": ">=16.0.0 <18.12.1"
+  },
   "dependencies": {
     "@aws-amplify/ui-react": "^4.3.10",
     "@emotion/react": "^11.10.6",
@@ -9,6 +13,7 @@
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.7",
+    "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.28.0",
     "aws-amplify": "^5.0.20",
     "moment": "^2.29.4",
@@ -17,7 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.2",
     "recharts": "^2.4.3",
     "socket.io": "^4.6.0",
@@ -26,7 +31,7 @@
   },
   "scripts": {
     "start": "nodemon src/server/server.js",
-    "client": "react-scripts start",
+    "client": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -1,0 +1,50 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifycfeaa697c17f4-staging-224545-authRole",
+      "UnauthRoleArn": "arn:aws:iam::988588827332:role/amplify-amplifycfeaa697c17f4-staging-224545-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::988588827332:role/amplify-amplifycfeaa697c17f4-staging-224545-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplifycfeaa697c17f4-staging-224545-deployment",
+      "UnauthRoleName": "amplify-amplifycfeaa697c17f4-staging-224545-unauthRole",
+      "StackName": "amplify-amplifycfeaa697c17f4-staging-224545",
+      "StackId": "arn:aws:cloudformation:us-east-1:988588827332:stack/amplify-amplifycfeaa697c17f4-staging-224545/49f11b90-c44c-11ed-8504-0ec8039f1f2d",
+      "AmplifyAppId": "d3g65evgngvf86"
+    },
+    "categories": {
+      "auth": {
+        "cuestAdmin": {}
+      }
+    }
+  },
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dashboard-master-173333-authRole",
+      "UnauthRoleArn": "arn:aws:iam::988588827332:role/amplify-dashboard-master-173333-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::988588827332:role/amplify-dashboard-master-173333-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-dashboard-master-173333-deployment",
+      "UnauthRoleName": "amplify-dashboard-master-173333-unauthRole",
+      "StackName": "amplify-dashboard-master-173333",
+      "StackId": "arn:aws:cloudformation:us-east-1:988588827332:stack/amplify-dashboard-master-173333/2c5f2270-c67c-11ed-8ecd-0acf0a830499",
+      "AmplifyAppId": "d3g65evgngvf86"
+    },
+    "categories": {
+      "auth": {
+        "stageadmin": {
+          "userPoolId": "us-east-1_QpHPF828V",
+          "userPoolName": "cuesAdminUPV2-staging",
+          "webClientId": "2opq7jsubqrvvir9nl29jcs8p3",
+          "nativeClientId": "2opq7jsubqrvvir9nl29jcs8p3",
+          "identityPoolId": "us-east-1:0e7e6567-cdee-4a88-88da-da48674e3376",
+          "identityPoolName": "cuestAdminV2__staging",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::988588827332:role/amplify-amplifycfeaa697c17f4-staging-224545-authRole",
+          "authRoleName": "amplify-amplifycfeaa697c17f4-staging-224545-authRole",
+          "unauthRoleArn": "arn:aws:iam::988588827332:role/amplify-amplifycfeaa697c17f4-staging-224545-unauthRole",
+          "unauthRoleName": "amplify-amplifycfeaa697c17f4-staging-224545-unauthRole"
+        }
+      }
+    }
+  }
+}

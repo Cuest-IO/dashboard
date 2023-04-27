@@ -7,6 +7,7 @@ import Loading from '../../components/loadingComp';
 import { useQueries } from '@tanstack/react-query'
 import axios from "axios";
 import {userAttr} from "../global/mainApp"; 
+import { Auth } from "aws-amplify";
 
 const Dashboard = () =>{
 
@@ -31,7 +32,10 @@ const Dashboard = () =>{
             axios.get(
                 "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
                 {
-                    params: {
+                  headers: {
+                    Authorization: 'Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}'
+                  },
+                  params: {
                       tenant: userAttr["custom:AccountId"] 
                     }
                 }
