@@ -10,45 +10,48 @@ import {userAttr} from "../global/mainApp";
 import { Auth } from "aws-amplify";
 
 const Dashboard = () =>{
-// console.log(((await Auth.currentSession()).getIdToken()));
-// const token = async()=>{ (await Auth.currentSession()).getIdToken().getJwtToken()};
 
-const headers = {
-  Authorization: async () => (await Auth.currentSession()).getAccessToken().getJwtToken()
-};
-console.log(headers);
-
-
-    const [clustersData, nodesData] = useQueries({
+  const [clustersData, nodesData] = useQueries({
         queries: [
           {
             queryKey: ['clusters'],
-            queryFn: () =>
-                axios.get(
-                    "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
-                    {
-                        params: {
-                        tenant: userAttr["custom:AccountId"] 
-                        }
-                    }
-              ).then((res) => res.data),
+            queryFn: () => fetchClusters()
+              
           },
     
           {
             queryKey: ['nodes'],
-            queryFn: () => 
-            axios.get(
-                "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
-                {
-                  headers: {
-                      Authorization: async () => (await Auth.currentSession()).getAccessToken().getJwtToken()
-                  },
-                 
-                }
-              ).then((res) => res.data),
-          },
+            queryFn: () => fetchNodes()
+          }
         ],
       },{refetchInterval: 180000});
+    
+
+      async function fetchClusters(){
+        const response = await axios.get(
+            "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
+            {
+              headers: {
+                Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
+              },
+            }
+        );
+        return response.data;
+      };
+    
+      async function fetchNodes(){
+        const response = await axios.get(
+          "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
+          {
+            headers: {
+                Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
+            },
+          }
+        );
+        return response.data;
+    };
+    
+
     
       const skipRender = clustersData.isLoading || nodesData.isLoading || clustersData.error || nodesData.error;
       if (clustersData.error)
@@ -84,27 +87,3 @@ console.log(headers);
 export default Dashboard;
 
 export const chartColors = ['#00A1EF', '#8995F4', '#B6ED8B', '#00C49F', '#FFBB28', '#FF8042'];
-
-  
-
-async function getToken(){
-  const token = async()=>{ (await Auth.currentSession()).getIdToken().getJwtToken()};
-  return token;
-
-}
-// {(Window.accountStatus != 'Ready') ? ( 
-//     <div className="container">
-//         <Loading open={Window.accountStatus != 'Ready'} onClose={stopLoading}/>
-//         <Box sx={{ width: '100%', margin:'24px'}}>
-//             <LinearProgress />
-//         </Box>
-//     </div>
-// ): null }
-
-// {(Window.accountStatus === 'Ready') ?( 
-//     <div className="container">
-//         <ClusterCard style={{left:"0px"}}/>
-//         <NodeCard style={{left:"368px"}}/>
-//         <SystemCard style={{left:"736px"}}/>
-//     </div>
-// ): null } 
