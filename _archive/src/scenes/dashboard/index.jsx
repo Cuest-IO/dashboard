@@ -10,6 +10,14 @@ import {userAttr} from "../global/mainApp";
 import { Auth } from "aws-amplify";
 
 const Dashboard = () =>{
+// console.log(((await Auth.currentSession()).getIdToken()));
+// const token = async()=>{ (await Auth.currentSession()).getIdToken().getJwtToken()};
+
+const headers = {
+  Authorization: async () => (await Auth.currentSession()).getAccessToken().getJwtToken()
+};
+console.log(headers);
+
 
     const [clustersData, nodesData] = useQueries({
         queries: [
@@ -28,16 +36,14 @@ const Dashboard = () =>{
     
           {
             queryKey: ['nodes'],
-            queryFn: () =>
+            queryFn: () => 
             axios.get(
                 "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
                 {
                   headers: {
-                    Authorization: 'Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}'
+                      Authorization: async () => (await Auth.currentSession()).getAccessToken().getJwtToken()
                   },
-                  params: {
-                      tenant: userAttr["custom:AccountId"] 
-                    }
+                 
                 }
               ).then((res) => res.data),
           },
@@ -80,6 +86,12 @@ export default Dashboard;
 export const chartColors = ['#00A1EF', '#8995F4', '#B6ED8B', '#00C49F', '#FFBB28', '#FF8042'];
 
   
+
+async function getToken(){
+  const token = async()=>{ (await Auth.currentSession()).getIdToken().getJwtToken()};
+  return token;
+
+}
 // {(Window.accountStatus != 'Ready') ? ( 
 //     <div className="container">
 //         <Loading open={Window.accountStatus != 'Ready'} onClose={stopLoading}/>

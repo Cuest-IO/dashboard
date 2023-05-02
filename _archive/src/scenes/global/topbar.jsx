@@ -6,7 +6,7 @@ import {ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Topbar = (props) =>{
-    console.log(props.userProfile.attributes);
+    console.log(props.userProfile);
 
   const [anchor, setAnchor] = useState(null);  
   const [selected, setSelected] = useState(-1);
