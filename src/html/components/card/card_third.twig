@@ -29,6 +29,11 @@
     </li>
   </ul>
   <div class="card__link">
-    {% include '@App/components/button/button.twig' with { text: 'Book a demo', type: 'link', link: '#', class: 'button button_primary button--border'} %}
+    {% include '@App/components/button/button.twig' with {
+      text: 'Book a demo',
+      type: 'button',
+      typeButton: 'button',
+      class: 'button_primary button--border js--to_stay_tunned'
+    } %}
   </div>
 </li>
