@@ -54,10 +54,10 @@ return (
 export default SystemCard;
 
 export function SystemLoad({data, label, unit}){
-  console.log(data);
+  // console.log(data);
 
   const renderColorfulLegendText = (value, entry, index) => {
-    console.log(index, value, entry)
+    // console.log(index, value, entry)
     return (
       <span style={{ color: "#575757", fontWeight:500,  paddingLeft: "5px" }}>
         <span>{value}</span> <span style={{position: "absolute", right:"0px"}} >{entry.payload.count}{unit}</span>

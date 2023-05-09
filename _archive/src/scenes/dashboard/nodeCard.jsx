@@ -20,7 +20,7 @@ const data = [
   ];
   
 const renderColorfulLegendText = (value, entry, index) => {
-    console.log(data[0][entry.dataKey],index, value, entry)
+    // console.log(data[0][entry.dataKey],index, value, entry)
     return (
       <span style={{ color: "#575757", fontWeight:500,  paddingLeft: "5px" }}>
         <span>{value}</span> <span style={{position: "absolute", right:"0px"}} >{(data[0]) && (data[0][entry.dataKey])}</span>
