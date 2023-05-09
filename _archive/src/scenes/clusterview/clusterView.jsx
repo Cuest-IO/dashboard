@@ -29,10 +29,16 @@ const ClusterView = () =>{
 
       
       // AWS real 
-      const url= new URL(process.env.REACT_APP_WSS_URI);
-      userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
-      const socket= new WebSocket(url);
-      socket.onmessage = (e) =>{ 
+      const socket = async()=>{
+        
+
+        const url= new URL("wss://".concat(process.env.REACT_APP_WSS_URI,".", process.env.REACT_APP_DOMAIN));        
+        const socket= new WebSocket(url, (await Auth.currentSession()).getIdToken().getJwtToken()  );
+        console.log(socket);
+        return socket;
+      }
+      
+      socket().onmessage = (e) =>{ 
       const nodeStat = JSON.parse(e.data);
       
       
