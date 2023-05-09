@@ -4,7 +4,18 @@
       <img src='assets/logo.svg' alt='logo'>
     </a>
     <div class='header__login_link'>
-      {% include '@App/components/button/button.twig' with { text: 'Login', type: 'link', link: '#', class: 'button button_secondary'} %}
+      {% include '@App/components/button/button.twig' with {
+        text: 'Docs',
+        type: 'link',
+        link: REACT_APP_DOCS_DOMAIN,
+        class: 'button button_link'
+      } %}
+      {% include '@App/components/button/button.twig' with {
+        text: 'Login',
+        type: 'link',
+        link: REACT_APP_CONSOLE_DOMAIN,
+        class: 'button button_secondary'
+      } %}
     </div>
   </div>
 </header>

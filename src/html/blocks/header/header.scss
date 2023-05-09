@@ -25,6 +25,15 @@
   }
 
   &__login_link {
-    width: 156px;
+    display: flex;
+    .button {
+      width: 78px;
+      @include media-breakpoint-up(sm) {
+        width: 156px;
+      }
+      & + .button {
+        margin-left: 10px;
+      }
+    }
   }
 }

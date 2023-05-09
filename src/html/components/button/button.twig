@@ -1,7 +1,27 @@
 {% if text is defined %}
   {% if type == 'button' %}
-    <button class="{% if class is defined %}{{ class }}{% endif %}" {% if typeButton is defined %}type="{{ typeButton }}"{% endif %}>{% if icon is defined %}<svg class='button__icon'><use xlink:href="assets/symbol_sprite.svg#{{ icon }}"></use></svg>{% endif %}{{ text }}</button>
+    <button
+      class="button{% if class is defined %} {{ class }}{% endif %}"
+      {% if typeButton is defined %}type="{{ typeButton }}"{% endif %}
+    >
+      {% if icon is defined %}
+        <svg class='button__icon'>
+          <use xlink:href="assets/symbol_sprite.svg#{{ icon }}"></use>
+        </svg>
+      {% endif %}
+      {{ text }}
+    </button>
   {% else %}
-    <a {% if link is defined %}href="{{ link }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %}">{% if icon is defined %}<svg class='button__icon'><use xlink:href="assets/symbol_sprite.svg#{{ icon }}"></use></svg>{% endif %}{{ text }}</a>
+    <a
+      {% if link is defined %}href="{{ link }}"{% endif %}
+      class="button{% if class is defined %} {{ class }}{% endif %}"
+    >
+      {% if icon is defined %}
+        <svg class='button__icon'>
+          <use xlink:href="assets/symbol_sprite.svg#{{ icon }}"></use>
+        </svg>
+      {% endif %}
+      {{ text }}
+    </a>
   {% endif %}
 {% endif %}

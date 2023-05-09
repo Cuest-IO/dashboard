@@ -39,6 +39,15 @@
     color: #ffffff;
   }
 
+  &_link {
+    background: none;
+    color: $font-color-title;
+    &:hover {
+      color: $font-color-primary;
+      text-decoration: underline;
+    }
+  }
+
   &_white {
     background-color: #F8F8F8;
     color: #575757;

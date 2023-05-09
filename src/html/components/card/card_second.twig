@@ -44,6 +44,11 @@
     </li>
   </ul>
   <div class="card__link">
-    {% include '@App/components/button/button.twig' with { text: 'Choose plan', type: 'link', link: '#', class: 'button button_primary'} %}
+    {% include '@App/components/button/button.twig' with {
+      text: 'Choose plan',
+      type: 'link',
+      link: REACT_APP_CONSOLE_DOMAIN,
+      class: 'button_primary'
+    } %}
   </div>
 </li>

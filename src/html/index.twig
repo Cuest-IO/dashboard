@@ -7,7 +7,7 @@
   <title>{% block pageTitle %}Index Page{% endblock %}</title>
 </head>
 <body class="page {% block pageName %}{% endblock %}">
-<div class="d-flex flex-column vh-100">
+<div class="d-flex flex-column vh-100" data-test={{ REACT_APP_CONSOLE_DOMAIN }}>
   <main class="flex-grow-1 flex-shrink-0">
     {% block pageContent %}
       <div class="typography container">
