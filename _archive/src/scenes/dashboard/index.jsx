@@ -29,7 +29,7 @@ const Dashboard = () =>{
 
       async function fetchClusters(){
         const response = await axios.get(
-            "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/nodes"),
+            "https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/devices/cluster"),
             {
               headers: {
                 Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
@@ -41,7 +41,7 @@ const Dashboard = () =>{
     
       async function fetchNodes(){
         const response = await axios.get(
-          "".concat(process.env.REACT_APP_REST_URI_DEVICES, "/devices/agents"),
+          "https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/devices/node"),
           {
             headers: {
                 Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
