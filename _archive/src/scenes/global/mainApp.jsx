@@ -10,28 +10,40 @@ import '@aws-amplify/ui-react/styles.css'
 import { useQuery } from '@tanstack/react-query'
 import axios from "axios";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Auth } from "aws-amplify";
+
 
 export const userAttr = {};
 Window.accountStatus = "Unknown";
-Window.accountType = "Unknown";
+Window.accountType = "Free";
 
  
 function MainApp() {   
-  console.log(process.env.REACT_APP_REST_URI);
-  // const { isLoading, error, data } = useQuery(
-  //   ['accountStatus'],
-  //   async () => {
-  //     const { data } = await axios.get("".concat(process.env.REACT_APP_REST_URI, "/accountStatus"));
+  const { isLoading, error, data } = useQuery(
+    ['accountStatus'],
+    async () => {
+      const { data } = await axios.get("https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/account/status"),
+      {
+        headers: {
+          Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
+        },
+      });
         
-      
-      
-  //     console.log(data.status);
-  //     Window.accountStatus = data?.status;
-  //     return data;
-  //   },{refetchInterval: (Window.accountStatus != "Ready") ? 2000 : 0});
+    },{refetchInterval: (Window.accountStatus != "Ready") ? 5000 : 0});
     
-  Window.accountStatus = 'Ready'
-  Window.accountType = "Free"
+    // console.log(error);
+    // console.log(data);
+
+        //   Window.accountStatus = data?.status;
+        if( !error ){
+            Window.accountStatus = 'Ready'
+        }else if(error && error.response && error.response.status == 502 ){
+            Window.accountStatus = 'Init'
+        }
+        
+
+    // Window.accountStatus = 'Ready'
+    // Window.accountType = "Free"
 
     const { signOut, user } = useAuthenticator();
     Object.assign(userAttr, user.attributes);
@@ -58,5 +70,6 @@ function MainApp() {
     </div>
     );
 };
+
 
 export default MainApp;
