@@ -5,19 +5,16 @@ import { useState } from "react";
 
 const MessagePanel = (props) => {
 
-    // const [account, setAccount] = useState(Window.accountStatus);  
+    //TODO: the message is not getting updated when the props.message changes to an empty string ...
     const [message, setMessage] = useState(props.message);  
-    
-    let info = "";
+    //useEffect
     if( Window.accountStatus === "Init"){
-        info = "Please wait while we are setting up your account";
-    }else if( message && message.length > 0){
-        info = message;
+        setMessage( "Please wait while we are setting up your account");
     }
-    console.log(info);
+    console.log(message);
     return(
         <div className='topBarTitle' style={{fontSize:"24px", lineHeight:"29px"}}>
-            {info} 
+            {message} 
         </div>
     ) 
 }

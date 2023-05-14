@@ -5,57 +5,72 @@ import io from 'socket.io-client';
 import {userAttr} from "../global/mainApp"; 
 import { Auth } from "aws-amplify";
 import Loading from "../../components/loadingComp";        
+import { web } from "webpack";
 
 const nodes=new Map([]);
 const cardList  = [];
         
 const ClusterView = () =>{ 
 
-  // console.log(userAttr["custom:AccountId"]);
-  //console.log(url);
   const [cards, setCards] = useState(cardList);
+  const [webSocket, setWebSocket] = useState(null);
 
-   
   useEffect(()=>{
 
-    //Local Simulator
-    // const url=new URL('http://localhost:3000')
-    // userAttr["custom:AccountId"]  &&  url.searchParams.append("tenant", userAttr["custom:AccountId"]);
-    // const socket=io(url, {
-    //       transports: ['websocket', 'polling']
-    //     });
-    // socket.on('nodeStat', (nodeStat)=>{
-    // nodeStat = JSON.parse(nodeStat);
+    const wsClient = async()=>{
+        return new WebSocket("wss://".concat(process.env.REACT_APP_WSS_URI), (await Auth.currentSession()).getIdToken().getJwtToken());
+    }
+    wsClient.onopen = () => {
+      console.log('ws opened');
+      setWebSockety(wsClient);
+    };
 
+    wsClient.onclose = () => console.log('ws closed');
+    
+    return () => {
+      wsClient.close();
+    }
+  }, []);
+      // const socket = async()=>{
+      //   const url= new URL("wss://".concat(process.env.REACT_APP_WSS_URI));        
+      //   const socket= new WebSocket(url, (await Auth.currentSession()).getIdToken().getJwtToken());
+      //   console.log(socket);
+      //   return socket;
+      // }
       
-      // AWS real 
-      const socket = async()=>{
+      // webSocket.onmessage = (e) =>{ 
+      // const nodeStat = JSON.parse(e.data);
+      
+      
+      // const node = nodes.get(nodeStat.device);
+      //   console.log(nodeStat);
+      // if(node){
+      //     updateNode(node, nodeStat); 
+      // }
+      // else{
+      //     addNode(nodeStat);
+      // }      
         
+      // }
 
-        const url= new URL("wss://".concat(process.env.REACT_APP_WSS_URI,".", process.env.REACT_APP_DOMAIN));        
-        const socket= new WebSocket(url, (await Auth.currentSession()).getIdToken().getJwtToken()  );
-        console.log(socket);
-        return socket;
-      }
-      
-      socket().onmessage = (e) =>{ 
-      const nodeStat = JSON.parse(e.data);
-      
-      
-      const node = nodes.get(nodeStat.device);
+  // },[]);
+
+  useEffect(() => {
+    if (!webSocket) return;
+
+    webSocket.onmessage = e => {
+        const nodeStat = JSON.parse(e.data);
+        const node = nodes.get(nodeStat.device);
         console.log(nodeStat);
-      if(node){
-          updateNode(node, nodeStat); 
-      }
-      else{
-          addNode(nodeStat);
-      }      
-        
-      }
+        if(node){
+            updateNode(node, nodeStat); 
+        }
+        else{
+            addNode(nodeStat);
+        } 
+    };
+  }, [webSocket])
 
-//local test
-      // )
-  },[])
 
 
   function updateNode(node, nodeStat){
