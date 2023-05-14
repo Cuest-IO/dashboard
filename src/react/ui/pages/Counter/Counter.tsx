@@ -1,5 +1,3 @@
-// Helpers
-import logo from "../../../../assets/img/logo.svg";
 // Parts
 import { Counter as CounterUI } from "../../components/Counter/Counter";
 
@@ -7,7 +5,6 @@ export function Counter() {
   return (
     <div className="Counter">
       <div className="Counter-header">
-        <img src={logo} className="Counter-logo" alt="logo" />
         <CounterUI />
         <p>
           Edit <code>src/Counter.tsx</code> and save to reload.
