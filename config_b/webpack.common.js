@@ -99,7 +99,7 @@ module.exports = {
   },
   plugins: [
     new WebpackFavicons({
-      src: `./${process.env.FOLDER_PRIVATE_BASE}/${process.env.FAVICON_SRC}`,
+      src: process.env.FAVICON_SRC,
       background: process.env.FAVICON_BACKGROUND_COLOR,
       theme_color: process.env.FAVICON_THEME_COLOR,
       icons: {
