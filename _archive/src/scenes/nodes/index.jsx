@@ -3,28 +3,32 @@ import MessagePanel from '../global/messagePanel';
 import Loading from "../../components/loadingComp";
 import { useQuery } from '@tanstack/react-query'
 import axios from "axios";
-import { rows as nodes } from "../../data/mockData";
+import { Auth } from "aws-amplify";
 
 const Nodes = () =>{
 
-    const { isLoading, error, data } = useQuery(
-        ['nodes'],
-        async () => {
-          const { data } = await axios.get("".concat(process.env.REACT_APP_REST_URI, "/nodes")
-            
-          );
-          
-          console.log(data);
-          return data;
-        });
-
+    const { isLoading, error, data } = useQuery(['clusters'], async () => {
+        const response = await axios.get(
+          `https://${process.env.REACT_APP_REST_URI}/devices/node`,
+          {
+            headers: {
+              Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+            },
+          }
+        );
+      
+        return response.data; // Return the data from the response
+      });
+      
+    const infoMsg = ( !data || data.length == 0 ) ? "Please connect your first Kubernetes Cluster" : "";
+    console.log(data, isLoading, error, infoMsg)        
         
   return (
 
 <div className="mainPage">
     <div className='mainPageHeader'>
         <div className='mainPageTitle'>
-        <MessagePanel />
+        <MessagePanel message={infoMsg}/>
         </div>
     </div>
 

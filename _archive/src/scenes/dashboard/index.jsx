@@ -29,7 +29,7 @@ const Dashboard = () =>{
 
       async function fetchClusters(){
         const response = await axios.get(
-            "https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/devices/cluster"),
+            "https://".concat(process.env.REACT_APP_REST_URI, "/devices/cluster"),
             {
               headers: {
                 Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
@@ -41,7 +41,7 @@ const Dashboard = () =>{
     
       async function fetchNodes(){
         const response = await axios.get(
-          "https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/devices/node"),
+          "https://".concat(process.env.REACT_APP_REST_URI, "/devices/node"),
           {
             headers: {
                 Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
@@ -60,8 +60,8 @@ const Dashboard = () =>{
       if (nodesData.error)
         console.log(nodesData.error.message);
       
-      console.log(clustersData.data);
-      console.log(nodesData.data);
+      // console.log(clustersData.data);
+      // console.log(nodesData.data);
         
      
     return (

@@ -15,20 +15,20 @@ import { Auth } from "aws-amplify";
 
 export const userAttr = {};
 Window.accountStatus = "Unknown";
-Window.accountType = "Free";
+Window.accountType = "Free"; 
 
  
 function MainApp() {   
   const { isLoading, error, data } = useQuery(
     ['accountStatus'],
     async () => {
-      const { data } = await axios.get("https://".concat(process.env.REACT_APP_REST_URI,".", process.env.REACT_APP_DOMAIN, "/account/status"),
+      const { data } = await axios.get("https://".concat(process.env.REACT_APP_REST_URI, "/account/status"),
       {
         headers: {
           Authorization:  `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
         },
       });
-        
+      return data;  
     },{refetchInterval: (Window.accountStatus != "Ready") ? 5000 : 0});
     
     // console.log(error);

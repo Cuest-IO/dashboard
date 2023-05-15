@@ -12,8 +12,9 @@ import TableRow from '@mui/material/TableRow';
 
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
+import moment from 'moment';
 
-import { clusterRows as rows  } from "../../data/mockData";
+// import { clusterRows as rows  } from "../../data/mockData";
 import { getComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar} from "../../components/tableComp.jsx";
 import { NavLink } from 'react-router-dom';
 const headCells = [
@@ -24,40 +25,52 @@ const headCells = [
     label: 'Cluster Name',
   },
   {
-    id: 'groups',
+    id: 'since',
     numeric: false,
-    disablePadding: false,
-    label: 'Node Groups',
+    disablePadding: true,
+    label: 'Since',
   },
   {
-    id: 'runningPods',
+    id: 'lastConnect',
     numeric: false,
-    disablePadding: false,
-    label: 'Running Pods',
+    disablePadding: true,
+    label: 'Last Connect',
   },
-  {
-    id: 'completePods',
-    numeric: false,
-    disablePadding: false,
-    label: 'Completed Pods',
-  },
-  {
-    id: 'interruptPods',
-    numeric: false,
-    disablePadding: false,
-    label: 'Interrupted Pods',
-  },
-  {
-    id: 'execTime',
-    numeric: false,
-    disablePadding: false,
-    label: 'Execution Time',
-  }
+  // {
+  //   id: 'groups',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Node Groups',
+  // },
+  // {
+  //   id: 'runningPods',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Running Pods',
+  // },
+  // {
+  //   id: 'completePods',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Completed Pods',
+  // },
+  // {
+  //   id: 'interruptPods',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Interrupted Pods',
+  // },
+  // {
+  //   id: 'execTime',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Execution Time',
+  // }
 ];
 
 
 
-export default function ClusterTable() {
+export default function ClusterTable(props) {
    
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
@@ -65,6 +78,9 @@ export default function ClusterTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     
+    const rows = (props.rows) ? props.rows : [] ;
+console.log(rows);
+
     const handleRequestSort = (event, property) => {
       const isAsc = orderBy === property && order === 'asc';
       setOrder(isAsc ? 'desc' : 'asc');
@@ -177,11 +193,15 @@ export default function ClusterTable() {
                           {row.id}
                         </NavLink>
                       </TableCell>
-                      <TableCell align="left">{row.group}</TableCell>
+                      <TableCell align="left" type="date">{moment(row.created_at).format('MM/DD/YYYY')}</TableCell>
+                      <TableCell align="left" type="date">{moment(row.last_connected_at).format('MM/DD/YYYY HH:mm')}</TableCell>
+                      
+
+                      {/* <TableCell align="left">{row.group}</TableCell>
                       <TableCell align="left">{row.running}</TableCell>
                       <TableCell align="left">{row.completed}</TableCell>
                       <TableCell align="left">{row.interrupted}</TableCell>
-                      <TableCell align="left">{row.totalTime}</TableCell>
+                      <TableCell align="left">{row.totalTime}</TableCell> */}
                     </TableRow>
                   );
                 })}
