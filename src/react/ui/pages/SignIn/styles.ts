@@ -14,6 +14,7 @@ export const Wrapper = styled(Grid)(() => ({
       background: 'linear-gradient(180deg, #FF9CDA 0%, #A777F4 100%)',
       color: '#fff',
       borderRadius: '14px',
+      border: 'none',
     },
     '& .amplify-button--disabled': {
       background: 'linear-gradient(180deg, #DFDFDF 0%, #BEBEBE 100%)',
