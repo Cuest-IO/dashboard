@@ -193,7 +193,7 @@ console.log(rows);
                           {row.id}
                         </NavLink>
                       </TableCell>
-                      <TableCell align="left" type="date">{moment(row.created_at).format('MM/DD/YYYY')}</TableCell>
+                      <TableCell align="left" type="date">{moment(row.created_at).format('MM/DD/YYYY HH:mm')}</TableCell>
                       <TableCell align="left" type="date">{moment(row.last_connected_at).format('MM/DD/YYYY HH:mm')}</TableCell>
                       
 

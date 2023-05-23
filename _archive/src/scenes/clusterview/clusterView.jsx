@@ -5,7 +5,6 @@ import io from 'socket.io-client';
 import {userAttr} from "../global/mainApp"; 
 import { Auth } from "aws-amplify";
 import Loading from "../../components/loadingComp";        
-import { web } from "webpack";
 
 const nodes=new Map([]);
 const cardList  = [];
@@ -17,20 +16,52 @@ const ClusterView = () =>{
 
   useEffect(()=>{
 
-    const wsClient = async()=>{
-        return new WebSocket("wss://".concat(process.env.REACT_APP_WSS_URI), (await Auth.currentSession()).getIdToken().getJwtToken());
-    }
-    wsClient.onopen = () => {
-      console.log('ws opened');
-      setWebSockety(wsClient);
-    };
+    // const wsClient = getWebSocket();
+    const wsClient = async () => {
+      
+        const wsClient = new WebSocket("wss://".concat("socket.cuest.io?type=web&token=").concat((await Auth.currentSession()).getIdToken().getJwtToken()));
+        
+    
+        console.log(wsClient);
+        // console.log(webSocket);
+        wsClient.onopen = () => {
+          console.log('ws opened');
+          setWebSocket(wsClient);
+        };
 
-    wsClient.onclose = () => console.log('ws closed');
+        wsClient.onclose = () => console.log('ws closed');
+      
+        wsClient.onmessage = e => {
+          const nodeStat = JSON.parse(e.data);
+          const node = nodes.get(nodeStat.device);
+          console.log(nodeStat);
+          if(node){
+              updateNode(node, nodeStat); 
+          }
+          else{
+              addNode(nodeStat);
+          } 
+        };
+    };
+    console.log('before');
+    wsClient();   
     
     return () => {
-      wsClient.close();
+      console.log(webSocket);
+      try{
+        (webSocket ) && webSocket.close();
+      }catch(error){
+        console.log(error);
+      }
+        
     }
-  }, []);
+  }, []) ;
+  
+
+    
+
+
+
       // const socket = async()=>{
       //   const url= new URL("wss://".concat(process.env.REACT_APP_WSS_URI));        
       //   const socket= new WebSocket(url, (await Auth.currentSession()).getIdToken().getJwtToken());
@@ -55,23 +86,32 @@ const ClusterView = () =>{
 
   // },[]);
 
-  useEffect(() => {
-    if (!webSocket) return;
+  // useEffect(() => {
+  //   if (!webSocket) return;
 
-    webSocket.onmessage = e => {
-        const nodeStat = JSON.parse(e.data);
-        const node = nodes.get(nodeStat.device);
-        console.log(nodeStat);
-        if(node){
-            updateNode(node, nodeStat); 
-        }
-        else{
-            addNode(nodeStat);
-        } 
-    };
-  }, [webSocket])
+  //   webSocket.onmessage = e => {
+  //       const nodeStat = JSON.parse(e.data);
+  //       const node = nodes.get(nodeStat.device);
+  //       console.log(nodeStat);
+  //       if(node){
+  //           updateNode(node, nodeStat); 
+  //       }
+  //       else{
+  //           addNode(nodeStat);
+  //       } 
+  //   };
+  // }, [webSocket])
 
 
+
+  //  async function getWebSocket(){
+  //   try{
+  //     return new WebSocket("wss://".concat(process.env.REACT_APP_WSS_URI), ( Auth.currentSession()).getIdToken().getJwtToken());
+  //   }catch(error){
+  //       console.log(error);
+  //       return null;
+  //   }
+  // };
 
   function updateNode(node, nodeStat){
       

@@ -12,6 +12,9 @@ import TableRow from '@mui/material/TableRow';
 
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
+import { formatMBytes } from "../../utils/utilities";  
+import moment from 'moment';
+
 
 // import { rows } from "../../data/mockData";
 import { getComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar} from "../../components/tableComp.jsx";
@@ -28,13 +31,19 @@ const headCells = [
     id: 'activeSince',
     numeric: false,
     disablePadding: false,
-    label: 'Active Since',
+    label: 'Since',
   },
+  // {
+  //   id: 'group',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Group',
+  // },
   {
-    id: 'group',
+    id: 'lastConnect',
     numeric: false,
-    disablePadding: false,
-    label: 'Group',
+    disablePadding: true,
+    label: 'Last Connect',
   },
   {
     id: 'cores',
@@ -49,30 +58,37 @@ const headCells = [
     label: 'Memory',
   },
   {
-    id: 'coresUsed',
+    id: 'disk',
     numeric: false,
     disablePadding: false,
-    label: 'Cores Used',
+    label: 'Disk',
   },
-  {
-    id: 'memoryUsed',
-    numeric: false,
-    disablePadding: false,
-    label: 'Memory Used',
-  },
-  {
-    id: 'runtimeHours',
-    numeric: false,
-    disablePadding: false,
-    label: 'Runtime Hours',
-  },
+  // {
+  //   id: 'coresUsed',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Cores Used',
+  // },
+  // {
+  //   id: 'memoryUsed',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Memory Used',
+  // },
+  // {
+  //   id: 'runtimeHours',
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: 'Runtime Hours',
+  // },
 ];
 
 
 
 export default function NodesTable(props) {
   
-    const [rows, setRows] = React.useState(props.nodes);
+  const rows = (props.nodes) ? props.nodes : [] ;
+    // const [rows, setRows] = React.useState(props.nodes);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('nodeId');
     const [selected, setSelected] = React.useState([]);
@@ -164,7 +180,7 @@ export default function NodesTable(props) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.nodeId}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -183,15 +199,15 @@ export default function NodesTable(props) {
                         padding="none"
                         align="left"
                       >
-                        {row.nodeId}
+                        {row.id}
                       </TableCell>
-                      <TableCell align="left">{row.activeSince}</TableCell>
-                      <TableCell align="left">{row.group}</TableCell>
-                      <TableCell align="left">{row.cores}</TableCell>
-                      <TableCell align="left">{row.memory}</TableCell>
-                      <TableCell align="left">{row.coresUsed}</TableCell>
-                      <TableCell align="left">{row.memoryUsed}</TableCell>
-                      <TableCell align="left">{row.runtimeHours}</TableCell>
+                      <TableCell align="left" type="date">{moment(row.created_at).format('MM/DD/YYYY HH:mm')}</TableCell>
+                      <TableCell align="left" type="date">{moment(row.last_connected_at).format('MM/DD/YYYY HH:mm')}</TableCell>
+
+
+                      <TableCell align="left">{row.cpu}</TableCell>
+                      <TableCell align="left">{formatMBytes(row.ram)}GB</TableCell>
+                      <TableCell align="left">{formatMBytes(row.disk)}GB</TableCell>
                     </TableRow>
                   );
                 })}

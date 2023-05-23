@@ -21,7 +21,10 @@ const Clusters = () =>{
       
         return response.data; // Return the data from the response
       });
-      
+    
+    if(isLoading)
+      return (<div className="cardHeader">Loading...</div>);
+
     const infoMsg = ( !data || data.length == 0 ) ? "Please connect your first Kubernetes Cluster" : "";
     console.log(data, isLoading, infoMsg)        
     return (

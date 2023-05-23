@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import { formatMBytes } from "../../utils/utilities";  
+import { formatMBytes, formatFloat } from "../../utils/utilities";  
 import {PieChart, Pie, Label, Legend, Cell, ResponsiveContainer } from "recharts";
 import {chartColors} from "./index"
 
@@ -20,13 +20,17 @@ const SystemCard = (props) =>{
     if (node.is_connected){
         systemCPU[0].count+= node.cpu;
         systemMem[0].count+=formatMBytes(node.ram);
+        console.log(systemMem[0].count)
         
     } else{
         systemCPU[1].count+= node.cpu;
         systemMem[1].count+=formatMBytes(node.ram);
         
     }
-}
+  }
+  //fix format issues in sum operations
+  systemMem[0].count= formatFloat(systemMem[0].count);
+  systemMem[1].count= formatFloat(systemMem[1].count);
 
 
 return (
@@ -54,7 +58,7 @@ return (
 export default SystemCard;
 
 export function SystemLoad({data, label, unit}){
-  // console.log(data);
+  //  console.log(data);
 
   const renderColorfulLegendText = (value, entry, index) => {
     // console.log(index, value, entry)

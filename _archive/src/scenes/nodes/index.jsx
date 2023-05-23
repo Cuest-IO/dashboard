@@ -7,7 +7,7 @@ import { Auth } from "aws-amplify";
 
 const Nodes = () =>{
 
-    const { isLoading, error, data } = useQuery(['clusters'], async () => {
+    const { isLoading, error, data } = useQuery(['nodes'], async () => {
         const response = await axios.get(
           `https://${process.env.REACT_APP_REST_URI}/devices/node`,
           {
@@ -19,7 +19,10 @@ const Nodes = () =>{
       
         return response.data; // Return the data from the response
       });
-      
+    
+    if(isLoading)
+      return (<div className="cardHeader">Loading...</div>);
+
     const infoMsg = ( !data || data.length == 0 ) ? "Please connect your first Kubernetes Cluster" : "";
     console.log(data, isLoading, error, infoMsg)        
         
