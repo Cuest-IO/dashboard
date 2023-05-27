@@ -1,7 +1,10 @@
 .card {
   flex-grow: 0;
   align-self: start;
-  padding: 40px;
+  padding-top: 40px;
+  padding-left: 40px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   border-radius: 34px;
   color: $white;
   width: 442px;
@@ -65,7 +68,6 @@
     }
     &_wrapper--cluster {
       display: flex;
-      align-items: baseline;
       color: #9A5BEA;
 
     }
