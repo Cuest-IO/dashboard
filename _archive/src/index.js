@@ -5,6 +5,8 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Authenticator } from '@aws-amplify/ui-react';
+import './assets/fonts/product_sans/style.scss';
+import './_helpers/scss/reset.scss';
 
 
 const queryClient = new QueryClient();

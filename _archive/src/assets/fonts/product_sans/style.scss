@@ -1,0 +1,31 @@
+$method_fonts_load: swap;
+
+@font-face {
+  font-family: 'Product Sans';
+  src: local('product_sans_regular.ttf'), url('product_sans_regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: $method_fonts_load;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: local('product_sans_bold.ttf'), url('product_sans_bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: $method_fonts_load;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: local('product_sans_regular.woff'), url('product_sans_regular.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: $method_fonts_load;
+}
+@font-face {
+  font-family: 'Product Sans';
+  src: local('product_sans_bold_italic.woff'), url('product_sans_bold_italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: $method_fonts_load;
+}
+

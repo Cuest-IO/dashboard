@@ -250,7 +250,7 @@ const ClusterView = () =>{
     setCards([].concat(cardList));
   }
 
-  function setNodeStatus(status){
+  function setNodeStatus(status){ 
     switch (status) {
       case 'Init': return 'Initializing';
       case 'Ready': return 'Running';
