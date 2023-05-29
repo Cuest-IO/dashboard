@@ -32,6 +32,8 @@ const ClusterView = () =>{
         wsClient.onclose = () => console.log('ws closed');
       
         wsClient.onmessage = e => {
+          const nodeStr = JSON.stringify(e.data);
+          // console.log(nodeStr);
           const nodeStat = JSON.parse(e.data);
           console.log(nodeStat);
           const node = nodes.get(nodeStat.device);
@@ -117,23 +119,25 @@ const ClusterView = () =>{
       
       node.timestamp = nodeStat.time;
       
-      if(nodeStat.info){
+      if(nodeStat.info && nodeStat.info.state ){
         const state  = nodeStat.info.state;
         node.status = setNodeStatus(state.status);  
         node.connected =nodeStat.info.connectivity;
         if(node.connected){
-          node.cpuUsage.push(cpuUsage(state, nodeStat.time));
-          node.memUsage.push(memoryUsage(state, nodeStat.time));
-          const firstTimestamp = (nodeStat.time - 600000);
-          for (let i=0; i< node.cpuUsage.length; i++){
-            if(node.cpuUsage[i].timestamp < firstTimestamp ){
-              node.cpuUsage.splice(i, 1);
-              node.memUsage.splice(i, 1);
+          if( state.device && state.vm){
+            node.cpuUsage.push(cpuUsage(state, nodeStat.time));
+            node.memUsage.push(memoryUsage(state, nodeStat.time));
+            const firstTimestamp = (nodeStat.time - 600000);
+            for (let i=0; i< node.cpuUsage.length; i++){
+              if(node.cpuUsage[i].timestamp < firstTimestamp ){
+                node.cpuUsage.splice(i, 1);
+                node.memUsage.splice(i, 1);
+              }
             }
+            node.cpuUsage = [...node.cpuUsage];
+            node.memUsage = [...node.memUsage];
+            node.battery = state.battery;
           }
-          node.cpuUsage = [...node.cpuUsage];
-          node.memUsage = [...node.memUsage];
-          node.battery = state.battery;
         }
         else{
           node.cpuUsage = [];
@@ -147,6 +151,10 @@ const ClusterView = () =>{
         node.workloads = setWorkloads(node.workloads, nodeStat.k8s);
         console.log(node.nodeName, nodeStat.k8s);
       }
+
+      if( node.status != 'Running'){
+        node.workloads = [];
+      }
       
       setCardState(node);
   //    console.log(cards.length);
@@ -158,7 +166,7 @@ const ClusterView = () =>{
       const newNode ={
         timestamp: nodeStat.time,
         nodeId: nodeStat.device,
-        nodeName: cardList.length+1,
+        nodeName: cardList.length+1,  
         connected: true,
         status: "",
         battery: {},
@@ -168,20 +176,25 @@ const ClusterView = () =>{
         workloads:[],
       }
      
-      if(nodeStat.info){
+      if(nodeStat.info && nodeStat.info.state ){
         const state  = nodeStat.info.state;
         newNode.connected = nodeStat.info.connectivity;
         newNode.status = setNodeStatus(state.status);
         newNode.battery = state.battery;
-        newNode.system = {cpu: state.device.system.cpu, disk: state.device.system.disk, memory: formatMBytes(state.device.system.ram)};
-        newNode.cpuUsage=[cpuUsage(state, nodeStat.time)];
-        newNode.memUsage=[memoryUsage(state, nodeStat.time)]; 
+        if(state.device && state.vm){
+          newNode.system = {cpu: state.device.system.cpu, disk: state.device.system.disk, memory: formatMBytes(state.device.system.ram)};
+          newNode.cpuUsage=[cpuUsage(state, nodeStat.time)];
+          newNode.memUsage=[memoryUsage(state, nodeStat.time)]; 
+        }
       }
      
       if(nodeStat.k8s){
         newNode.workloads = setWorkloads(newNode.workloads, nodeStat.k8s);
       }
      
+      if( newNode.status != 'Running'){
+        newNode.workloads = [];
+      }
 
     nodes.set(nodeStat.device, newNode);
     setCardState(newNode);
@@ -196,7 +209,7 @@ const ClusterView = () =>{
     if( newWorkload.event.toLowerCase() === "deleted"){
         ind >-1 && workloads.splice(ind, 1);
     }else if(ind>-1){
-    workloads[ind].status=newWorkload.status;
+      workloads[ind].status=newWorkload.status;
     }else{
       workloads.push(newWorkload);
     }
@@ -254,7 +267,7 @@ const ClusterView = () =>{
     switch (status) {
       case 'Init': return 'Initializing';
       case 'Ready': return 'Running';
-      case 'Unavailable': return 'Not Enough Resources';
+      case 'Unavailable': return 'Pause';
       case 'Fatal': return 'Fatal Error';
     }
     return '';
