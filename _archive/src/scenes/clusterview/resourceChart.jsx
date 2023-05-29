@@ -11,7 +11,7 @@ import moment from "moment";
 const timeFormatter = item => moment(item).format("mm:ss");
 
 const CustomTooltip = ({ active, payload, label }) => {
-    console.log(active, (payload[0]) && payload[0].payload, label);
+    // console.log(active, (payload[0]) && payload[0].payload, label);
     if (active && payload && payload.length) {
         return (
            <div className="customTooltip">
@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const ResourceChart = (props) =>{
 
   //console.log("node view card "+props.nodeId);
-  console.log(props);
+//   console.log(props);
 
   const [node, setNode] = useState(props.node);
   
@@ -118,7 +118,8 @@ const ResourceChart = (props) =>{
                     tick={false} 
                     />
                 <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
-                <Tooltip content={<CustomTooltip />}  cursor={{ fill: "transparent" }} />
+                {/* <Tooltip content={<CustomTooltip />}  cursor={{ fill: "transparent" }} /> */}
+                <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} />
                 <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
                 <Area type="monotone" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
                 <Area type="monotone" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />

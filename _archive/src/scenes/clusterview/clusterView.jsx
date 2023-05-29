@@ -33,8 +33,8 @@ const ClusterView = () =>{
       
         wsClient.onmessage = e => {
           const nodeStat = JSON.parse(e.data);
-          const node = nodes.get(nodeStat.device);
           console.log(nodeStat);
+          const node = nodes.get(nodeStat.device);
           if(node){
               updateNode(node, nodeStat); 
           }
@@ -190,7 +190,7 @@ const ClusterView = () =>{
   }
 
   function setWorkloads(workloads, newWorkload){
-
+    console.log(newWorkload);
     const ind = workloads.map(e => e.name).indexOf(newWorkload.name);
     
     if( newWorkload.event.toLowerCase() === "deleted"){
