@@ -3,10 +3,7 @@
   background-color: #F1FAFF;
   position: relative;
   @include media-breakpoint-up(lg) {
-    padding: 60px 0;
-  }
-  @include media-breakpoint-up(xxl) {
-    padding: 80px 0;
+    padding: 50px 0;
   }
 
   &:before {
@@ -28,8 +25,11 @@
       background-position-x: 10px;
     }
     @include media-breakpoint-up(lg) {
-      background-position-x: -55px;
+      background-position-x: -105px;
       background-position-y: 0px;
+    }
+    @include media-breakpoint-up(xl) {
+      background-position-x: -33px;
     }
     @include media-breakpoint-up(xxl) {
       background-position-x: 0;

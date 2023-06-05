@@ -6,13 +6,13 @@
 
 html{
   background: #F9F9F9; /* Teritrary/Gray */
-  position: relative;
-  width: 1440px;
-  height: 1024px;
+  /*position: relative;*/
+  /*width: 1440px;*/
+  /*height: 1024px;*/
 
 }
 body {
-  display: flex;
+  /*display: flex;*/
   margin: 0px;
 }
 
