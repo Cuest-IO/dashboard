@@ -151,10 +151,6 @@ const ClusterView = () =>{
         node.workloads = setWorkloads(node.workloads, nodeStat.k8s);
         console.log(node.nodeName, nodeStat.k8s);
       }
-
-      if( node.status != 'Running'){
-        node.workloads = [];
-      }
       
       setCardState(node);
       console.log(node.nodeName, node.nodeId, node.status, node.connected, node.timestamp, node.workloads.length)
@@ -193,11 +189,7 @@ const ClusterView = () =>{
         newNode.workloads = setWorkloads(newNode.workloads, nodeStat.k8s);
       }
      
-      if( newNode.status != 'Running'){
-        newNode.workloads = [];
-      }
 
-    nodes.set(nodeStat.device, newNode);
     setCardState(newNode);
     // console.log(cards.length);
     // console.log(cards);
@@ -250,18 +242,26 @@ const ClusterView = () =>{
   };
 
   function setCardState(updatedNode){
+    
+    switch (updatedNode.status) {
+      case 'Initializing': updatedNode.workloads = [];
+      case 'Fatal Error': return updatedNode.workloads = [];
+    }
+
     let i =0;
     for(i; i< cardList.length; i++){
 
       if(cardList[i].nodeId === updatedNode.nodeId){
-        
-        cardList[i]=updatedNode;
-        setCards([].concat(cardList));        
+        ( updatedNode.connected ) ? cardList[i]=updatedNode : cardList.splice(i,1);
+        setCards([].concat(cardList));                
         return;
       }
     }
-    cardList.push(updatedNode);
-    setCards([].concat(cardList));
+    if( updatedNode.connected ){
+      cardList.push(updatedNode);
+      nodes.set(updatedNode.nodeId, updatedNode);
+      setCards([].concat(cardList));
+    }
   }
 
   function setNodeStatus(status){ 
