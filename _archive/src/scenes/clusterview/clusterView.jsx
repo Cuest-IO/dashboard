@@ -268,7 +268,7 @@ const ClusterView = () =>{
     switch (status) {
       case 'Init': return 'Initializing';
       case 'Ready': return 'Running';
-      case 'Unavailable': return 'Pause';
+      case 'Unavailable': return 'Idle';
       case 'Fatal': return 'Fatal Error';
     }
     return '';
