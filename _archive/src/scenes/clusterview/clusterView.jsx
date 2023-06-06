@@ -157,6 +157,7 @@ const ClusterView = () =>{
       }
       
       setCardState(node);
+      console.log(node.nodeName, node.nodeId, node.status, node.connected, node.timestamp, node.workloads.length)
   //    console.log(cards.length);
     //  console.log(cards);
   }
