@@ -123,4 +123,7 @@ module.exports = {
     // new ErrorOverlayPlugin(),
     ...generateHTMLPlugins(),
   ],
+  watchOptions: {
+    ignored: /node_modules/,
+  },
 };

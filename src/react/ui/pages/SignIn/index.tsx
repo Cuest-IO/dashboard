@@ -11,7 +11,7 @@ import { formFields } from './formFields';
 import { AuthContainer, Logo, Wrapper, Bg } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
-export function SignIn() {
+export default function SignIn() {
   return (
     <Wrapper container>
       <Grid

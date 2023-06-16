@@ -1,17 +1,47 @@
 // Core
 import { Outlet } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 // Parts
-import { Container } from "@mui/material";
+import Box from "@mui/material/Box";
 // Parts
-import { Header } from "../components/Header/Header";
+import { Header } from "../components/Header";
+import { Sidebar } from "../components/Sidebar";
 
-export function Layout() {
-    return (
-      <>
-        <Header />
-        <Container>
-          <Outlet />
-        </Container>
-      </>
-    )
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#00A1EF',
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          minWidth: '1024px'
+        }
+      }
+    }
+  }
+});
+
+export default function Layout() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline/>
+      <Header/>
+      <Box
+        component="nav"
+        sx={{ width: { sm: '240px' }, flexShrink: { sm: 0 } }}
+      >
+        <Sidebar/>
+      </Box>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3, width: `calc(100% - 240px)`, ml: '240px' }}
+      >
+        <Outlet/>
+      </Box>
+    </ThemeProvider>
+  )
 }
