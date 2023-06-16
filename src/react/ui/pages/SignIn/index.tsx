@@ -4,14 +4,12 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 // Parts
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { components } from './components';
 import { formFields } from './formFields';
-import { Wrapper } from './styles';
 // Helpers
-import backgroundImage from './img/bg.jpg';
-import logo from './img/logo.svg';
+import { AuthContainer, Logo, Wrapper, Bg } from './styles';
+import logo from '../../../../assets/img/logo.svg';
 
 export function SignIn() {
   return (
@@ -22,33 +20,14 @@ export function SignIn() {
         sm={12}
         md={6}
         component={Paper}
-        sx={{
-          backgroundColor: '#F5F5F5',
-        }}
+        sx={{ backgroundColor: '#F5F5F5' }}
       >
-        <Box
+        <Logo
           component='img'
-          sx={{
-            height: '54px',
-            display: 'block',
-            marginTop: '28px',
-            marginLeft: '9.5%',
-            marginBottom: '10px',
-          }}
           alt='Crowd Cloud'
           src={logo}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: `calc(100% - 92px)`,
-            paddingLeft: '9.5%',
-            paddingRight: '9.5%',
-          }}
-        >
+        <AuthContainer>
           <Authenticator
             initialState='signIn'
             formFields={formFields}
@@ -71,19 +50,13 @@ export function SignIn() {
               </main>
             )}
           </Authenticator>
-        </Box>
+        </AuthContainer>
       </Grid>
-      <Grid
+      <Bg
         item
         xs={false}
         sm={false}
         md={6}
-        sx={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
       />
     </Wrapper>
   );

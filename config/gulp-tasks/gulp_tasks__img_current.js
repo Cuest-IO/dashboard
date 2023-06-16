@@ -11,6 +11,7 @@ module.exports = function(config) {
     { restore: true });
   const filterForImageMin = filter(['**/*.{svg,gif}'],
     { restore: true });
+  console.log(config.private.images);
 
   return gulp.src(config.private.images)
     .pipe(filterForImageMin)

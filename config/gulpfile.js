@@ -17,10 +17,11 @@ const config = {
   private: {
     svg_files: `../${process.env.FOLDER_PRIVATE_BASE}/../assets/sprite/svg/*.svg`,
     images: [
-      `!../${process.env.FOLDER_PRIVATE_BASE}/**/svg/`,
-      `!../${process.env.FOLDER_PRIVATE_BASE}/**/img/tmp/`,
-      `!../${process.env.FOLDER_PRIVATE_BASE}/**/img/style/`,
-      `../${process.env.FOLDER_PRIVATE_BASE}/**/img/*.*`
+      `!../${process.env.FOLDER_PRIVATE_BASE}**/svg/`,
+      `!../${process.env.FOLDER_PRIVATE_BASE}**/img/tmp/`,
+      `!../${process.env.FOLDER_PRIVATE_BASE}**/img/style/`,
+      `../${process.env.FOLDER_PRIVATE_BASE}**/img/*.*`,
+      `../${process.env.FOLDER_ASSETS_IMG}*.*`
     ],
     images_tmp: [`../${process.env.FOLDER_PRIVATE_BASE}/**/img/tmp/**/*.*`],
     copy: `../${process.env.FOLDER_PRIVATE_BASE}/**/copy/**/*.*`,

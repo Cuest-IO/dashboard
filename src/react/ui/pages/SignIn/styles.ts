@@ -2,6 +2,31 @@
 import { styled } from '@mui/system';
 // Parts
 import Grid from '@mui/material/Grid';
+import Box from "@mui/material/Box";
+import backgroundImage from "./img/bg.jpg";
+
+export const Logo = styled(Box)({
+  height: '54px',
+  display: 'block',
+  marginTop: '28px',
+  marginLeft: '9.5%',
+  marginBottom: '10px',
+}) as typeof Box;
+export const Bg = styled(Grid)({
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+});
+export const AuthContainer = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: `calc(100% - 92px)`,
+  paddingLeft: '9.5%',
+  paddingRight: '9.5%',
+});
 
 export const Wrapper = styled(Grid)(() => ({
     height: '100vh',

@@ -100,7 +100,6 @@
     "build:local": "npm run gulp:local && npm run webpack:local && npm run react:build",
     "build:dev": "npm run webpack:dev && npm run gulp:dev && npm run react:build",
     "build:prod": "npm run webpack:prod && npm run gulp:prod && npm run react:build",
-    "build:prodT": "npm run webpack:prod && npm run gulp:prod",
     "html:start": "npm-run-all --parallel html:server webpack:watch gulp:local",
     "html:server": "NODE_ENV=local webpack-dev-server --config config/webpack.config.local.js",
     "react:start": "react-scripts start",
