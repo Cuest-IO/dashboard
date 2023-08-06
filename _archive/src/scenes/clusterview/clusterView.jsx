@@ -1,39 +1,42 @@
 import NodeViewCard from "./nodeViewCard";
-import { useEffect, useState, React} from 'react';
+import { useEffect, useState, useRef, React} from 'react';
 import { formatMBytes } from "../../utils/utilities";  
 import io from 'socket.io-client';
 import {userAttr} from "../global/mainApp"; 
 import { Auth } from "aws-amplify";
 import Loading from "../../components/loadingComp";        
 
-const nodes=new Map([]);
-const cardList  = [];
+const nodes=new Map();
+//const cardList  = [];
         
 const ClusterView = () =>{ 
 
-  const [cards, setCards] = useState(cardList);
-  const [webSocket, setWebSocket] = useState(null);
+  const [cards, setCards] = useState([...nodes.values()]);
+  // const [nodes, setNodes] = useState(new Map());
+  const webSocket = useRef(null);
+  const [wsState, setWsState] = useState(false);
 
   useEffect(()=>{
 
     // const wsClient = getWebSocket();
     const wsClient = async () => {
       
-        const wsClient = new WebSocket("wss://".concat("socket.cuest.io?type=web&token=").concat((await Auth.currentSession()).getIdToken().getJwtToken()));
+      webSocket.current = new WebSocket("wss://".concat("socket.cuest.io?type=web&token=").concat((await Auth.currentSession()).getIdToken().getJwtToken()));
         
     
-        console.log(wsClient);
-        // console.log(webSocket);
-        wsClient.onopen = () => {
+        console.log(webSocket.current);
+
+        webSocket.current.onopen = () => {
           console.log('ws opened');
-          setWebSocket(wsClient);
+          setWsState(true);
         };
 
-        wsClient.onclose = () => console.log('ws closed');
+        webSocket.current.onclose = () => {
+          console.log('ws closed');
+          setWsState(false);
+        }
       
-        wsClient.onmessage = e => {
-          const nodeStr = JSON.stringify(e.data);
-          // console.log(nodeStr);
+        webSocket.current.onmessage = e => {
           const nodeStat = JSON.parse(e.data);
           console.log(nodeStat);
           const node = nodes.get(nodeStat.device);
@@ -45,83 +48,36 @@ const ClusterView = () =>{
           } 
         };
     };
-    console.log('before');
-    wsClient();   
-    
-    return () => {
-      console.log(webSocket);
-      try{
-        (webSocket ) && webSocket.close();
-      }catch(error){
-        console.log(error);
-      }
-        
+    if( !wsState ){
+      console.log("create connection");
+      wsClient();   
     }
-  }, []) ;
-  
-
     
-
-
-
-      // const socket = async()=>{
-      //   const url= new URL("wss://".concat(process.env.REACT_APP_WSS_URI));        
-      //   const socket= new WebSocket(url, (await Auth.currentSession()).getIdToken().getJwtToken());
-      //   console.log(socket);
-      //   return socket;
-      // }
-      
-      // webSocket.onmessage = (e) =>{ 
-      // const nodeStat = JSON.parse(e.data);
-      
-      
-      // const node = nodes.get(nodeStat.device);
-      //   console.log(nodeStat);
-      // if(node){
-      //     updateNode(node, nodeStat); 
-      // }
-      // else{
-      //     addNode(nodeStat);
-      // }      
+    // return () => {
+    //   console.log("return", webSocket);
+    //   try{
+    //     (webSocket ) && webSocket.current.close();
+    //   }catch(error){
+    //     console.log(error);
+    //   }
         
-      // }
-
-  // },[]);
-
-  // useEffect(() => {
-  //   if (!webSocket) return;
-
-  //   webSocket.onmessage = e => {
-  //       const nodeStat = JSON.parse(e.data);
-  //       const node = nodes.get(nodeStat.device);
-  //       console.log(nodeStat);
-  //       if(node){
-  //           updateNode(node, nodeStat); 
-  //       }
-  //       else{
-  //           addNode(nodeStat);
-  //       } 
-  //   };
-  // }, [webSocket])
+    // }
 
 
-
-  //  async function getWebSocket(){
-  //   try{
-  //     return new WebSocket("wss://".concat(process.env.REACT_APP_WSS_URI), ( Auth.currentSession()).getIdToken().getJwtToken());
-  //   }catch(error){
-  //       console.log(error);
-  //       return null;
-  //   }
-  // };
+  }, [wsState]) ;
+  
 
   function updateNode(node, nodeStat){
       
-      node.timestamp = nodeStat.time;
-      
       if(nodeStat.info && nodeStat.info.state ){
         const state  = nodeStat.info.state;
-        node.status = setNodeStatus(state.status);  
+        const status = setNodeStatus(state.status);   
+        if( status == "" ){
+          return; // don't process messages without proper status, like connect, disconnect etc
+        }
+
+        node.status = status;
+        node.timestamp = nodeStat.time; // don't update timestamp for k8s messages, only for state info
         node.connected =nodeStat.info.connectivity;
         if(node.connected){
           if( state.device && state.vm){
@@ -153,7 +109,7 @@ const ClusterView = () =>{
       }
       
       setCardState(node);
-      console.log(node.nodeName, node.nodeId, node.status, node.connected, node.timestamp, node.workloads.length)
+      console.log(node.nodeName, node.nodeId, node.status, node.connected, node.timestamp, node.workloads.length);
   //    console.log(cards.length);
     //  console.log(cards);
   }
@@ -163,7 +119,7 @@ const ClusterView = () =>{
       const newNode ={
         timestamp: nodeStat.time,
         nodeId: nodeStat.device,
-        nodeName: cardList.length+1,  
+        nodeName: nodes.size+1,
         connected: true,
         status: "",
         battery: {},
@@ -174,9 +130,12 @@ const ClusterView = () =>{
       }
      
       if(nodeStat.info && nodeStat.info.state ){
-        const state  = nodeStat.info.state;
         newNode.connected = nodeStat.info.connectivity;
-        newNode.status = setNodeStatus(state.status);
+        const state  = nodeStat.info.state;
+        newNode.status = setNodeStatus(state.status);   
+        if( !newNode.connected || newNode.status == "" ){
+          return; // don't process messages without proper status, like connect, disconnect etc
+        }
         newNode.battery = state.battery;
         if(state.device && state.vm){
           newNode.system = {cpu: state.device.system.cpu, disk: state.device.system.disk, memory: formatMBytes(state.device.system.ram)};
@@ -191,12 +150,11 @@ const ClusterView = () =>{
      
 
     setCardState(newNode);
-    // console.log(cards.length);
-    // console.log(cards);
+    console.log(newNode.nodeName, newNode.nodeId, newNode.status, newNode.connected, newNode.timestamp, newNode.workloads.length);
   }
 
   function setWorkloads(workloads, newWorkload){
-    console.log(newWorkload);
+    // console.log(newWorkload);
     const ind = workloads.map(e => e.name).indexOf(newWorkload.name);
     
     if( newWorkload.event.toLowerCase() === "deleted"){
@@ -210,9 +168,16 @@ const ClusterView = () =>{
   }
 
   function cpuUsage(state, timestamp) {
-    const vmCPU=(state.vm) ? state.vm.load.cpu * 100 : 0;
-    const sysCPU=state.device.load.cpu *100;
-    let freeCPU = 100 - vmCPU - sysCPU;
+    let vmCPU=(state.vm) ? (state.vm.load.cpu * state.vm.system.cpu * 100) / state.device.system.cpu : 0;
+    let sysCPU=state.device.load.cpu *100 - vmCPU;
+    if( sysCPU < 0){
+      sysCPU = 0;
+    }
+
+    vmCPU = vmCPU.toFixed(1)
+    sysCPU= sysCPU.toFixed(1)
+
+    let freeCPU = 100 - sysCPU - vmCPU;
     freeCPU = (freeCPU < 0) ? 0 : freeCPU;   
 
     return {
@@ -244,24 +209,34 @@ const ClusterView = () =>{
   function setCardState(updatedNode){
     
     switch (updatedNode.status) {
-      case 'Initializing': updatedNode.workloads = [];
-      case 'Fatal Error': return updatedNode.workloads = [];
+      case 'Initializing': 
+      case 'Fatal': 
+          updatedNode.workloads = [];          
     }
 
-    let i =0;
-    for(i; i< cardList.length; i++){
-
-      if(cardList[i].nodeId === updatedNode.nodeId){
-        ( updatedNode.connected ) ? cardList[i]=updatedNode : cardList.splice(i,1);
-        setCards([].concat(cardList));                
-        return;
-      }
-    }
     if( updatedNode.connected ){
-      cardList.push(updatedNode);
       nodes.set(updatedNode.nodeId, updatedNode);
-      setCards([].concat(cardList));
-    }
+     }else{
+      nodes.delete(updatedNode.nodeId);
+     }
+     setCards([...nodes.values()]);
+
+
+
+    // let i =0;
+    // for(i; i< cardList.length; i++){
+
+    //   if(cardList[i].nodeId === updatedNode.nodeId){
+    //     ( updatedNode.connected ) ? cardList[i]=updatedNode : cardList.splice(i,1);
+    //     setCards([].concat(cardList));                
+    //     return;
+    //   }
+    // }
+    // if( updatedNode.connected ){
+    //   cardList.push(updatedNode);
+    //   nodes.set(updatedNode.nodeId, updatedNode);
+    //   setCards([].concat(cardList));
+    // }
   }
 
   function setNodeStatus(status){ 
@@ -269,7 +244,7 @@ const ClusterView = () =>{
       case 'Init': return 'Initializing';
       case 'Ready': return 'Running';
       case 'Unavailable': return 'Idle';
-      case 'Fatal': return 'Fatal Error';
+      case 'Fatal': return 'Fatal';
     }
     return '';
   }
@@ -279,11 +254,11 @@ const ClusterView = () =>{
       <Loading>
       <div className="viewCardContainer" id="cardContainer">
         {
-          (cards.length == 0) ? (<div className="cardHeader">Loading...</div>):(
+          (cards.length == 0) ? (<div className="cardHeader">Waiting for nodes to connect</div>):(      
               cards.map((card) => (
                   <NodeViewCard node={card} key={card.nodeName}/> 
-                ))
-              )
+                ))  
+          )
         }
 
       </div>
