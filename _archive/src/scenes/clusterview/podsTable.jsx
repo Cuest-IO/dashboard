@@ -9,7 +9,8 @@ import { useState} from 'react';
 
 
 export default function PodsTable(props) {
-    const [workloads, setWorkloads] = useState(props.node.workloads);
+    // const [workloads, setWorkloads] = useState(props.node.workloads);
+    const [node, setNode] = useState(props.node);
     
     const cellTableStyle ={
         padding: "0px 0px",
@@ -57,7 +58,7 @@ export default function PodsTable(props) {
                 </TableHead>
                 <TableBody>
                     {
-                        props.node.connected && workloads.map((row) => (
+                        node.connected && node.workloads.map((row) => (
                             <TableRow
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

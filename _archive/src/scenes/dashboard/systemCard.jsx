@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import { formatMBytes, formatFloat } from "../../utils/utilities";  
+import { formatMBytes, formatFloat, toNumber } from "../../utils/utilities";  
 import {PieChart, Pie, Label, Legend, Cell, ResponsiveContainer } from "recharts";
 import {chartColors} from "./index"
 
@@ -18,12 +18,12 @@ const SystemCard = (props) =>{
  
   for(let node of props.nodes){
     if (node.is_connected){
-        systemCPU[0].count+= node.cpu;
+        systemCPU[0].count+= toNumber(node.cpu);
         systemMem[0].count+=formatMBytes(node.ram);
         console.log(systemMem[0].count)
         
     } else{
-        systemCPU[1].count+= node.cpu;
+        systemCPU[1].count+= toNumber(node.cpu);
         systemMem[1].count+=formatMBytes(node.ram);
         
     }

@@ -53,18 +53,18 @@ const ClusterView = () =>{
       wsClient();   
     }
     
-    // return () => {
-    //   console.log("return", webSocket);
-    //   try{
-    //     (webSocket ) && webSocket.current.close();
-    //   }catch(error){
-    //     console.log(error);
-    //   }
+    return () => {
+      console.log("return", webSocket);
+      try{
+        (webSocket ) && webSocket.current.close();
+      }catch(error){
+        console.log(error);
+      }
         
-    // }
+    }
 
 
-  }, [wsState]) ;
+  }, []) ;
   
 
   function updateNode(node, nodeStat){
@@ -104,7 +104,7 @@ const ClusterView = () =>{
       }
 
       if(nodeStat.k8s){
-        node.workloads = setWorkloads(node.workloads, nodeStat.k8s);
+        node.workloads = [...setWorkloads(node.workloads, nodeStat.k8s)];
         console.log(node.nodeName, nodeStat.k8s);
       }
       
@@ -139,13 +139,14 @@ const ClusterView = () =>{
         newNode.battery = state.battery;
         if(state.device && state.vm){
           newNode.system = {cpu: state.device.system.cpu, disk: state.device.system.disk, memory: formatMBytes(state.device.system.ram)};
-          newNode.cpuUsage=[cpuUsage(state, nodeStat.time)];
-          newNode.memUsage=[memoryUsage(state, nodeStat.time)]; 
+          // adding twice for a proper graph display, otherwise showing dots
+          newNode.cpuUsage=[cpuUsage(state, nodeStat.time), cpuUsage(state, nodeStat.time)];
+          newNode.memUsage=[memoryUsage(state, nodeStat.time), memoryUsage(state, nodeStat.time)]; 
         }
       }
      
       if(nodeStat.k8s){
-        newNode.workloads = setWorkloads(newNode.workloads, nodeStat.k8s);
+        newNode.workloads = [...setWorkloads(newNode.workloads, nodeStat.k8s)];
       }
      
 

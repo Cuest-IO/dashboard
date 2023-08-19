@@ -11,22 +11,38 @@ import moment from "moment";
 const timeFormatter = item => moment(item).format("mm:ss");
 
 const CustomTooltip = ({ active, payload, label }) => {
-    // console.log(active, (payload[0]) && payload[0].payload, label);
-    if (active && payload && payload.length) {
+    if (active && payload && payload.length > 0 ) {
         return (
            <div className="customTooltip">
-                <div>
+                <div style={{ ...tooltipStyle }}>
                     Read Time: `{moment(payload[0].payload.timestamp).format("hh:mm:ss")}`
                 </div>
-                <div>
-                    Total Memory
-                </div>
+                <div style={{ ...tooltipStyle, color: payload[3].stroke }}>Available: {`${payload[3].value}${payload[3].unit}`}</div>
+                <div style={{ ...tooltipStyle, color: payload[2].stroke }}>In use: {`${payload[2].value}${payload[2].unit}`}</div>
+                <div style={{ ...tooltipStyle, color: payload[1].stroke }}>Allocated: {`${payload[1].value}${payload[1].unit}`}</div>
            </div> 
         
         );
     }
     return null;
 }
+
+const axisStyle ={
+    fontSize: '10px',
+    fontfamily: 'Product Sans',
+    fontStyle: "normal",
+    fontWeight: "400",
+    color: "#979797",
+};
+
+const tooltipStyle ={
+    fontSize: '16px',
+    fontfamily: 'Product Sans',
+    fontStyle: "normal",
+    fontWeight: "500",
+    color: "#979797"
+};
+
 const ResourceChart = (props) =>{
 
   //console.log("node view card "+props.nodeId);
@@ -34,13 +50,7 @@ const ResourceChart = (props) =>{
 
   const [node, setNode] = useState(props.node);
   
-  const axisStyle ={
-      fontSize: '10px',
-      fontfamily: 'Product Sans',
-      fontStyle: "normal",
-      fontWeight: "400",
-      color: "#979797",
-  };
+  
 
 
   return (
@@ -81,11 +91,12 @@ const ResourceChart = (props) =>{
                     tick={false} 
                     />
 
-                <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} />
+                {/* <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} /> */}
+                <Tooltip content={<CustomTooltip />}  cursor={{ fill: "transparent" }} />
                 <Area type="linearClosed" dataKey="totalCPU"   stroke="#82ca9d" fill="#82ca9d" />
-                <Area type="monotone" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
-                <Area type="monotone" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
-                <Area type="monotone" dataKey="availCPU" stackId="1" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
+                <Area type="monotone" unit="%" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
+                <Area type="monotone" unit="%" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+                <Area type="monotone" unit="%" dataKey="availCPU" stackId="1" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
                 
             </AreaChart>
 
@@ -118,12 +129,12 @@ const ResourceChart = (props) =>{
                     tick={false} 
                     />
                 <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
-                {/* <Tooltip content={<CustomTooltip />}  cursor={{ fill: "transparent" }} /> */}
-                <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} />
+                <Tooltip content={<CustomTooltip />}  cursor={{ fill: "transparent" }} />
+                {/* <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} /> */}
                 <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
-                <Area type="monotone" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
-                <Area type="monotone" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
-                <Area type="monotone" dataKey="availMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
+                <Area type="monotone" unit="GB" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
+                <Area type="monotone" unit="GB" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+                <Area type="monotone" unit="GB" dataKey="availMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
             </AreaChart>
 
         </ResponsiveContainer> 
