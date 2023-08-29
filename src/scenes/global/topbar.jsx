@@ -1,6 +1,6 @@
 import PersonIcon from '@mui/icons-material/Person';
 import './topbar.css';
-import { Menu, MenuItem, Grow } from "@material-ui/core";
+import { Menu, MenuItem, Grow } from '@mui/material';
 import { useState } from "react";
 import {ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

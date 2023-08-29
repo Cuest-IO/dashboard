@@ -4,7 +4,7 @@ import Dashboard from "../dashboard";
 import Nodes from "../nodes";
 import Clusters from "../clusters";
 import ClusterView from "../clusterview/clusterView";
-import React from "react";
+import React, { useEffect } from "react";
 import {Routes,  Route} from "react-router-dom";
 import '@aws-amplify/ui-react/styles.css'
 import { useQuery } from '@tanstack/react-query'
@@ -33,10 +33,15 @@ function MainApp() {
   Window.accountStatus = 'Ready'
   Window.accountType = "Free"
 
-    const { signOut, user } = useAuthenticator();
+    const { signOut, user, authStatus } = useAuthenticator();
     Object.assign(userAttr, user.attributes);
+
+    useEffect(() => {
+        if (user && authStatus === 'configuring') {
+            window.location.reload()
+        }
+    }, [authStatus])
       
-  
   return (
     <div className="app">
         <main className ="content">
