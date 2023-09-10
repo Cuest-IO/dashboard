@@ -21,3 +21,4 @@ yarn-error.log*
 _archive/amplify/logs
 .secret-*
 **.sample
+/.idea

@@ -19,7 +19,6 @@ function streamNode(nodeName){
     let  nextMsg = false;
     io.on('connection', client=>{
     setInterval(()=>{
-         
         const totalMemory= formatBytes(os.totalmem(), 1);
         const availMemory= formatBytes(os.freemem(), 1 );
         const usedMemory= totalMemory - availMemory;
@@ -30,7 +29,7 @@ function streamNode(nodeName){
         //   console.log("node:"+nodeName+" msg type: "+nextMsg);
         if(nextMsg){
             const device ={
-                     
+
                 device: nodeName,
                 "time":moment().utc().valueOf(),
                 info:{
@@ -47,7 +46,7 @@ function streamNode(nodeName){
                                 "cpu": Math.floor(Math.random() * 100)/100,
                                 "disk": Math.floor(Math.random() * 100000),
                                 "ram": 1-os.freememPercentage(),                            },
-                            "system": { 
+                            "system": {
                                 "cpu": 8,
                                 "disk": 476802,
                                 "ram": os.totalmem()
@@ -57,7 +56,7 @@ function streamNode(nodeName){
                             "load": {
                                 "cpu": Math.floor(Math.random() * 70)/100,
                                 "disk": 0,
-                                "ram": os.totalmem() - os.freemem(), 
+                                "ram": os.totalmem() - os.freemem(),
                             },
                             "system": {
                                 "cpu": 2,
@@ -79,13 +78,13 @@ function streamNode(nodeName){
                     status: "Running",
                     event: "created"
                 }
-            }      
-        
+            }
+
             client.emit('nodeStat', JSON.stringify(device));
         }
         nextMsg =!nextMsg;
 
-    }, 5000);   
+    }, 5000);
 
 }
 )
@@ -104,9 +103,9 @@ const formatBytes = (bytes, decimals = 1) => {
     //const i = Math.floor(Math.log(bytes) / Math.log(k));
     //return parseFloat((bytes / Math.pow(k, i)).toFixed(dm));// + ' ' + sizes[i];
   }
-  
+
 //   console.log(formatBytes(1024))
 //   console.log(formatBytes(1024 * 1024))
 
 
-server.listen(3000);  
+server.listen(3000);
