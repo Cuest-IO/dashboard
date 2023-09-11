@@ -14,7 +14,7 @@ streamNode ("4992597671ce7fabadeff733d29daffs");
 // streamNode ("444");
 // streamNode ("555");
 
- 
+
 function streamNode(nodeName){
     let  nextMsg = false;
     io.on('connection', client=>{

@@ -1,13 +1,9 @@
-// Core
 import { Authenticator } from '@aws-amplify/ui-react';
-// eslint-disable-next-line import/no-unresolved
 import '@aws-amplify/ui-react/styles.css';
-// Parts
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { components } from './components';
 import { formFields } from './formFields';
-// Helpers
 import { AuthContainer, Logo, Wrapper, Bg } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
