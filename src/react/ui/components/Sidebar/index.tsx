@@ -12,17 +12,16 @@ import HiveIcon from '@mui/icons-material/Hive';
 // Helpers
 import { Logo, Link } from './styles';
 import logo from '../../../../assets/img/logo.svg';
-import { routersLinks } from '../../../engine/config/routes';
 
 const items = [
   {
     label: 'Dashboard',
-    link: routersLinks.main,
+    link: '/',
     icon: <SpaceDashboardIcon />
   },
   {
     label: 'Clusters',
-    link: routersLinks.clusters,
+    link: '/clusters',
     icon: <HiveIcon />
   }
 ]
