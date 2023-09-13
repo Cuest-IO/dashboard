@@ -11,7 +11,8 @@ export function useClusters() {
       clusterService.getList({}),
     keepPreviousData: true,
     staleTime: 0, // TODO: fix or update
-    retry: false
+    retry: false,
+    initialData: []
   });
   return response;
 };

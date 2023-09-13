@@ -1,4 +1,4 @@
-import {RepositoryClient} from "../clients/repository";
+import { RepositoryClient } from "../clients/repository";
 import { NodeItemResponse, NodesParams, NodesResponse } from "../dto/nodes";
 
 export class NodesService {

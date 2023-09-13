@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 // Icons
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import HiveIcon from '@mui/icons-material/Hive';
 // Helpers
 import { Logo, Link } from './styles';
@@ -23,6 +24,11 @@ const items = [
     label: 'Clusters',
     link: '/clusters',
     icon: <HiveIcon />
+  },
+  {
+    label: 'Nodes',
+    link: '/nodes',
+    icon: <LanOutlinedIcon />
   }
 ]
 

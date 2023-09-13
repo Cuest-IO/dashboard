@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom';
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Auth } from 'aws-amplify';
 import { commonRoutes, loggedInRoutes } from "./commonRoutes";
 import { Route as RouteData } from './Modules';
 import routes from '.';
 import { getSignInLink } from "../../../engine/helpers/router";
+import Layout from "../Layout";
 
-const Routes: React.FC = () => {
-  const [isUserAuthLoaded, setIsUserAuthLoaded] = useState(false)
+interface Props {
+  isUserAuthLoaded: boolean;
+}
+
+const Routes: React.FC<Props> = ({ isUserAuthLoaded }) => {
   const { user } = useAuthenticator();
-  useEffect(() => {
-    Auth.currentUserInfo().then(() => setIsUserAuthLoaded(true))
-  }, [])
 
   return (
     <ReactRoutes>
@@ -39,12 +39,13 @@ const Routes: React.FC = () => {
           if (route !== undefined) {
             if (isUserAuthLoaded && user) {
               return acc.concat(
-                <Route
-                  key={e}
-                  path={route.path}
-                  element={route.component}
-                  caseSensitive={route.caseSensitive}
-                />,
+                <Route key={e} path='/' element={<Layout />}>
+                  <Route
+                    path={route.path}
+                    element={route.component}
+                    caseSensitive={route.caseSensitive}
+                  />,
+                </Route>
               );
             }
             if (isUserAuthLoaded && !user) {
