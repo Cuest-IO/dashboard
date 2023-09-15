@@ -37,6 +37,21 @@ const LoadableClusters = loadable(
     fallback: 'Loading...',
   },
 );
+
+const LoadableNodes = loadable(
+  () => import('../../pages/Nodes'),
+  {
+    fallback: 'Loading...',
+  },
+);
+
+const LoadableCLusterView = loadable(
+  () => import('../../pages/ClusterView'),
+  {
+    fallback: 'Loading...'
+  }
+)
+
 const dashboardModule = {
   routes: {
     Dashboard: {
@@ -67,8 +82,30 @@ const clustersModule = {
   },
 };
 
+const clusterViewModule = {
+  routes: {
+    ClusterView: {
+      path: '/cluster-view',
+      component: <LoadableCLusterView />,
+      caseSensitive: true,
+    },
+  },
+};
+
+const nodesModule = {
+  routes: {
+    Nodes: {
+      path: '/nodes',
+      component: <LoadableNodes />,
+      caseSensitive: true,
+    },
+  },
+};
+
 modules.push(dashboardModule);
 modules.push(signInModule);
 modules.push(clustersModule);
+modules.push(clusterViewModule);
+modules.push(nodesModule);
 
 export default modules;

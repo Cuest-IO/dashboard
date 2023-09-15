@@ -1,5 +1,6 @@
+/* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["node", "workloads"] }] */
 import { formatMBytes } from "./utilities";
-import {Battery, ClusterViewMessage, DeviceInfo, K8sInfo, Resources} from "../dto/clusterView";
+import { Battery, ClusterViewMessage, DeviceInfo, K8sInfo, Resources } from "../dto/clusterView";
 
 export interface CPUUsage {
   totalCPU: number;

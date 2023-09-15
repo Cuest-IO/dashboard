@@ -6,4 +6,6 @@ export const commonRoutes: string[] = [
 export const loggedInRoutes: string[] = [
   'Dashboard',
   'Clusters',
+  'ClusterView',
+  'Nodes'
 ]

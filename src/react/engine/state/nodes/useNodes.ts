@@ -5,15 +5,14 @@ import { NodesResponse } from "../../dto/nodes";
 export const useNodes = () => {
   const nodesService = useNodesService();
 
-  const response = useQuery<unknown, unknown, NodesResponse>({
+  const query = useQuery<unknown, unknown, NodesResponse>({
     queryKey: ['nodes'],
-    queryFn: async () => {
-      return nodesService.getList({});
-    },
+    queryFn: async () => nodesService.getList({}),
     keepPreviousData: true,
     staleTime: 0, // TODO: fix or update
-    retry: false
+    retry: false,
+    initialData: []
   });
-  return response;
-};
 
+  return query;
+};

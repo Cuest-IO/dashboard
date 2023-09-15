@@ -1,12 +1,11 @@
 
 
 export const formatMBytes = (mBytes: number, percentage=1, decimals = 1): number => {
-    mBytes = toNumber(mBytes);
-    if (mBytes === 0) {
+    if (toNumber(mBytes) === 0) {
       return 0;
     }
     const k = 1024;
-    return formatFloat(((mBytes* percentage) / k), decimals);
+    return formatFloat(((toNumber(mBytes) * percentage) / k), decimals);
 }
 
 export const formatFloat = (float: number, decimals = 1): number => {

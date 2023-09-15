@@ -25,7 +25,7 @@ const theme = createTheme({
   }
 });
 
-export default function Layout() {
+const Layout = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
@@ -38,10 +38,18 @@ export default function Layout() {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: `calc(100% - 240px)`, ml: '240px' }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: `calc(100% - 240px)`,
+          ml: '240px',
+          backgroundColor: '#f9f9f9',
+      }}
       >
         <Outlet/>
       </Box>
     </ThemeProvider>
   )
 }
+
+export default Layout
