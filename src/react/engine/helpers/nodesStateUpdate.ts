@@ -118,16 +118,17 @@ export function addNode (nodeStat: ClusterViewMessage, nodes: Map<string, Cluste
 }
 
 export function setWorkloads (workloads: Workload[], newWorkload: K8sInfo) {
-  const ind = workloads.map(workload => workload.name).indexOf(newWorkload.name);
+  const workloadIndex = workloads.findIndex(workload => workload.name === newWorkload.name)
 
-  if (newWorkload.event.toLowerCase() === "deleted") {
-    ind >-1 && workloads.splice(ind, 1);
-  } else if (ind > -1) {
-    workloads[ind].status = newWorkload.status;
+  if (newWorkload.event.toLowerCase() === "deleted" && workloadIndex >= 0) {
+    return workloads.slice(workloadIndex, 1);
+  } else if (workloadIndex >= 0) {
+    const updatedWorkloads = [...workloads]
+    updatedWorkloads[workloadIndex].status = newWorkload.status
+    return updatedWorkloads
   } else {
-    workloads.push(newWorkload);
+    return [...workloads, newWorkload]
   }
-  return workloads;
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
@@ -140,15 +141,15 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
   vmCPU = parseFloat(vmCPU.toFixed(1))
   sysCPU= parseFloat(sysCPU.toFixed(1))
 
-  let freeCPU = 100 - sysCPU - vmCPU;
-  freeCPU = (freeCPU < 0) ? 0 : freeCPU;
+  const freeCPU = 100 - sysCPU - vmCPU;
+  const availCPU = (freeCPU < 0) ? 0 : freeCPU;
 
   return {
     totalCPU: 100,
-    availCPU: freeCPU,
-    sysCPU: sysCPU,
+    availCPU,
+    sysCPU,
     usedCPU: vmCPU,
-    timestamp: timestamp
+    timestamp
   }
 }
 

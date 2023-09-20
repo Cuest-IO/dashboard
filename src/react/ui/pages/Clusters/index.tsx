@@ -44,9 +44,9 @@ const Clusters = () => {
     <ReactQueryTable
       data={clusters}
       columns={columns}
-      muiTableBodyRowProps={({ row }) => ({
+      muiTableBodyRowProps={() => ({
         //implement row selection click events manually
-        onClick: () => navigate('/cluster-view'),
+        onClick: () => navigate('/clusterview'),
         sx: {
           cursor: 'pointer',
         },

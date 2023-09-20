@@ -24,7 +24,7 @@ const Routes: React.FC<Props> = ({ isUserAuthLoaded }) => {
               <Route
                 key={e}
                 path={route.path}
-                element={route.component}
+                element={route.Component}
                 caseSensitive={route.caseSensitive}
               />,
             );
@@ -42,7 +42,7 @@ const Routes: React.FC<Props> = ({ isUserAuthLoaded }) => {
                 <Route key={e} path='/' element={<Layout />}>
                   <Route
                     path={route.path}
-                    element={route.component}
+                    element={route.Component}
                     caseSensitive={route.caseSensitive}
                   />,
                 </Route>

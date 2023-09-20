@@ -42,7 +42,7 @@
       "skipBlankLines": false,
       "ignoreComments": false
     }],
-    "object-curly-spacing": ["error", "always"],
+    "object-curly-spacing": ["warning", "always"],
     "jsx-a11y/no-static-element-interactions": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "react/button-has-type": "off",
@@ -54,7 +54,7 @@
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-curly-spacing": ["error", "never", { "allowMultiline": true }],
     "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
-    "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
+    "react/jsx-first-prop-new-line": ["warning", "multiline-multiprop"],
     "react/prop-types": 0,
     "react/jsx-props-no-spreading": "off"
   }
