@@ -54,7 +54,7 @@
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-curly-spacing": ["error", "never", { "allowMultiline": true }],
     "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
-    "react/jsx-first-prop-new-line": ["warning", "multiline-multiprop"],
+    "react/jsx-first-prop-new-line": ["warn", "multiline-multiprop"],
     "react/prop-types": 0,
     "react/jsx-props-no-spreading": "off"
   }

@@ -21,7 +21,8 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
         background: '#FFFFFF',
         boxShadow: '0px 4px 28px rgba(0, 0, 0, 0.04)',
         borderRadius: '20px'
-      }}>
+      }}
+    >
       <CardHeader
         title={
           <Grid
