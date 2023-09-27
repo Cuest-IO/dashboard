@@ -4,7 +4,8 @@ import PodsTable from './PodsTable';
 import ResourceChart from './ResourceChart';
 import BatteryChart from './BatteryChart';
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
-import { Card, CardContent, CardHeader, Typography, Grid } from "@mui/material";
+import { CardContent, Typography, Grid } from "@mui/material";
+import Card from "../../components/common/Card";
 
 interface Props {
   node: ClusterViewNode;
@@ -13,50 +14,33 @@ interface Props {
 const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
   return (
     <Card
-      sx={{
-        width: '50%',
-        minWidth: '528px',
-        minHeight: '260px',
-        padding: '16px 24px',
-        background: '#FFFFFF',
-        boxShadow: '0px 4px 28px rgba(0, 0, 0, 0.04)',
-        borderRadius: '20px'
-      }}
-    >
-      <CardHeader
-        title={
-          <Grid
-            container
-            direction='row'
-            justifyContent='space-between'
+      header={
+        <Grid
+          container
+          direction='row'
+          justifyContent='space-between'
+        >
+          <Typography
+            variant='h5'
+            fontWeight={700}
+            color={(theme) => theme.palette.secondary.main}
           >
-            <Typography
-              variant='h5'
-              fontFamily='Product Sans'
-              fontWeight={700}
-              color='#575757'
-              display='inline-block'
-            >
-              Node #: {node.nodeName} ({node.status}) {' '}
-            </Typography>
-            <Grid
-              item
-              gap='12px'
-              alignItems='center'
-            >
-              <BatteryChart battery={node.battery}/>
-              <PowerSettingsNewOutlinedIcon
-                sx={{ fontSize: 29, alignItems: "center" }}
-                color={node.connected ? "success" : "action"}
-              />
-            </Grid>
+            Node #: {node.nodeName} ({node.status}) {' '}
+          </Typography>
+          <Grid
+            item
+            gap={12}
+            alignItems='center'
+          >
+            <BatteryChart battery={node.battery}/>
+            <PowerSettingsNewOutlinedIcon
+              sx={{ fontSize: 29, alignItems: "center" }}
+              color={node.connected ? "success" : "action"}
+            />
           </Grid>
-        }
-        sx={{
-          p: 0,
-          mb: '16px'
-        }}
-      />
+        </Grid>
+      }
+    >
       <CardContent
         sx={{
           p: 0
@@ -66,14 +50,14 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           container
           alignItems='center'
           direction='column'
-          gap='16px'
+          gap={16}
         >
           <Grid
             item
             width='100%'
             alignItems='center'
-            gap='16px'
-            height='100px'
+            gap={16}
+            height={(theme) => theme.spacing(25)}
             sx={{
               '&> div': {
                 display: 'inline-block'

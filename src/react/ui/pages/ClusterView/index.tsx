@@ -35,7 +35,13 @@ const ClusterView: React.FC<Props> = () => {
           {
             (cards.length === 0)
               ? (
-                <Typography>Waiting for nodes to connect</Typography>
+                <Typography
+                  variant='h5'
+                  fontWeight={700}
+                  color={(theme) => theme.palette.secondary.main}
+                >
+                  Waiting for nodes to connect
+                </Typography>
               )
               : (
                 <Grid

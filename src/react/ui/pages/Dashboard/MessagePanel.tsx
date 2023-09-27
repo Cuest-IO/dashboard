@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Typography from "@mui/material/Typography";
 
 interface Props {
@@ -8,9 +8,8 @@ const MessagePanel: React.FC<Props> = ({ message }: Props) => {
   return(
     <Typography
       variant='h5'
-      fontFamily='Product Sans'
       fontWeight={700}
-      color='#575757'
+      color={(theme) => theme.palette.secondary.main}
     >
       {message}
     </Typography>

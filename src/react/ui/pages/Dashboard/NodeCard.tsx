@@ -28,7 +28,6 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
   ];
 
   const renderColorfulLegendText: Formatter = (value, entry) => {
-    console.log(entry)
     return (
       <Box
         component='span'
@@ -48,16 +47,14 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
       </Box>
     );
   };
-  console.log(data)
 
   return (
     <Card
       header={
         <Typography
           variant='h5'
-          fontFamily='Product Sans'
           fontWeight={700}
-          color='#575757'
+          color='secondary'
           display='inline-block'
         >
           Nodes
@@ -76,11 +73,10 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
       >
         <Button
           variant='outlined'
+          color='primary'
           onClick={() => navigate('/nodes')}
           sx={{
-            borderRadius: '20px',
-            color: '#78caf4',
-            borderColor: '#78caf4'
+            borderRadius: 5,
           }}
         >
           View nodes

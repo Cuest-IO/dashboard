@@ -18,9 +18,9 @@ const SystemLoad: React.FC<Props> = ({ data, label, unit }) => {
     return (
       <Box
         component='span'
-        color='#575757'
+        color={(theme) => theme.palette.secondary.main}
         fontWeight={500}
-        paddingLeft='5px'
+        pl='5px'
       >
         <Box component='span'>{value}</Box>
         <Box

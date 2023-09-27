@@ -59,9 +59,8 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
       header={
         <Typography
           variant='h5'
-          fontFamily='Product Sans'
           fontWeight={700}
-          color='#575757'
+          color='secondary'
           display='inline-block'
         >
           System
@@ -80,11 +79,10 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
       >
         <Button
           variant='outlined'
+          color='primary'
           onClick={() => navigate('/clusters')}
           sx={{
-            borderRadius: '20px',
-            color: '#78caf4',
-            borderColor: '#78caf4'
+            borderRadius: 5,
           }}
         >
           Report a problem <ChevronRight />

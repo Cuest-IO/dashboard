@@ -42,7 +42,7 @@
       "skipBlankLines": false,
       "ignoreComments": false
     }],
-    "object-curly-spacing": ["warning", "always"],
+    "object-curly-spacing": ["warn", "always"],
     "jsx-a11y/no-static-element-interactions": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "react/button-has-type": "off",

@@ -47,9 +47,8 @@ const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
       header={
         <Typography
           variant='h5'
-          fontFamily='Product Sans'
           fontWeight={700}
-          color='#575757'
+          color='secondary'
           display='inline-block'
         >
           Clusters
@@ -68,11 +67,10 @@ const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
       >
         <Button
           variant='outlined'
+          color='primary'
           onClick={() => navigate('/clusters')}
           sx={{
-            borderRadius: '20px',
-            color: '#78caf4',
-            borderColor: '#78caf4'
+            borderRadius: 5,
           }}
         >
           View clusters

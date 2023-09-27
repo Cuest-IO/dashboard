@@ -1,54 +1,51 @@
-// Core
 import { Outlet } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-// Parts
-import Box from "@mui/material/Box";
-// Parts
 import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#00A1EF',
-    },
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          minWidth: '1024px'
-        }
-      }
-    }
-  }
-});
+import Grid from "@mui/material/Grid";
 
 const Layout = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <Header/>
-      <Box
-        component="nav"
-        sx={{ width: { sm: '240px' }, flexShrink: { sm: 0 } }}
+    <Grid
+      container
+      p={6}
+      spacing={6}
+      justifyContent='space-between'
+    >
+      <Grid
+        item
+        xs={6}
+        md={4}
+        lg={3}
       >
         <Sidebar/>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: `calc(100% - 240px)`,
-          ml: '240px',
-          backgroundColor: '#f9f9f9',
-      }}
+      </Grid>
+      <Grid
+        item
+        xs={6}
+        md={8}
+        lg={9}
       >
-        <Outlet/>
-      </Box>
-    </ThemeProvider>
+        <Grid
+          container
+          direction='column'
+        >
+          <Grid
+            item
+            xs={12}
+          >
+            <Header />
+          </Grid>
+          <Grid
+            item
+            p='24px 0'
+            xs={12}
+            // maxWidth='100%'
+          >
+            <Outlet/>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   )
 }
 

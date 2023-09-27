@@ -12,7 +12,7 @@ interface Props {
 }
 
 const PodsTable: React.FC<Props> = ({ node }) => {
-  const cellTableStyle ={
+  const cellTableStyle = {
     padding: "0px 0px",
     width: '20%'
   };
