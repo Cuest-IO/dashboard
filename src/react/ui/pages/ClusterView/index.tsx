@@ -4,13 +4,17 @@ import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 import { Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useQuery } from "@tanstack/react-query";
+import Grid from "@mui/material/Grid";
 
 interface Props {
-  nodes: Map<string, ClusterViewNode>;
-  loading: boolean;
+  nodes?: Map<string, ClusterViewNode>;
+  loading?: boolean;
 }
 
-const ClusterView: React.FC<Props> = ({ nodes, loading }) => {
+const ClusterView: React.FC<Props> = () => {
+  const { data: nodes, isLoading } = useQuery<Map<string, ClusterViewNode>>(['clusterView'])
+
   const cards = useMemo<ClusterViewNode[]>(() => {
     if (nodes) {
       return Array.from(nodes.values())
@@ -18,23 +22,36 @@ const ClusterView: React.FC<Props> = ({ nodes, loading }) => {
     return []
   }, [nodes])
 
-  return loading
+  return isLoading
       ? (
         <Skeleton
           variant="rectangular"
           height={300}
         />
       ) : (
-        <Box>
+        <Box
+          padding='16px 24px'
+        >
           {
             (cards.length === 0)
               ? (
-                <Typography>Waiting for nodes to connect</Typography>
+                <Typography
+                  variant='h5'
+                  fontWeight={700}
+                  color={(theme) => theme.palette.secondary.main}
+                >
+                  Waiting for nodes to connect
+                </Typography>
               )
               : (
-                cards.map((card) => (
-                  <NodeViewCard node={card} key={card.nodeName}/>
-                ))
+                <Grid
+                  container
+                  gap='16px'
+                >
+                  {cards.map((card) => (
+                    <NodeViewCard node={card} key={card.nodeName}/>
+                  ))}
+                </Grid>
               )
           }
 

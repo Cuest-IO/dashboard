@@ -7,6 +7,7 @@ import App from './react/ui/core/App';
 import './assets/fonts/product_sans/style.scss';
 import './_helpers/scss/reset.scss';
 import awsmobile from "./aws-exports";
+import CuestThemeProvider from "./react/ui/core/CuestThemeProvider";
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -19,7 +20,9 @@ root.render(
   <Authenticator.Provider>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <CuestThemeProvider>
+          <App />
+        </CuestThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </Authenticator.Provider>

@@ -6,9 +6,8 @@ import { useClusterView } from "../../engine/state/clusterView/useClusterView";
 
 const App: React.FC = () => {
   const [isUserAuthLoaded, setIsUserAuthLoaded] = useState<boolean>(false)
-  const { data: clusterViewData } = useClusterView({ isUserAuthLoaded });
+  useClusterView({ isUserAuthLoaded });
 
-  console.log(clusterViewData)
   useEffect(() => {
     Auth.currentUserInfo().then(() => setIsUserAuthLoaded(true))
   }, [])

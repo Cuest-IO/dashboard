@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 
 export interface Route {
   path: string;
-  component: any;
+  Component: any;
   caseSensitive: boolean;
 }
 
@@ -56,7 +56,7 @@ const dashboardModule = {
   routes: {
     Dashboard: {
       path: '/',
-      component: <LoadableDashboard />,
+      Component: <LoadableDashboard />,
       caseSensitive: true,
     },
   },
@@ -66,7 +66,7 @@ const signInModule = {
   routes: {
     SignIn: {
       path: '/sign_in',
-      component: <LoadableSignIn />,
+      Component: <LoadableSignIn />,
       caseSensitive: true,
     },
   },
@@ -76,7 +76,7 @@ const clustersModule = {
   routes: {
     Clusters: {
       path: '/clusters',
-      component: <LoadableClusters />,
+      Component: <LoadableClusters />,
       caseSensitive: true,
     },
   },
@@ -85,8 +85,8 @@ const clustersModule = {
 const clusterViewModule = {
   routes: {
     ClusterView: {
-      path: '/cluster-view',
-      component: <LoadableCLusterView />,
+      path: '/clusterview',
+      Component: <LoadableCLusterView />,
       caseSensitive: true,
     },
   },
@@ -96,7 +96,7 @@ const nodesModule = {
   routes: {
     Nodes: {
       path: '/nodes',
-      component: <LoadableNodes />,
+      Component: <LoadableNodes />,
       caseSensitive: true,
     },
   },

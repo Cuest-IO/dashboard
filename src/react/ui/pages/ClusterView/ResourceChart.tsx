@@ -1,26 +1,10 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,  ResponsiveContainer } from 'recharts';
-import moment from "moment";
+// import moment from "moment";
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
+import CustomTooltip from "./CustomTooltip";
 
-const timeFormatter = (item: number) => moment(item).format("mm:ss");
-
-// const CustomTooltip = ({ active, payload }) => {
-//     if (active && payload && payload.length > 0 ) {
-//         return (
-//            <div className="customTooltip">
-//                 <div style={{ ...tooltipStyle }}>
-//                     Read Time: `{moment(payload[0].payload.timestamp).format("hh:mm:ss")}`
-//                 </div>
-//                 <div style={{ ...tooltipStyle, color: payload[3].stroke }}>Available: {`${payload[3].value}${payload[3].unit}`}</div>
-//                 <div style={{ ...tooltipStyle, color: payload[2].stroke }}>In use: {`${payload[2].value}${payload[2].unit}`}</div>
-//                 <div style={{ ...tooltipStyle, color: payload[1].stroke }}>Allocated: {`${payload[1].value}${payload[1].unit}`}</div>
-//            </div>
-//
-//         );
-//     }
-//     return null;
-// }
+// const timeFormatter = (item: number) => moment(item).format("mm:ss");
 
 const axisStyle ={
     fontSize: '10px',
@@ -36,8 +20,10 @@ interface Props {
 const ResourceChart: React.FC<Props> = ({ node }) => {
   return (
     <>
-      <ResponsiveContainer width="50%" height="100%" >
-        <AreaChart width={100} height={100}
+      <ResponsiveContainer width="50%" height="100%">
+        <AreaChart
+          width={100}
+          height={100}
           data={node.cpuUsage}
           margin={{ top: 1, right: 0, left: 0, bottom: 1 }}
         >
@@ -68,6 +54,7 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             label="CPU, last 10 min"
             tick={false}
           />
+          <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} />}  cursor={{ fill: "transparent" }} />
           <Area type="linearClosed" dataKey="totalCPU"   stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" unit="%" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
           <Area type="monotone" unit="%" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
@@ -100,7 +87,7 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             tick={false}
           />
           <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
-          <Tooltip labelFormatter={timeFormatter} cursor={{ fill: "transparent" }} />
+          <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} />}  cursor={{ fill: "transparent" }} />
           <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" unit="GB" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
           <Area type="monotone" unit="GB" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />

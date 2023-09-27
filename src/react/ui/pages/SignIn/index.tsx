@@ -1,4 +1,6 @@
-import { Authenticator } from '@aws-amplify/ui-react';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -8,6 +10,16 @@ import { AuthContainer, Logo, Wrapper, Bg } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
 export default function SignIn() {
+  const { authStatus } = useAuthenticator()
+  const navigator = useNavigate()
+
+  useEffect(() => {
+    console.log(authStatus)
+    if (authStatus === 'authenticated') {
+      navigator('/')
+    }
+  }, [authStatus])
+
   return (
     <Wrapper container>
       <Grid

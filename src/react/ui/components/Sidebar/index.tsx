@@ -1,17 +1,15 @@
-// Parts
+import { useLocation } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-// Icons
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import HiveIcon from '@mui/icons-material/Hive';
-// Helpers
-import { Logo, Link } from './styles';
+import Link from '@mui/material/Link'
+import { Logo } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
 const items = [
@@ -33,12 +31,13 @@ const items = [
 ]
 
 export function Sidebar() {
+  const location = useLocation()
+
   return (
-    <Drawer
-      variant="permanent"
-      open
+    <Paper
       sx={{
-        '& .MuiDrawer-paper': { width: '240px' },
+        borderRadius: 5,
+        height: 'calc(100vh - 48px)'
       }}
     >
       <Logo
@@ -46,13 +45,33 @@ export function Sidebar() {
         alt='Crowd Cloud'
         src={logo}
       />
-      <Divider />
       <List>
         {items.map(({ label, icon, link }) => (
-          <Link key={label} to={link}>
-            <ListItem disablePadding>
+          <Link
+            key={label}
+            href={link}
+            sx={{
+              textDecoration: 'none'
+            }}
+          >
+            <ListItem
+              disablePadding
+              sx={(theme) => ({
+                color: location.pathname === link ? theme.palette.primary.main : theme.palette.secondary.light,
+                '.MuiTypography-root': {
+                  fontWeight: location.pathname === link ? 700 : 400,
+                },
+                '& .MuiButtonBase-root:hover': {
+                  bgcolor: theme.palette.primary.light
+                }
+              })}
+            >
               <ListItemButton>
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={({ palette }) => ({
+                    color: location.pathname === link ? palette.primary.main : palette.secondary.light
+                  })}
+                >
                   {icon}
                 </ListItemIcon>
                 <ListItemText primary={label} />
@@ -61,7 +80,6 @@ export function Sidebar() {
           </Link>
         ))}
       </List>
-      <Divider />
-    </Drawer>
+    </Paper>
   )
 }

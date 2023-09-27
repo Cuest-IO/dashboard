@@ -2,6 +2,7 @@ import React from 'react';
 import MaterialReactTable, { MRT_ColumnDef, MaterialReactTableProps } from "material-react-table";
 import { MRT_Localization_EN } from "material-react-table/locales/en";
 import { Skeleton } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 interface Props<TData extends Record<string, any>> extends MaterialReactTableProps<TData> {
   data: TData[];
@@ -41,6 +42,7 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, ...
             'table': {
               borderCollapse: 'separate',
               borderSpacing: '0 16px',
+              padding: '0 8px'
             },
             'thead': {
               '& tr': {
@@ -71,13 +73,31 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, ...
             },
           },
         }}
+        muiBottomToolbarProps={{
+          sx: {
+            boxShadow: 'none'
+          }
+        }}
         {...rest}
       />
     ) : (
-      <Skeleton
-        variant="rectangular"
-        height={300}
-      />
+      <Grid
+        container
+        gap={3}
+        direction='column'
+      >
+        {Array.from(Array(3).keys()).map(() => (
+          <Grid item xs={12}>
+            <Skeleton
+              variant="rectangular"
+              height={50}
+              sx={{
+                borderRadius: 2
+              }}
+            />
+          </Grid>
+        ))}
+      </Grid>
     )
   );
 };
