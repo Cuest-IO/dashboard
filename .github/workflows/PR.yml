@@ -1,0 +1,41 @@
+name: PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches: ["ci_cd/main"]
+
+env:
+  DEFAULT_AWS_REGION: us-east-1
+  BUCKET_NAME: cuest-ci-frontend/dev-docs-stage-cuest-io
+
+jobs:
+  pr:
+    name: Build and Sync
+    if: (github.event.pull_request.merged != true && github.event.action != 'closed')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+
+      - name: Run npm install
+        run: npm install
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_DEV_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET }}
+          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./build/ s3://${{ env.BUCKET_NAME }} --delete
