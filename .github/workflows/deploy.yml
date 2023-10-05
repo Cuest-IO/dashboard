@@ -1,0 +1,69 @@
+on:
+  pull_request:
+    types:
+      - closed
+    branches: ["main"]
+
+env:
+  DEFAULT_AWS_REGION: us-east-1
+  BUCKET_NAME: cuest-ci-frontend/dev-docs-stage-cuest-io
+  NODE_VERSION: "16.14"
+
+jobs:
+  CD:
+    name: Deployment
+    if: (github.event.pull_request.merged == true)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run npm install
+        run: npm ci
+
+      - name: Run npm install
+        run: CI=false npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_DEV_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET }}
+          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./build/ s3://${{ env.BUCKET_NAME }} --delete
+
+      # - name: Deployment Failed - Send Slack message in case of failure
+      #   if: failure()
+      #   uses: slackapi/slack-github-action@v1.15.0
+      #   with:
+      #     channel-id: "###########"
+      #     slack-message: |
+      #       Hello @here !
+      #       :no_entry:  Deployment for service *${{ github.repository }}* failed  :no_entry:
+      #       *Please review the logs of the failed deployment*
+      #       repo: ${{ github.repository }}
+      #       branch: ${{ github.ref }}
+      #       author: *${{ github.event.head_commit.author.name }}*
+      #       commit desc: "'${{ github.event.head_commit.message }}'' --> '${{ github.event.head_commit.url }}''"
+      #       gitflow action: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      # - name: Send Slack message (deployment-notification) on new deployment
+      #   if: success()
+      #   uses: slackapi/slack-github-action@v1.15.0
+      #   with:
+      #     channel-id: "########"
+      #     slack-message: |
+      #       Hello @here !
+      #       :fire: New Deployment for service *${{ github.repository }}* :fire:
+      #       repo: *${{ github.repository }}*
+      #       branch: ${{ github.ref }}
+      #       author: *${{ github.event.head_commit.author.name }}*
+      #       commit desc: "'${{ github.event.head_commit.message }}'' --> '${{ github.event.head_commit.url }}''"
