@@ -29,10 +29,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
-        run: npm run build
+        run: CI=false npm run build
 
   CD:
     name: Deployment
@@ -49,10 +49,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Run npm install
-        run: npm install
+        run: npm ci
 
       - name: Run npm install
-        run: npm run build
+        run: CI=false npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
