@@ -11,6 +11,7 @@ on:
 env:
   DEFAULT_AWS_REGION: us-east-1
   BUCKET_NAME: cuest-ci-frontend/dev-docs-stage-cuest-io
+  NODE_VERSION: "16.14"
 
 jobs:
   CI:
@@ -22,15 +23,15 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Use Node.js 16.x
+      - name: Use Node.js 16.14
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Run npm install
+      - name: Install dependencies
         run: npm install
 
-      - name: Run npm install
+      - name: Build
         run: npm run build
 
   CD:
@@ -45,7 +46,7 @@ jobs:
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Run npm install
         run: npm install
