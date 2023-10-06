@@ -35,7 +35,7 @@ const resourceLanguage: ResourceLanguage = {
 
   },
   cluster_view: {
-    waiting_nodes: 'Waiting for nodes to connect',
+    waiting_for_nodes: 'Waiting for nodes to connect',
     image_name: 'Image name',
     status: 'Status',
     read_time: 'Read Time',

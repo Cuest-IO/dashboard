@@ -15,7 +15,15 @@ interface Props {
 
 const ClusterView: React.FC<Props> = () => {
   const { t } = useTranslation()
-  const { data: nodes, isLoading } = useQuery<Map<string, ClusterViewNode>>(['clusterView'])
+  const {
+    data: nodes,
+    isLoading
+  } = useQuery<Map<string, ClusterViewNode>>(
+    ['clusterView'],
+    {
+      refetchOnWindowFocus: false,
+    }
+  )
 
   const cards = useMemo<ClusterViewNode[]>(() => {
     if (nodes) {
