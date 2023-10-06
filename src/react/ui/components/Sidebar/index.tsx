@@ -35,10 +35,13 @@ export function Sidebar() {
 
   return (
     <Paper
-      sx={{
+      sx={(theme) => ({
         borderRadius: 5,
-        height: 'calc(100vh - 48px)'
-      }}
+        height: 'calc(100vh - 48px)',
+        minWidth: theme.spacing(72),
+        maxWidth: theme.spacing(72),
+        boxShadow: '0px 6px 14px 0px #0000000A'
+      })}
     >
       <Logo
         component='img'

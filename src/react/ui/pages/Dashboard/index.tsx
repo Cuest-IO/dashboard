@@ -30,7 +30,7 @@ export default function Dashboard() {
       </Box>
       {
         (!isNodesLoading && !isClustersLoading && !nodesError && !clustersError) ? (
-          <Grid container gap='24px'>
+          <Grid container gap={6}>
             <ClusterCard clusters={clusters}  nodes={nodes} />
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />

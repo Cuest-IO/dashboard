@@ -29,10 +29,10 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           </Typography>
           <Grid
             item
-            gap={12}
+            gap={3}
             alignItems='center'
           >
-            <BatteryChart battery={node.battery}/>
+            <BatteryChart battery={node.battery} />
             <PowerSettingsNewOutlinedIcon
               sx={{ fontSize: 29, alignItems: "center" }}
               color={node.connected ? "success" : "action"}
@@ -50,13 +50,13 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           container
           alignItems='center'
           direction='column'
-          gap={16}
+          gap={4}
         >
           <Grid
             item
             width='100%'
             alignItems='center'
-            gap={16}
+            gap={4}
             height={(theme) => theme.spacing(25)}
             sx={{
               '&> div': {
@@ -66,7 +66,11 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           >
             <ResourceChart node={node} key={node.nodeId}/>
           </Grid>
-          <Grid item width='100%'>
+          <Grid
+            item
+            width='100%'
+            minHeight={(theme) => theme.spacing(25)}
+          >
             <PodsTable node={node} key={node.nodeId}/>
           </Grid>
         </Grid>

@@ -46,7 +46,7 @@ const ClusterView: React.FC<Props> = () => {
               : (
                 <Grid
                   container
-                  gap='16px'
+                  gap={4}
                 >
                   {cards.map((card) => (
                     <NodeViewCard node={card} key={card.nodeName}/>

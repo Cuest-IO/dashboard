@@ -88,7 +88,7 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
           Report a problem <ChevronRight />
         </Button>
       </Box>
-      <Grid container gap='12px' fontSize='14px' height='169px'>
+      <Grid container gap={3} fontSize='14px' height='169px'>
         <SystemLoad data={systemCPU} label="vCPU" unit="   "/>
         <SystemLoad data={systemMem} label="Mem(GB)" unit="GB"/>
       </Grid>
