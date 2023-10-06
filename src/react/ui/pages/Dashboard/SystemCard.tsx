@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { formatMBytes, formatFloat, toNumber } from "../../../engine/helpers/utilities";
-import { NodeItemResponse, NodesResponse } from "../../../engine/dto/nodes";
-import React, {useMemo} from "react";
-import Card from "../../components/common/Card";
+import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import Typography from "@mui/material/Typography";
 import { ChevronRight } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { formatMBytes, formatFloat, toNumber } from "../../../engine/helpers/utilities";
+import { NodeItemResponse, NodesResponse } from "../../../engine/dto/nodes";
+import Card from "../../components/common/Card";
 import SystemLoad from "./SystemLoad";
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 
 const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
   const navigate = useNavigate()
-
+  const { t } = useTranslation()
 
   const systemCPU = useMemo(() => {
     return nodes.reduce((acc, node: NodeItemResponse) => {
@@ -63,7 +64,7 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
           color='secondary'
           display='inline-block'
         >
-          System
+          {t('dashboard:system')}
         </Typography>
       }
       sx={{
@@ -85,7 +86,7 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
             borderRadius: 5,
           }}
         >
-          Report a problem <ChevronRight />
+          {t('dashboard:report_a_problem')} <ChevronRight />
         </Button>
       </Box>
       <Grid container gap={3} fontSize='14px' height='169px'>

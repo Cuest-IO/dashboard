@@ -6,12 +6,15 @@ import BatteryChart from './BatteryChart';
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 import { CardContent, Typography, Grid } from "@mui/material";
 import Card from "../../components/common/Card";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   node: ClusterViewNode;
 }
 
 const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
+  const { t } = useTranslation()
+
   return (
     <Card
       header={
@@ -25,7 +28,7 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
             fontWeight={700}
             color={(theme) => theme.palette.secondary.main}
           >
-            Node #: {node.nodeName} ({node.status}) {' '}
+            {t('core:node')} #: {node.nodeName} ({node.status}) {' '}
           </Typography>
           <Grid
             item

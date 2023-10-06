@@ -1,17 +1,19 @@
 import React, { useMemo } from "react";
 import moment from "moment/moment";
 import { MRT_ColumnDef } from "material-react-table";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import { NodeItemResponse } from "../../../engine/dto/nodes";
 import { formatMBytes } from "../../../engine/helpers/utilities";
 import { useNodes } from "../../../engine/state/nodes/useNodes";
 import ReactQueryTable from "../../components/common/ReactQueryTable";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 
 export type NodesColumns = (Omit<MRT_ColumnDef<NodeItemResponse>, 'id'> & { id: string; })[];
 
 const Nodes = () => {
   const { data: nodes } = useNodes()
+  const { t } = useTranslation()
 
   const columns = useMemo<NodesColumns>(
     () => [
@@ -67,7 +69,7 @@ const Nodes = () => {
           fontWeight={700}
           color={(theme) => theme.palette.secondary.main}
         >
-          Nodes
+          {t('core:nodes')}
         </Typography>
       </Grid>
       <Grid

@@ -8,8 +8,10 @@ import ClusterCard from "./ClusterCard";
 import NodeCard from "./NodeCard";
 import SystemCard from "./SystemCard";
 import Grid from "@mui/material/Grid";
+import {useTranslation} from "react-i18next";
 
 export default function Dashboard() {
+  const { t } = useTranslation()
   const {
     data: nodes,
     isLoading: isNodesLoading,
@@ -26,7 +28,7 @@ export default function Dashboard() {
       <Box
         pb='24px'
       >
-        <MessagePanel message={'Dashboard'} />
+        <MessagePanel message={t('core:dashboard')} />
       </Box>
       {
         (!isNodesLoading && !isClustersLoading && !nodesError && !clustersError) ? (
