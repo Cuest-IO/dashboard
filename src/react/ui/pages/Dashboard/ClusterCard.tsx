@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useMemo, FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,20 +7,20 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
-import { ClustersResponse } from "../../../engine/dto/clusters";
-import { NodesResponse } from "../../../engine/dto/nodes";
-import Card from "../../components/common/Card";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { useMemo } from "react";
+import { ClustersResponse } from "../../../engine/dto/clusters";
+import { NodesResponse } from "../../../engine/dto/nodes";
+import Card from "../../components/common/Card";
 
 interface Props {
   clusters: ClustersResponse;
   nodes: NodesResponse;
 }
 
-const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
+const ClusterCard: FC<Props> = ({ clusters, nodes }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const id = (clusters && clusters[0]) ? clusters[0].id : "";
   const status = (clusters && clusters[0]) ? clusters[0].is_connected : false;
@@ -51,7 +52,7 @@ const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
           color='secondary'
           display='inline-block'
         >
-          Clusters
+          {t('core:clusters')}
         </Typography>
       }
       sx={{
@@ -73,7 +74,7 @@ const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
             borderRadius: 5,
           }}
         >
-          View clusters
+          {t('dashboard:view_clusters')}
         </Button>
       </Box>
 
@@ -86,8 +87,8 @@ const ClusterCard: React.FC<Props> = ({ clusters, nodes }) =>{
 export default ClusterCard;
 
 
-const ClusterTable: React.FC<{ data: { id: string, status: boolean, count: number }[] }> = ({ data }) => {
-
+const ClusterTable: FC<{ data: { id: string, status: boolean, count: number }[] }> = ({ data }) => {
+  const { t } = useTranslation()
   const cellTableStyle = {
     padding: '0px',
     width: '20%'
@@ -125,11 +126,10 @@ const ClusterTable: React.FC<{ data: { id: string, status: boolean, count: numbe
               borderCollapse: "separate",
               borderSpacing: "0px 0px",
               padding:"0px"
-
             }}
           >
-            <TableCell sx={{...cellTableStyle, width: '70%'}} align="left">Cluster Name</TableCell>
-            <TableCell sx={{...cellTableStyle, width: '30%'}} align="left"># of Nodes</TableCell>
+            <TableCell sx={{...cellTableStyle, width: '70%'}} align="left">{t('dashboard:cluster_name')}</TableCell>
+            <TableCell sx={{...cellTableStyle, width: '30%'}} align="left">{t('dashboard:num_of_nodes')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

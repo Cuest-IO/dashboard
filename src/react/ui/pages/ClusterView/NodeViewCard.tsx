@@ -6,12 +6,15 @@ import BatteryChart from './BatteryChart';
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 import { CardContent, Typography, Grid } from "@mui/material";
 import Card from "../../components/common/Card";
+import {useTranslation} from "react-i18next";
 
 interface Props {
   node: ClusterViewNode;
 }
 
 const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
+  const { t } = useTranslation()
+
   return (
     <Card
       header={
@@ -25,14 +28,14 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
             fontWeight={700}
             color={(theme) => theme.palette.secondary.main}
           >
-            Node #: {node.nodeName} ({node.status}) {' '}
+            {t('core:node')} #: {node.nodeName} ({node.status}) {' '}
           </Typography>
           <Grid
             item
-            gap={12}
+            gap={3}
             alignItems='center'
           >
-            <BatteryChart battery={node.battery}/>
+            <BatteryChart battery={node.battery} />
             <PowerSettingsNewOutlinedIcon
               sx={{ fontSize: 29, alignItems: "center" }}
               color={node.connected ? "success" : "action"}
@@ -50,13 +53,13 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           container
           alignItems='center'
           direction='column'
-          gap={16}
+          gap={4}
         >
           <Grid
             item
             width='100%'
             alignItems='center'
-            gap={16}
+            gap={4}
             height={(theme) => theme.spacing(25)}
             sx={{
               '&> div': {
@@ -66,7 +69,11 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
           >
             <ResourceChart node={node} key={node.nodeId}/>
           </Grid>
-          <Grid item width='100%'>
+          <Grid
+            item
+            width='100%'
+            minHeight={(theme) => theme.spacing(25)}
+          >
             <PodsTable node={node} key={node.nodeId}/>
           </Grid>
         </Grid>

@@ -3,6 +3,7 @@ import moment from "moment";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   payload?: Payload<ValueType, NameType>[];
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const CustomTooltip: React.FC<Props> = ({ active, payload }: Props) => {
+  const { t } = useTranslation()
   if (active && payload && payload.length > 0 ) {
     return (
       <Box
@@ -19,11 +21,11 @@ const CustomTooltip: React.FC<Props> = ({ active, payload }: Props) => {
         borderRadius={1}
       >
         <Typography variant='subtitle1' fontFamily='Product Sans' fontWeight={500} color='#979797'>
-          Read Time: `{moment(payload[0].payload.timestamp).format("hh:mm:ss")}`
+          {t('cluster_view:read_time')}: `{moment(payload[0].payload.timestamp).format("hh:mm:ss")}`
         </Typography>
-        <Typography variant='subtitle1' fontWeight={500} color={payload[3].stroke}>Available: {`${payload[3].value}${payload[3].unit}`}</Typography>
-        <Typography variant='subtitle1' fontWeight={500} color={payload[2].stroke}>In use: {`${payload[2].value}${payload[2].unit}`}</Typography>
-        <Typography variant='subtitle1' fontWeight={500} color={payload[1].stroke}>Allocated: {`${payload[1].value}${payload[1].unit}`}</Typography>
+        <Typography variant='subtitle1' fontWeight={500} color={payload[3].stroke}>{t('cluster_view:available')}: {`${payload[3].value}${payload[3].unit}`}</Typography>
+        <Typography variant='subtitle1' fontWeight={500} color={payload[2].stroke}>{t('cluster_view:in_use')}: {`${payload[2].value}${payload[2].unit}`}</Typography>
+        <Typography variant='subtitle1' fontWeight={500} color={payload[1].stroke}>{t('cluster_view:allocated')}: {`${payload[1].value}${payload[1].unit}`}</Typography>
       </Box>
 
     );

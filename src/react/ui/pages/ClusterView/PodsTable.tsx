@@ -1,10 +1,11 @@
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
-import React from 'react';
+import { useTranslation } from "react-i18next";
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const PodsTable: React.FC<Props> = ({ node }) => {
+  const { t } = useTranslation()
   const cellTableStyle = {
     padding: "0px 0px",
     width: '20%'
@@ -51,8 +53,8 @@ const PodsTable: React.FC<Props> = ({ node }) => {
               padding:"0px"
             }}
             >
-              <TableCell sx={{...cellTableStyle, width: '70%'}} align="left">Image name</TableCell>
-              <TableCell sx={{...cellTableStyle}} align="left">Status</TableCell>
+              <TableCell sx={{...cellTableStyle, width: '70%'}} align="left">{t('cluster_view:image_name')}</TableCell>
+              <TableCell sx={{...cellTableStyle}} align="left">{t('cluster_view:status')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

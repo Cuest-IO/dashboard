@@ -1,10 +1,7 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,  ResponsiveContainer } from 'recharts';
-// import moment from "moment";
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 import CustomTooltip from "./CustomTooltip";
-
-// const timeFormatter = (item: number) => moment(item).format("mm:ss");
 
 const axisStyle ={
     fontSize: '10px',

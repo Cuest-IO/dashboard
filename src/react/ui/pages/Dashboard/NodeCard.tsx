@@ -1,18 +1,20 @@
 import React, {useMemo} from 'react';
 import { useNavigate } from "react-router-dom";
+import { Formatter } from "recharts/types/component/DefaultLegendContent";
+import { useTranslation } from "react-i18next";
 import { Bar, BarChart, Legend } from "recharts";
-import { NodesResponse } from "../../../engine/dto/nodes";
-import Card from "../../components/common/Card";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Formatter } from "recharts/types/component/DefaultLegendContent";
+import { NodesResponse } from "../../../engine/dto/nodes";
+import Card from "../../components/common/Card";
 
 interface Props {
   nodes: NodesResponse
 }
 
 const NodeCard: React.FC<Props> = ({ nodes }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const connectedNodes = useMemo(() => {
     return nodes.reduce((acc, node) => {
@@ -57,7 +59,7 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
           color='secondary'
           display='inline-block'
         >
-          Nodes
+          {t('core:nodes')}
         </Typography>
       }
       sx={{
@@ -79,7 +81,7 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
             borderRadius: 5,
           }}
         >
-          View nodes
+          {t('dashboard:view_nodes')}
         </Button>
       </Box>
       <Box
