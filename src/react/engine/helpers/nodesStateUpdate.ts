@@ -26,7 +26,7 @@ export interface ClusterViewNode {
   nodeName: number;
   connected: boolean;
   status: string;
-  battery: Battery;
+  battery?: Battery;
   system: Resources;
   cpuUsage: CPUUsage[];
   memUsage: MemoryUsage[];
@@ -37,7 +37,7 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage)
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
-    if (status === "") {
+    if (nodeStat.info.connectivity && status === "") {
       return; // don't process messages without proper status, like connect, disconnect etc
     }
 
@@ -57,7 +57,7 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage)
         }
         node.cpuUsage = [...node.cpuUsage];
         node.memUsage = [...node.memUsage];
-        node.battery = state.battery as Battery;
+        node.battery = state.battery;
       }
     } else {
       node.cpuUsage = [];
@@ -169,7 +169,7 @@ export function memoryUsage(state: DeviceInfo['state'], timestamp: number): Memo
   }
 }
 
-export function setNodeStatus(status: string){
+export function setNodeStatus(status?: string){
   switch (status) {
     case 'Init': return 'Initializing';
     case 'Ready': return 'Running';

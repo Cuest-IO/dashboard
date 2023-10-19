@@ -59,10 +59,12 @@ const Nodes = () => {
     <Grid
       container
       direction='column'
+      width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(18)})`}
     >
       <Grid
         item
         xs={12}
+        maxWidth='100% !important'
       >
         <Typography
           variant='h5'
@@ -76,6 +78,7 @@ const Nodes = () => {
         item
         py={6}
         xs={12}
+        maxWidth='100% !important'
       >
         <ReactQueryTable
           // Data

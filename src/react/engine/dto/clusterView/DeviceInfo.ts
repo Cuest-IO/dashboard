@@ -13,6 +13,6 @@ export interface DeviceInfo {
       load?: Resources;
       system?: Resources;
     };
-    status: string;
+    status?: string;
   }
 }

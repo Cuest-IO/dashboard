@@ -35,7 +35,7 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
             gap={3}
             alignItems='center'
           >
-            <BatteryChart battery={node.battery} />
+            {node.battery && <BatteryChart battery={node.battery}/>}
             <PowerSettingsNewOutlinedIcon
               sx={{ fontSize: 29, alignItems: "center" }}
               color={node.connected ? "success" : "action"}
