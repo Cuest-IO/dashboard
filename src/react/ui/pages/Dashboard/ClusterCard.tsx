@@ -56,16 +56,12 @@ const ClusterCard: FC<Props> = ({ clusters, nodes }) => {
         </Typography>
       }
       sx={{
-        minWidth: '320px',
-        maxWidth: '320px',
-        '& .MuiCardHeader-root': {
-          p: '12px 0px'
-        }
+        minWidth: '344px',
+        maxWidth: '344px',
+        p: 6,
       }}
     >
-      <Box
-        mb='12px'
-      >
+      <Box>
         <Button
           variant='outlined'
           color='primary'
@@ -78,9 +74,15 @@ const ClusterCard: FC<Props> = ({ clusters, nodes }) => {
         </Button>
       </Box>
 
-      <div className='charts' style={{fontSize:"14px"}}>
+      <Box
+        className='charts'
+        sx={{
+          fontSize: '14px',
+          pt: 2,
+        }}
+      >
         <ClusterTable data={data}/>
-      </div>
+      </Box>
     </Card>
   ) ;
 }

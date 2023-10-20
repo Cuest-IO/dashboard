@@ -36,24 +36,21 @@ const SystemLoad: React.FC<Props> = ({ data, label, unit }) => {
 
 
   return (
-    <ResponsiveContainer width='48%'>
+    <ResponsiveContainer width='47%' height={168}>
       {/* @ts-ignore */}
       <PieChart>
         <Legend
           // @ts-ignore
-          width ="90%"
+          width="90%"
           fontSize="14px"
           iconType="circle"
           layout="vertical"
           verticalAlign="bottom"
           iconSize={10}
-          padding={0}
           align="center"
           formatter={renderColorfulLegendText}
         />
         <Pie
-          // @ts-ignore
-          align="top"
           data={data}
           cx={60}
           cy={60}

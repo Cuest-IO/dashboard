@@ -68,16 +68,12 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
         </Typography>
       }
       sx={{
-        minWidth: '320px',
-        maxWidth: '320px',
-        '& .MuiCardHeader-root': {
-          p: '12px 0px'
-        }
+        minWidth: '344px',
+        maxWidth: '344px',
+        p: 6,
       }}
     >
-      <Box
-        mb='12px'
-      >
+      <Box>
         <Button
           variant='outlined'
           color='primary'
@@ -89,7 +85,7 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
           {t('dashboard:report_a_problem')} <ChevronRight />
         </Button>
       </Box>
-      <Grid container gap={3} fontSize='14px' height='169px'>
+      <Grid container gap={3} fontSize='14px' height='169px' pt={2}>
         <SystemLoad data={systemCPU} label="vCPU" unit="   "/>
         <SystemLoad data={systemMem} label="Mem(GB)" unit="GB"/>
       </Grid>

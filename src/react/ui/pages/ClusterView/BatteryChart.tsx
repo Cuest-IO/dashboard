@@ -17,7 +17,7 @@ interface Props {
 const BatteryChart: React.FC<Props> = ({ battery }) => {
   const showBattery = useMemo(() => {
     const sx= { fontSize: 29, alignItems: "center" };
-    const color = battery.enough ? "success" : "error";
+    const color = battery?.enough ? "success" : "error";
 
     if (battery.isCharging) {
       if (battery.current < 21) {
