@@ -1,5 +1,5 @@
 import { RepositoryClient } from "../clients/repository";
-import { NodeItemResponse, NodesParams, NodesResponse } from "../dto/nodes";
+import {NodeBody, NodeItemResponse, NodesParams, NodesResponse} from "../dto/nodes";
 
 export class NodesService {
     constructor(
@@ -10,7 +10,11 @@ export class NodesService {
     return this.nodesRepository.getList(options);
   };
 
-  getOne = async (id: number): Promise<NodeItemResponse> => {
+  getOne = async (id: string): Promise<NodeItemResponse> => {
     return this.nodesRepository.getOne(id);
+  };
+
+  updateOne = async (id: string, body: NodeBody): Promise<NodeItemResponse> => {
+    return this.nodesRepository.updateOne(id, body);
   };
 }

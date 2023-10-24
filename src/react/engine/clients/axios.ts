@@ -39,6 +39,15 @@ export class ApiAxiosClient {
     return response.data;
   };
 
+  put = async <TData = unknown, TBody = Record<string, any>>(
+    url: string,
+    data: TBody,
+    config?: AxiosRequestConfig<never>,
+  ): Promise<TData> => {
+    const response = await this.axios.put<TData>(url, data, config)
+
+    return response.data
+  }
 }
 
 export default new ApiAxiosClient();

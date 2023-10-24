@@ -32,7 +32,9 @@ const resourceLanguage: ResourceLanguage = {
 
   },
   nodes: {
-
+    suspend: 'Suspend',
+    block: 'Block',
+    enable: 'Enable'
   },
   cluster_view: {
     waiting_for_nodes: 'Waiting for nodes to connect',
@@ -42,6 +44,9 @@ const resourceLanguage: ResourceLanguage = {
     available: 'Available',
     in_use: 'In use',
     allocated: 'Allocated',
+    suspend: 'Suspend',
+    block: 'Block',
+    enable: 'Enable'
   }
 };
 
