@@ -7,6 +7,11 @@ declare module "@mui/material/styles/createPalette" {
   interface CommonColors {
     'secondary.grey': string;
     'secondary.blue': string;
+    'teritrary.blue': string;
+    'teritrary.red': string;
+    'teritrary.green': string;
+    'secondary.green': string;
+    'secondary.red': string;
   }
   /* eslint-enable */
 }

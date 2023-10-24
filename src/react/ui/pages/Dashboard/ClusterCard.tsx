@@ -68,6 +68,7 @@ const ClusterCard: FC<Props> = ({ clusters, nodes }) => {
           onClick={() => navigate('/clusters')}
           sx={{
             borderRadius: 5,
+            lineHeight: '17px'
           }}
         >
           {t('dashboard:view_clusters')}

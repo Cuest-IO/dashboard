@@ -26,7 +26,15 @@ const resourceLanguage: ResourceLanguage = {
     view_nodes: 'View nodes',
     cluster_name: 'Cluster Name',
     num_of_nodes: '# of Nodes',
-    report_a_problem: 'Report a problem'
+    report_a_problem: 'Report a problem',
+    last: 'Last',
+    current: 'Current',
+    week: 'Week',
+    month: 'Month',
+    year: 'Year',
+    aws_avoided_cost: 'AWS avoided cost',
+    cpu_runtime: 'CPU runtime',
+    workloads_executed: 'Workloads executed'
   },
   clusters: {
 
