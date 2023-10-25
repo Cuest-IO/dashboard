@@ -9,7 +9,7 @@ import NodeCard from './NodeCard';
 import SystemCard from './SystemCard';
 import Grid from '@mui/material/Grid';
 import {useTranslation} from 'react-i18next';
-import BillingCard from "./BillingCard";
+// import BillingCard from "./BillingCard";
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -34,7 +34,7 @@ export default function Dashboard() {
       {
         (!isNodesLoading && !isClustersLoading && !nodesError && !clustersError) ? (
           <Grid container gap={6}>
-            <BillingCard title={`${t('dashboard:last')} ${t('dashboard:month').toLowerCase()}`} />
+            {/*<BillingCard title={`${t('dashboard:last')} ${t('dashboard:month').toLowerCase()}`} />*/}
             <ClusterCard clusters={clusters}  nodes={nodes} />
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />
