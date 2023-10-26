@@ -4,12 +4,13 @@ import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
-import { AccessStatuses, NodeItemResponse } from "../../../engine/dto/nodes";
+import type { NodeItemResponse } from "../../../engine/dto/nodes";
+import { AccessStatuses } from "../../../engine/dto/nodes";
 import { formatMBytes } from "../../../engine/helpers/utilities";
 import { useNodes } from "../../../engine/state/nodes/useNodes";
 import ReactQueryTable from "../../components/common/ReactQueryTable";
 import MenuItem from "@mui/material/MenuItem";
-import {useMutateNodes} from "../../../engine/state/nodes/useUpdateNode";
+import { useMutateNodes } from "../../../engine/state/nodes/useUpdateNode";
 import Button from "@mui/material/Button";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
@@ -127,13 +128,13 @@ const Nodes = () => {
               <Button
                 onClick={handleMenuToggle}
                 disableRipple
-                sx={(theme) => ({
+                sx={{
                   verticalAlign: 'unset',
                   p: 0,
                   minWidth: '29px',
                   maxHeight: '29px',
                   display: 'inline-block'
-                })}
+                }}
               >
                 <MoreVertIcon
                   sx={{ fontSize: 29, alignItems: 'center' }}
@@ -144,12 +145,12 @@ const Nodes = () => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleMenuClose}
-                sx={(theme) => ({
+                sx={{
                   '& .MuiMenu-paper': {
                     boxShadow: '0px 6px 6px 0px #0000000A',
                     borderRadius: 2,
                   }
-                })}
+                }}
               >
                 <MenuItem onClick={() => handleSuspendNode(row)}>
                   {t('nodes:suspend')}

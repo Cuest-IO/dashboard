@@ -68,13 +68,13 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
         <Button
           onClick={handleMenuToggle}
           disableRipple
-          sx={(theme) => ({
+          sx={{
             verticalAlign: 'unset',
             p: 0,
             minWidth: '29px',
             maxHeight: '29px',
             display: 'inline-block'
-          })}
+          }}
         >
           <MoreVertIcon
             sx={{ fontSize: 29, alignItems: 'center' }}
