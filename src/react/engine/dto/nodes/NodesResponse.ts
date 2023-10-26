@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export enum AccessStatuses {
-  suspended = 'Suspended',
-  blocked = 'Blocked'
-}
-/* eslint-enable @typescript-eslint/no-unused-vars */
+import { AccessStatuses } from "./AccessStatuses";
 
 export interface NodeItemResponse {
   id: string;

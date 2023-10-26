@@ -35,7 +35,7 @@
     "import/extensions": "off",
     "import/no-anonymous-default-export": "off",
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
-    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
+//    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
     "no-underscore-dangle": "off",
     "no-trailing-spaces": ["error", {
@@ -56,6 +56,8 @@
     "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
     "react/jsx-first-prop-new-line": ["warn", "multiline-multiprop"],
     "react/prop-types": 0,
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }
