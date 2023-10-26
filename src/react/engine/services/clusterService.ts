@@ -11,6 +11,6 @@ export class ClusterService {
   };
 
   async getOne (id: string): Promise<ClusterResponse> {
-    return this.clusterRepository.getOne<ClusterParams, ClusterResponse>(id);
+    return this.clusterRepository.getOne<ClusterResponse, ClusterParams>(id);
   };
 }

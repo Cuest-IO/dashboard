@@ -1,47 +1,20 @@
-import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import React from 'react';
+import { CardContent, Grid } from '@mui/material';
 import PodsTable from './PodsTable';
 import ResourceChart from './ResourceChart';
-import BatteryChart from './BatteryChart';
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
-import { CardContent, Typography, Grid } from "@mui/material";
 import Card from "../../components/common/Card";
-import {useTranslation} from "react-i18next";
+import NodeViewCardHeader from "./NodeViewCardHeader";
 
 interface Props {
   node: ClusterViewNode;
 }
 
 const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
-  const { t } = useTranslation()
-
   return (
     <Card
       header={
-        <Grid
-          container
-          direction='row'
-          justifyContent='space-between'
-        >
-          <Typography
-            variant='h5'
-            fontWeight={700}
-            color={(theme) => theme.palette.secondary.main}
-          >
-            {t('core:node')} #: {node.nodeName} ({node.status}) {' '}
-          </Typography>
-          <Grid
-            item
-            gap={3}
-            alignItems='center'
-          >
-            {node.battery && <BatteryChart battery={node.battery}/>}
-            <PowerSettingsNewOutlinedIcon
-              sx={{ fontSize: 29, alignItems: "center" }}
-              color={node.connected ? "success" : "action"}
-            />
-          </Grid>
-        </Grid>
+        <NodeViewCardHeader node={node} />
       }
     >
       <CardContent

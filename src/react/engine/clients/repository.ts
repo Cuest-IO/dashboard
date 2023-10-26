@@ -12,8 +12,14 @@ export class RepositoryClient {
     return response
   }
 
-  async getOne<TParams, TData>(params: TParams): Promise<TData> {
-    const response = await this.apiClient.get<TData>(this.endpoint, { params })
+  async getOne<TData, TParams>(id: string, params?: TParams): Promise<TData> {
+    const response = await this.apiClient.get<TData>(`${this.endpoint}/${id}`, { params })
+
+    return response
+  }
+
+  async updateOne<TBody, TData>(id: string, body: TBody): Promise<TData> {
+    const response = await this.apiClient.put<TData, TBody>(`${this.endpoint}/${id}`, body)
 
     return response
   }

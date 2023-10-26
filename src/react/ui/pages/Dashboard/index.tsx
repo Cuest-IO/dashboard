@@ -1,14 +1,15 @@
-import {useNodes} from "../../../engine/state/nodes/useNodes";
-import {useClusters} from "../../../engine/state/clusters/useClusters";
-import Box from "@mui/material/Box";
-import MessagePanel from "./MessagePanel";
-import {Skeleton} from "@mui/material";
-import React from "react";
-import ClusterCard from "./ClusterCard";
-import NodeCard from "./NodeCard";
-import SystemCard from "./SystemCard";
-import Grid from "@mui/material/Grid";
-import {useTranslation} from "react-i18next";
+import {useNodes} from '../../../engine/state/nodes/useNodes';
+import {useClusters} from '../../../engine/state/clusters/useClusters';
+import Box from '@mui/material/Box';
+import MessagePanel from './MessagePanel';
+import {Skeleton} from '@mui/material';
+import React from 'react';
+import ClusterCard from './ClusterCard';
+import NodeCard from './NodeCard';
+import SystemCard from './SystemCard';
+import Grid from '@mui/material/Grid';
+import {useTranslation} from 'react-i18next';
+// import BillingCard from "./BillingCard";
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -33,13 +34,14 @@ export default function Dashboard() {
       {
         (!isNodesLoading && !isClustersLoading && !nodesError && !clustersError) ? (
           <Grid container gap={6}>
+            {/*<BillingCard title={`${t('dashboard:last')} ${t('dashboard:month').toLowerCase()}`} />*/}
             <ClusterCard clusters={clusters}  nodes={nodes} />
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />
           </Grid>
         ) : (
           <Skeleton
-            variant="rectangular"
+            variant='rectangular'
             height={300}
           />
         )

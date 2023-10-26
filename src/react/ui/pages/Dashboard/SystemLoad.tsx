@@ -34,11 +34,13 @@ const SystemLoad: React.FC<Props> = ({ data, label, unit }) => {
     );
   };
 
-
   return (
     <ResponsiveContainer width='47%' height={168}>
-      {/* @ts-ignore */}
-      <PieChart>
+      <PieChart
+        margin={{
+          left: 8
+        }}
+      >
         <Legend
           // @ts-ignore
           width="90%"

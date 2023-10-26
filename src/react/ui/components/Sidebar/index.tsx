@@ -53,9 +53,25 @@ export function Sidebar() {
           <Link
             key={label}
             href={link}
-            sx={{
-              textDecoration: 'none'
-            }}
+            sx={(theme) => ({
+              textDecoration: 'none',
+              display: 'block',
+              height: theme.spacing(12),
+              ...(location.pathname === link && {
+                '&::after': {
+                  content: '""',
+                  display: 'inline-block',
+                  height: '48px',
+                  width: '4px',
+                  position: 'relative',
+                  top: '-48px',
+                  left: '284px',
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5,
+                  bgcolor: theme.palette.primary.main
+                }
+              })
+            })}
           >
             <ListItem
               disablePadding

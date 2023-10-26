@@ -40,7 +40,7 @@ const ClusterView: React.FC<Props> = () => {
         />
       ) : (
         <Box
-          padding='16px 24px'
+          padding='16px 0'
         >
           {
             (cards.length === 0)
