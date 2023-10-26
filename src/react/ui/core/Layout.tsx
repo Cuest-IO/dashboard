@@ -8,7 +8,7 @@ const Layout = () => {
     <Grid
       container
       p={6}
-      spacing={6}
+      gap={6}
       // justifyContent='space-between'
     >
       <Grid
@@ -21,8 +21,8 @@ const Layout = () => {
       </Grid>
       <Grid
         item
-        width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)})`}
-        maxWidth={(theme) => theme.spacing(285)}
+        width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)} - ${theme.spacing(6)})`}
+        maxWidth={(theme) => `${theme.spacing(285)} !important`}
         // xs={6}
         // md={8}
         // lg={9}
@@ -33,15 +33,17 @@ const Layout = () => {
         >
           <Grid
             item
-            xs={12}
-            maxWidth='100% !important'
+            // xs={12}
+            // maxWidth='100% !important'
           >
             <Header />
           </Grid>
           <Grid
             item
             p='24px 0'
-            xs={12}
+            // xs={12}
+            width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)})`}
+            maxWidth={(theme) => `${theme.spacing(285)} !important`}
           >
             <Outlet/>
           </Grid>

@@ -80,9 +80,10 @@ const SystemCard: React.FC<Props> = ({ nodes }: Props) => {
           onClick={() => navigate('/clusters')}
           sx={{
             borderRadius: 5,
+            lineHeight: '17px',
           }}
         >
-          {t('dashboard:report_a_problem')} <ChevronRight />
+          {t('dashboard:report_a_problem')} <ChevronRight sx={{ fontSize: '17px' }} viewBox='0 3 19 19' />
         </Button>
       </Box>
       <Grid container gap={3} fontSize='14px' height='169px' pt={2}>

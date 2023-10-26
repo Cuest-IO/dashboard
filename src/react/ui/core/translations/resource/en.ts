@@ -26,13 +26,23 @@ const resourceLanguage: ResourceLanguage = {
     view_nodes: 'View nodes',
     cluster_name: 'Cluster Name',
     num_of_nodes: '# of Nodes',
-    report_a_problem: 'Report a problem'
+    report_a_problem: 'Report a problem',
+    last: 'Last',
+    current: 'Current',
+    week: 'Week',
+    month: 'Month',
+    year: 'Year',
+    aws_avoided_cost: 'AWS avoided cost',
+    cpu_runtime: 'CPU runtime',
+    workloads_executed: 'Workloads executed'
   },
   clusters: {
 
   },
   nodes: {
-
+    suspend: 'Suspend',
+    block: 'Block',
+    enable: 'Enable'
   },
   cluster_view: {
     waiting_for_nodes: 'Waiting for nodes to connect',
@@ -42,6 +52,9 @@ const resourceLanguage: ResourceLanguage = {
     available: 'Available',
     in_use: 'In use',
     allocated: 'Allocated',
+    suspend: 'Suspend',
+    block: 'Block',
+    enable: 'Enable'
   }
 };
 

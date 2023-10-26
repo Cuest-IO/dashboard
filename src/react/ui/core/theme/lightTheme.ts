@@ -30,6 +30,12 @@ const lightTheme: ThemeOptions = Object.assign({}, baseThemeOptions, {
     common: {
       "secondary.blue": '#78CAF4',
       "secondary.grey": '#979797',
+      "teritrary.blue": '#DCF9FF',
+      "teritrary.red": '#FFE7E4',
+      "teritrary.green": '#EBFFD2',
+      "secondary.green": '#83BF6E',
+      "secondary.red": '#FF6A55'
+
     },
   },
 } as ThemeOptions);

@@ -13,6 +13,8 @@ export function Header() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { user, signOut, authStatus } = useAuthenticator();
 
+  const companyName = user.attributes?.['custom:Company']
+
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -41,8 +43,8 @@ export function Header() {
       <Grid
         item
       >
-        <Typography variant="h5" fontWeight={700} color='secondary'>
-          Company
+        <Typography variant="h4" fontWeight={700} fontSize='30px' color='secondary'>
+          {companyName}
         </Typography>
       </Grid>
       <Grid

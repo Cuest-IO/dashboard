@@ -75,6 +75,7 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
           onClick={() => navigate('/nodes')}
           sx={{
             borderRadius: 5,
+            lineHeight: '17px'
           }}
         >
           {t('dashboard:view_nodes')}

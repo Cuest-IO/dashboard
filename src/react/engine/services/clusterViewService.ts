@@ -11,6 +11,6 @@ export class ClusterViewService {
   };
 
   async getOne (id: string): Promise<ClusterViewItemResponse> {
-    return this.clusterViewRepository.getOne<ClusterViewParams, ClusterViewItemResponse>(id);
+    return this.clusterViewRepository.getOne<ClusterViewItemResponse, ClusterViewParams>(id);
   };
 }
