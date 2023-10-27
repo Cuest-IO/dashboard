@@ -84,7 +84,7 @@ const Nodes = () => {
 
   const handleEnableNode = (row: MRT_Row<NodeItemResponse>) => {
     const { id } = row.original
-    updateNode({ id, accessibility: undefined })
+    updateNode({ id, accessibility: AccessStatuses.available })
     handleMenuClose()
   }
 
@@ -152,13 +152,22 @@ const Nodes = () => {
                   }
                 }}
               >
-                <MenuItem onClick={() => handleSuspendNode(row)}>
+                <MenuItem
+                  onClick={() => handleSuspendNode(row)}
+                  disabled={row.original.accessibility === AccessStatuses.suspended}
+                >
                   {t('nodes:suspend')}
                 </MenuItem>
-                <MenuItem onClick={() => handleEnableNode(row)}>
+                <MenuItem
+                  onClick={() => handleEnableNode(row)}
+                  disabled={!row.original.accessibility || row.original.accessibility === AccessStatuses.available}
+                >
                   {t('nodes:enable')}
                 </MenuItem>
-                <MenuItem onClick={() => handleBlockNode(row)}>
+                <MenuItem
+                  onClick={() => handleBlockNode(row)}
+                  disabled={row.original.accessibility === AccessStatuses.blocked}
+                >
                   {t('nodes:block')}
                 </MenuItem>
               </Menu>

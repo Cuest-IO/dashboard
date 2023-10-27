@@ -53,7 +53,7 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
         fontWeight={700}
         color={(theme) => theme.palette.secondary.main}
       >
-        {t('core:node')} #: {node.nodeName} ({node.status}) {' '}
+        {t('core:node')} #: {node.nodeName} ({node.status}{node.accessibility ? `/${node.accessibility}` : ''}) {' '}
       </Typography>
       <Grid
         item
@@ -86,9 +86,24 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
           open={open}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={handleSuspendNode}>{t('cluster_view:suspend')}</MenuItem>
-          <MenuItem onClick={handleEnableNode}>{t('cluster_view:enable')}</MenuItem>
-          <MenuItem onClick={handleBlockNode}>{t('cluster_view:block')}</MenuItem>
+          <MenuItem
+            onClick={handleSuspendNode}
+            disabled={node.accessibility === AccessStatuses.suspended}
+          >
+            {t('cluster_view:suspend')}
+          </MenuItem>
+          <MenuItem
+            onClick={handleEnableNode}
+            disabled={!node.accessibility || node.accessibility === AccessStatuses.available}
+          >
+            {t('cluster_view:enable')}
+          </MenuItem>
+          <MenuItem
+            onClick={handleBlockNode}
+            disabled={node.accessibility === AccessStatuses.blocked}
+          >
+            {t('cluster_view:block')}
+          </MenuItem>
         </Menu>
       </Grid>
     </Grid>
