@@ -1,0 +1,196 @@
+<section class="calculator">
+  <div class="container">
+    <div class="calculator__title_wrapper">
+      <h2 class="title_wrapper__title">Calculate the benefits</h2>
+      <p class="title_wrapper__description">Calculate how beneficial it will be to use our service for your tasks</p>
+    </div>
+    <div class="calculator__info_block">
+      <div class="info_block__config">
+        <div class="config__selects">
+          <div class="selects__item">
+            <label for="select-env">Current Hosting Environment</label>
+            <div class="selects__item__container">
+              <select id="select-env" onchange="selectEnvChanged()">
+                <option value="AWS">AWS</option>
+                <option value="GCP">GCP</option>
+                <option value="Azure">Azure</option>
+              </select>
+            </div>
+          </div>
+          <div class="selects__item">
+            <label for="select-type">VM type and size</label>
+            <div class="selects__item__container">
+              <select id="select-type" onchange="recalculateValues()"></select>
+            </div>
+          </div>
+          <div class="selects__item">
+            <label for="select-number">Number of instances</label>
+            <div class="selects__item__container">
+              <select id="select-number" onchange="recalculateValues()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="config__range">
+          <span id="hoursValue"></span>
+          <input type="range" id="hours" min="0" max="732" value="310" step="5" onchange="rangeInputChanged()" />
+          <div class="min_max_values">
+            <span>0 hrs</span>
+            <span>730 hrs</span>
+          </div>
+        </div>
+      </div>
+      <div class="calculator__results_block">
+        <div class="calculator__results_block__compare">
+          <h3>Crowd Cloud:</h3>
+          <p>You may get the same compute power with 12 employee computers / laptops for:</p>
+          <div class="counted_amount">
+            <h2 id="cuestPrice">--</h2>
+            <span>/month</span>
+          </div>
+        </div>
+        <div class="calculator__results_block__compare">
+          <h3>Other cloud platforms:</h3>
+          <p>We calculated your monthly payment using other cloud platforms:</p>
+          <div class="counted_amount">
+            <h2 id="otherPrice">--</h2>
+            <span>/month</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const updateRangeValue = () => {
+      const hoursInput = document.getElementById('hours');
+      const hoursValue = document.getElementById('hoursValue');
+      const val = (hoursInput.value - hoursInput.min) / (hoursInput.max - hoursInput.min);
+      const off = (hoursInput.offsetWidth - 16) / (parseInt(hoursInput.max) - parseInt(hoursInput.min));
+      console.log(val, off)
+      hoursInput.style.backgroundImage =
+        '-webkit-gradient(linear, left top, right top, ' +
+        'color-stop(' + val + ', #00A1EF), ' +
+        'color-stop(' + val + ', #DCF9FF)' +
+        ')';
+      console.log((hoursInput.valueAsNumber - parseInt(hoursInput.min)) * off, hoursValue.offsetWidth / 2)
+      const px = ((hoursInput.valueAsNumber - parseInt(hoursInput.min)) * off) - (hoursValue.offsetWidth / 2);
+      hoursValue.innerHTML = `${hoursInput.value} hrs/mo`;
+      hoursValue.style.left = `${px}px`;
+    };
+
+    const updateTypeSelect = () => {
+      const selectEnv = document.getElementById('select-env');
+      const selectType = document.getElementById('select-type');
+
+      selectType.innerHTML = '';
+
+      const selectedCloudProvider = selectEnv.value;
+
+      const options = {
+        'AWS': ['m4.large', 'c5d.xlarge', 'm6idn.xlarge', 'c5.2xlarge'],
+        'GCP': ['e2-standard-2', 'e2-standard-4', 'e2-standard-8'],
+        'Azure': ['D2as v5', 'A4 v2', 'D4as v5', 'D4as v5'],
+      };
+
+      // Populate the second select with the corresponding options
+      options[selectedCloudProvider].forEach(optionValue => {
+        const option = document.createElement('option');
+        option.value = optionValue;
+        option.text = optionValue;
+        selectType.appendChild(option);
+      });
+    }
+
+    const calculatePriceValue = (table) => {
+      const selectType = document.getElementById('select-type');
+      const numberOfInstances = document.getElementById('select-number');
+      const hoursInput = document.getElementById('hours');
+      const otherPriceElement = document.getElementById('otherPrice');
+      const cuestPriceElement = document.getElementById('cuestPrice');
+      const selectedInstance = selectType.value;
+      const hoursValue = hoursInput.valueAsNumber;
+
+      const priceComparison = table[selectedInstance]
+
+      const otherPrice = priceComparison.other * hoursValue * parseInt(numberOfInstances.value, 10)
+      const cuestPrice = priceComparison.cuest * hoursValue * parseInt(numberOfInstances.value, 10)
+
+      otherPriceElement.innerHTML = `$${otherPrice.toFixed(1)}`
+      cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
+    }
+
+    const recalculateValues = () => {
+      const tablePricePerHour = {
+        'm4.large': {
+          other: 0.1,
+          cuest: 2 / 730,
+        },
+        'c5d.xlarge': {
+          other: 0.192,
+          cuest: 4 / 730,
+        },
+        'm6idn.xlarge': {
+          other: 0.318,
+          cuest: 4 / 730,
+        },
+        'c5.2xlarge': {
+          other: 0.340,
+          cuest: 8 / 730,
+        },
+        'e2-standard-2': {
+          other: 0.067,
+          cuest: 2 / 730,
+        },
+        'e2-standard-4': {
+          other: 0.134,
+          cuest: 4 / 730,
+        },
+        'e2-standard-8': {
+          other: 0.268,
+          cuest: 8 / 730,
+        },
+        'D2as v5': {
+          other: 0.086,
+          cuest: 2 / 730,
+        },
+        'A4 v2': {
+          other: 0.191,
+          cuest: 4 / 730,
+        },
+        'D4as v5': {
+          other: 0.172,
+          cuest: 4 / 730,
+        },
+        'D4as v5': {
+          other: 0.4,
+          cuest: 8 / 730,
+        }
+      }
+      calculatePriceValue(tablePricePerHour)
+    }
+
+    const selectEnvChanged = () => {
+      updateTypeSelect()
+      recalculateValues()
+    }
+
+    const rangeInputChanged = () => {
+      updateRangeValue()
+      recalculateValues()
+    }
+
+    window.addEventListener('load', () => [selectEnvChanged(), rangeInputChanged()]);
+    const hoursInput = document.getElementById('hours');
+    hoursInput.addEventListener('input', rangeInputChanged);
+  </script>
+</section>
