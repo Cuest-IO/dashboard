@@ -9,6 +9,7 @@ import NodeCard from './NodeCard';
 import SystemCard from './SystemCard';
 import Grid from '@mui/material/Grid';
 import {useTranslation} from 'react-i18next';
+// import SystemCapacityCard from "./SystemCapacityCard";
 // import BillingCard from "./BillingCard";
 
 export default function Dashboard() {
@@ -38,6 +39,7 @@ export default function Dashboard() {
             <ClusterCard clusters={clusters}  nodes={nodes} />
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />
+            {/*<SystemCapacityCard />*/}
           </Grid>
         ) : (
           <Skeleton

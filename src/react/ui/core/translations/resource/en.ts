@@ -34,7 +34,8 @@ const resourceLanguage: ResourceLanguage = {
     year: 'Year',
     aws_avoided_cost: 'AWS avoided cost',
     cpu_runtime: 'CPU runtime',
-    workloads_executed: 'Workloads executed'
+    workloads_executed: 'Workloads executed',
+    system_capacity: 'System capacity'
   },
   clusters: {
 

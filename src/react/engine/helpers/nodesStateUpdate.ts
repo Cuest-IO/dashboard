@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["node", "workloads"] }] */
 import { formatMBytes } from "./utilities";
 import { Battery, ClusterViewMessage, DeviceInfo, K8sInfo, Resources } from "../dto/clusterView";
+import { AccessStatuses } from "../dto/nodes";
 
 export interface CPUUsage {
   totalCPU: number;
@@ -31,6 +32,7 @@ export interface ClusterViewNode {
   cpuUsage: CPUUsage[];
   memUsage: MemoryUsage[];
   workloads: Workload[];
+  accessibility?: AccessStatuses;
 }
 
 export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage): ClusterViewNode | void {
@@ -43,7 +45,7 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage)
 
     node.status = status;
     node.timestamp = nodeStat.time; // don't update timestamp for k8s messages, only for state info
-    node.connected =nodeStat.info.connectivity;
+    node.connected = nodeStat.info.connectivity;
     if (node.connected) {
       if (state.device && state.vm) {
         node.cpuUsage.push(cpuUsage(state, nodeStat.time));
@@ -87,6 +89,7 @@ export function addNode (nodeStat: ClusterViewMessage, nodes: Map<string, Cluste
     cpuUsage: [] as CPUUsage[],
     memUsage: [] as MemoryUsage[],
     workloads: [] as Workload[],
+    accessibility: nodeStat.accessibility
   }
 
   if (nodeStat.info && nodeStat.info.state) {
