@@ -23,4 +23,10 @@ export class RepositoryClient {
 
     return response
   }
+
+  async getRecord<TData, TParams>(params?: TParams): Promise<TData> {
+    const response = await this.apiClient.get<TData>(`${this.endpoint}`, { params })
+
+    return response
+  }
 }

@@ -48,6 +48,9 @@ const useClusterViewWebsocket = (wsState: boolean, setWsState: Dispatch<SetState
       if (message.command === 'pong') {
         return
       }
+      if (message.device === 'SYSTEM') {
+
+      }
       queryClient.setQueryData<Map<string, ClusterViewNode>>(['clusterView'], (oldNodes) => {
         const nodeStat = { ...message } as ClusterViewMessage
         const nodes = new Map(oldNodes)

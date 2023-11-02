@@ -7,7 +7,7 @@ import BatteryCharging50Icon from '@mui/icons-material/BatteryCharging50';
 import BatteryCharging80Icon from '@mui/icons-material/BatteryCharging80';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import Tooltip from '@mui/material/Tooltip';
-import { Battery } from "../../../engine/dto/clusterView";
+import { Battery } from "../../../engine/dto/common";
 import React, {useMemo} from "react";
 
 interface Props {
