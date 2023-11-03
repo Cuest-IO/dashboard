@@ -1,10 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Auth } from "aws-amplify";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
-// import { addNode, updateNode } from "../../helpers/nodesStateUpdate";
 import { uuid } from "../../helpers/uuid";
-// import { ClusterViewMessage } from "../../dto/clusterView";
-// import { ClusterViewNode } from "../../helpers/nodesStateUpdate";
 import { handleClusterViewWebsocketEvent } from '../clusterView/handleClusterViewWebsocketEvent';
 import { handleSystemLoadWebsocketEvent } from "../systemLoad/handleSystemLoadWebsocketEvent";
 
@@ -54,31 +51,6 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
         return handleSystemLoadWebsocketEvent(message, queryClient)
       }
       handleClusterViewWebsocketEvent(message, queryClient)
-      // queryClient.setQueryData<Map<string, ClusterViewNode>>(['clusterView'], (oldNodes) => {
-      //   const nodeStat = { ...message } as ClusterViewMessage
-      //   const nodes = new Map(oldNodes)
-      //   const node: ClusterViewNode | undefined = oldNodes?.get(nodeStat.device);
-      //
-      //   let updatedNode;
-      //   if (node) {
-      //     updatedNode = updateNode(node, nodeStat);
-      //   } else {
-      //     updatedNode = addNode(nodeStat, oldNodes as Map<string, ClusterViewNode>);
-      //   }
-      //
-      //   switch (updatedNode?.status) {
-      //     case 'Initializing':
-      //     case 'Fatal':
-      //       updatedNode.workloads = [];
-      //   }
-      //
-      //   if (updatedNode?.connected) {
-      //     nodes.set(updatedNode.nodeId, updatedNode);
-      //   } else if (updatedNode?.nodeId) {
-      //     nodes.delete(updatedNode.nodeId);
-      //   }
-      //   return nodes
-      // })
     }
   }
 

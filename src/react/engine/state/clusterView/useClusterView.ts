@@ -3,7 +3,6 @@ import { useClusterViewService } from "./useClusterViewService";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { addNode, ClusterViewNode } from "../../helpers/nodesStateUpdate";
 import { useEffect, useState } from "react";
-// import useClusterViewWebsocket from "./useClusterViewWebsocket";
 import useWebsocket from "../websocket/useWebsocket";
 
 export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean }) => {

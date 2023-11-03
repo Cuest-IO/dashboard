@@ -73,10 +73,11 @@ const NodeCard: React.FC<Props> = ({ systemLoad }) => {
         >
           <XAxis dataKey="name" axisLine={false} tickLine={false} />
           <Tooltip formatter={(value, name, bar) => {
+            if (!systemLoad?.cpu && !systemLoad.memory) return null
             if (bar.payload.name === 'RAM') {
-              return `${systemLoad.cpu[bar.dataKey as 'free' | 'used']}GB`
+              return `${systemLoad?.cpu[bar.dataKey as 'free' | 'used'].toFixed(2)}GB`
             }
-            return systemLoad.memory[bar.dataKey as 'free' | 'used']
+            return systemLoad?.memory[bar.dataKey as 'free' | 'used']
           }} />
           <Legend
             // @ts-ignore
