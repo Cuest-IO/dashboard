@@ -57,15 +57,15 @@
           <p>You may get the same compute power with <span id="computers-number">--</span> employee computers / laptops for:</p>
           <div class="counted_amount">
             <h2 id="cuestPrice">--</h2>
-            <span>/month</span>
+            <span>/mo</span>
           </div>
         </div>
         <div class="calculator__results_block__compare">
           <h3>Other cloud platforms:</h3>
-          <p>We calculated your monthly payment using other cloud platforms:</p>
+          <p>Estimated usage cost with your current cloud provider*:</p>
           <div class="counted_amount">
             <h2 id="otherPrice">--</h2>
-            <span>/month</span>
+            <span>/mo</span>
           </div>
           <span>* On-demand plans</span>
         </div>
@@ -100,21 +100,21 @@
 
       const options = {
         'AWS': [
-          { value: 'm4.large', text: 'VPUs 2, Memory 8' },
-          { value: 'c5d.xlarge', text: 'VPUs 4, Memory 8' },
-          { value: 'm6idn.xlarge', text: 'VPUs 4, Memory 16' },
-          { value: 'c5.2xlarge', text: 'VPUs 8, Memory 16' }
+          { value: 'm4.large', text: 'm4.large (2 vCPUs, 8 GB)' },
+          { value: 'c5d.xlarge', text: 'c5d.xlarge (4 vCPUs, 8 GB)' },
+          { value: 'm6idn.xlarge', text: 'm6idn.xlarge (4 vCPUs, 16 GB)' },
+          { value: 'c5.2xlarge', text: 'c5.2xlarge (8 vCPUs, 16 GB)' }
         ],
         'GCP': [
-          { value: 'e2-standard-2', text: 'VPUs 2, Memory 8' },
-          { value: 'e2-standard-4', text: 'VPUs 4, Memory 16' },
-          { value: 'e2-standard-8', text: 'VPUs 8, Memory 32' }
+          { value: 'e2-standard-2', text: 'e2-standard-2 (2 vCPUs, 8 GB)' },
+          { value: 'e2-standard-4', text: 'e2-standard-4 (4 vCPUs, 16 GB)' },
+          { value: 'e2-standard-8', text: 'e2-standard-8 (8 vCPUs, 32 GB)' }
         ],
         'Azure': [
-          { value: 'D2as v5', text: 'VPUs 2, Memory 8' },
-          { value: 'A4 v2', text: 'VPUs 4, Memory 8' },
-          { value: 'D4as v5', text: 'VPUs 4, Memory 16' },
-          { value: 'D4as v5', text: 'VPUs 8, Memory 16' }
+          { value: 'D2as v5', text: 'D2as v5 (2 vCPUs, 8 GB)' },
+          { value: 'A4 v2', text: 'A4 v2 (4 vCPUs, 8 GB)' },
+          { value: 'D4as v5', text: 'D4as v5 (4 vCPUs, 16 GB)' },
+          { value: 'A8 v2', text: 'A8 v2 (8 vCPUs, 16 GB)' }
         ]
       };
 
@@ -139,17 +139,17 @@
 
       const priceComparison = table[selectedInstance]
 
-      const otherPrice = priceComparison.other * hoursValue * parseInt(numberOfInstances.value, 10)
+      const otherPrice = priceComparison.cloudHour * hoursValue * parseInt(numberOfInstances.value, 10)
       otherPriceElement.innerHTML = `$${otherPrice.toFixed(1)}`
 
       if (hoursValue > 200) {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * 3
-        const cuestPrice = priceComparison.cuest * hoursValue * computersNumber
+        const computersNumber = parseInt(numberOfInstances.value, 10) * priceComparison.nodeRatio * 3
+        const cuestPrice = priceComparison.cpus * computersNumber
         cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
         computersNumberElement.innerHTML = `${computersNumber}`
       } else {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * 2
-        const cuestPrice = priceComparison.cuest * hoursValue * computersNumber
+        const computersNumber = parseInt(numberOfInstances.value, 10) * priceComparison.nodeRatio * 2
+        const cuestPrice = priceComparison.cpus  * computersNumber
         cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
         computersNumberElement.innerHTML = `${computersNumber}`
       }
@@ -159,53 +159,64 @@
     }
 
     const recalculateValues = () => {
-      const tablePricePerHour = {
+      const tablePricing = {
         'm4.large': {
-          other: 0.1,
-          cuest: 2 / 730,
+          cloudHour: 0.1,
+          cpus: 2,
+          nodeRatio:1,
         },
         'c5d.xlarge': {
-          other: 0.192,
-          cuest: 4 / 730,
+          cloudHour: 0.192,
+          cpus: 4,
+          nodeRatio: 1,
         },
         'm6idn.xlarge': {
-          other: 0.318,
-          cuest: 4 / 730,
+          cloudHour: 0.318,
+          cpus: 4,
+          nodeRatio: 1,
         },
         'c5.2xlarge': {
-          other: 0.340,
-          cuest: 8 / 730,
+          cloudHour: 0.340,
+          cpus: 8,
+          nodeRatio: 1,
         },
         'e2-standard-2': {
-          other: 0.067,
-          cuest: 2 / 730,
+          cloudHour: 0.067,
+          cpus: 2,
+          nodeRatio: 1,
         },
         'e2-standard-4': {
-          other: 0.134,
-          cuest: 4 / 730,
+          cloudHour: 0.134,
+          cpus: 4,
+          nodeRatio: 1,
         },
         'e2-standard-8': {
-          other: 0.268,
-          cuest: 8 / 730,
+          cloudHour: 0.268,
+          cpus: 8,
+          nodeRatio: 1,
         },
         'D2as v5': {
-          other: 0.086,
-          cuest: 2 / 730,
+          cloudHour: 0.086,
+          cpus: 2,
+          nodeRatio: 1,
         },
         'A4 v2': {
-          other: 0.191,
-          cuest: 4 / 730,
+          cloudHour: 0.191,
+          cpus: 4,
+          nodeRatio: 1,
         },
         'D4as v5': {
-          other: 0.172,
-          cuest: 4 / 730,
+          cloudHour: 0.172,
+          cpus: 4,
+          nodeRatio: 1,
         },
-        'D4as v5': {
-          other: 0.4,
-          cuest: 8 / 730,
+        'A8 v2': {
+          cloudHour: 0.4,
+          cpus: 8,
+          nodeRatio: 1,
         }
       }
-      calculatePriceValue(tablePricePerHour)
+      calculatePriceValue(tablePricing)
     }
 
     const selectEnvChanged = () => {
