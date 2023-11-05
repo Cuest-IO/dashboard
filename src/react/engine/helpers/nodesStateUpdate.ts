@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["node", "workloads"] }] */
 import { formatMBytes } from "./utilities";
-import { Battery, ClusterViewMessage, DeviceInfo, K8sInfo, Resources } from "../dto/clusterView";
+import { ClusterViewMessage, DeviceInfo, K8sInfo } from "../dto/clusterView";
+import { Resources, Battery } from "../dto/common";
 import { AccessStatuses } from "../dto/nodes";
 
 export interface CPUUsage {
@@ -157,7 +158,7 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
 }
 
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
-  const totalMem= formatMBytes(state.device?.system?.ram || 0);
+  const totalMem= formatMBytes(state.vm?.system?.max_ram || 0);
   const vmMem= (state.vm?.system?.ram) ? formatMBytes(state.vm.system.ram) : 0;
   const sysMem= parseFloat((formatMBytes((state.device?.system?.ram || 0), state.device?.load?.ram) - vmMem).toFixed(1));
   let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));

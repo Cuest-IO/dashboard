@@ -42,7 +42,7 @@
     & .info_block__config {
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 12px;
       padding: 48px;
       width: 50%;
 
@@ -74,8 +74,17 @@
 
       & .config__range {
         position: relative;
-        padding-top: 48px;
+        padding-top: 12px;
         overflow: visible;
+
+        & label {
+          font-family: $font-family-primary;
+          font-size: 16px;
+          font-weight: 700;
+          letter-spacing: 0;
+          color: $font-color-primary;
+          padding-bottom: 60px;
+        }
 
         & #hoursValue {
           position: absolute;
@@ -88,7 +97,7 @@
           font-size: 18px;
           font-weight: 700;
           letter-spacing: 0;
-          top: -20px;
+          top: 36px;
           text-align: center;
         }
 
@@ -155,6 +164,15 @@
       flex-direction: column;
       gap: 24px;
       align-items: center;
+
+      &> span {
+        font-family: $font-family-primary;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0;
+        color: $font-color-primary;
+        margin-top: -20px;
+      }
     }
 
     & h3 {

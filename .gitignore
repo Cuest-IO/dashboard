@@ -21,4 +21,6 @@ yarn-error.log*
 _archive/amplify/logs
 .secret-*
 **.sample
+launch.json
+.eslintcache
 /.idea

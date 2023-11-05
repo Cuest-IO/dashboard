@@ -44,7 +44,7 @@ const NodeCard: React.FC<Props> = ({ nodes }) => {
           right='0px'
         >
           {/* @ts-ignore */}
-          {(data.length && entry.id) && (data[0][entry.dataKey as keyof typeof data[0]])}
+          {(data.length && entry.dataKey) && (data[0][entry.dataKey as keyof typeof data[0]])}
         </Box>
       </Box>
     );

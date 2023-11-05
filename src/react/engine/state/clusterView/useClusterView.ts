@@ -3,13 +3,13 @@ import { useClusterViewService } from "./useClusterViewService";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { addNode, ClusterViewNode } from "../../helpers/nodesStateUpdate";
 import { useEffect, useState } from "react";
-import useClusterViewWebsocket from "./useClusterViewWebsocket";
+import useWebsocket from "../websocket/useWebsocket";
 
 export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean }) => {
   const [isWebsocketEnabled, setIsWebsocketEnabled] = useState<boolean>(false);
   const clusterViewService = useClusterViewService();
   const { user } = useAuthenticator();
-  const { createWebsocketConnection, websocket } = useClusterViewWebsocket(isWebsocketEnabled, setIsWebsocketEnabled)
+  const { createWebsocketConnection, websocket } = useWebsocket(isWebsocketEnabled, setIsWebsocketEnabled)
 
   const createNewConnectionIfInterrupted = () => {
     if (websocket?.readyState === 3) {

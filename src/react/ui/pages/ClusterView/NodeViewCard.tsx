@@ -46,6 +46,7 @@ const NodeViewCard: React.FC<Props> = ({ node }: Props) => {
             item
             width='100%'
             minHeight={(theme) => theme.spacing(25)}
+            maxHeight={(theme) => theme.spacing(25)}
           >
             <PodsTable node={node} key={node.nodeId}/>
           </Grid>

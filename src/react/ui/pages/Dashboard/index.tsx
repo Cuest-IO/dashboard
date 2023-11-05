@@ -9,7 +9,8 @@ import NodeCard from './NodeCard';
 import SystemCard from './SystemCard';
 import Grid from '@mui/material/Grid';
 import {useTranslation} from 'react-i18next';
-// import SystemCapacityCard from "./SystemCapacityCard";
+import {useSystemLoad} from "../../../engine/state/systemLoad/useSystemLoad";
+import SystemCapacityCard from "./SystemCapacityCard";
 // import BillingCard from "./BillingCard";
 
 export default function Dashboard() {
@@ -24,6 +25,10 @@ export default function Dashboard() {
     isLoading: isClustersLoading,
     error: clustersError
   } = useClusters()
+  const {
+    data: systemLoad,
+    isLoading: isSystemLoadLoading
+  } = useSystemLoad()
 
   return (
     <Box>
@@ -33,13 +38,13 @@ export default function Dashboard() {
         <MessagePanel message={t('core:dashboard')} />
       </Box>
       {
-        (!isNodesLoading && !isClustersLoading && !nodesError && !clustersError) ? (
+        (!isNodesLoading && !isClustersLoading && !isSystemLoadLoading && !nodesError && !clustersError) ? (
           <Grid container gap={6}>
             {/*<BillingCard title={`${t('dashboard:last')} ${t('dashboard:month').toLowerCase()}`} />*/}
             <ClusterCard clusters={clusters}  nodes={nodes} />
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />
-            {/*<SystemCapacityCard />*/}
+            <SystemCapacityCard systemLoad={systemLoad}  />
           </Grid>
         ) : (
           <Skeleton

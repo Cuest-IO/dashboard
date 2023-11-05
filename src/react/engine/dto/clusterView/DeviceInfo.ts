@@ -1,5 +1,4 @@
-import { Battery } from "./Battery";
-import { Resources } from "./Resources";
+import { Battery, Resources } from "../common";
 
 export interface DeviceInfo {
   connectivity: boolean;

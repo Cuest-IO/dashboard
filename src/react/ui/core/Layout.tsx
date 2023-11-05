@@ -22,7 +22,7 @@ const Layout = () => {
       <Grid
         item
         width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)} - ${theme.spacing(6)})`}
-        maxWidth={(theme) => `${theme.spacing(285)} !important`}
+        maxWidth={(theme) => `${theme.spacing(270)} !important`}
         // xs={6}
         // md={8}
         // lg={9}
@@ -43,7 +43,7 @@ const Layout = () => {
             p='24px 0'
             // xs={12}
             width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)})`}
-            maxWidth={(theme) => `${theme.spacing(285)} !important`}
+            maxWidth={(theme) => `${theme.spacing(270)} !important`}
           >
             <Outlet/>
           </Grid>
