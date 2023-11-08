@@ -51,7 +51,13 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             label="CPU, last 10 min"
             tick={false}
           />
-          <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} />}  cursor={{ fill: "transparent" }} />
+          <Tooltip
+            wrapperStyle={{ zIndex: 10 }}
+            content={({ active, payload }) =>
+              <CustomTooltip active={active} payload={payload} />
+            }
+            cursor={{ fill: "transparent" }}
+          />
           <Area type="linearClosed" dataKey="totalCPU"   stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" unit="%" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
           <Area type="monotone" unit="%" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
@@ -84,7 +90,13 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             tick={false}
           />
           <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
-          <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} />}  cursor={{ fill: "transparent" }} />
+          <Tooltip
+            wrapperStyle={{ zIndex: 10 }}
+            content={({ active, payload }) =>
+              <CustomTooltip active={active} payload={payload} />
+            }
+            cursor={{ fill: "transparent" }}
+          />
           <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" unit="GB" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
           <Area type="monotone" unit="GB" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
