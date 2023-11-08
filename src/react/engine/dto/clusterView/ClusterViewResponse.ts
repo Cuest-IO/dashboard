@@ -1,12 +1,12 @@
 import { DeviceInfo } from "./DeviceInfo";
-import { K8sInfo } from "./K8sInfo";
+import { WorkloadsResponseInfo } from "./WorkloadsInfo";
 import { AccessStatuses } from "../nodes";
 
 export interface ClusterViewItemResponse {
   device: string;
   info: DeviceInfo
   time: number;
-  k8s: K8sInfo;
+  workloads: Array<WorkloadsResponseInfo>;
   accessibility: AccessStatuses
 }
 
