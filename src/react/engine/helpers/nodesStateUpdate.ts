@@ -112,10 +112,11 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.battery = state.battery as Battery;
     if (state.device && state.vm) {
       newNode.system = {
-        cpu: state.device.system?.cpu,
-        disk: state.device.system?.disk,
+        cpu: state.vm.system?.cpu || state.device.system?.cpu,
+        disk: state.vm.system?.disk || state.device.system?.disk,
         // memory: formatMBytes(state.device.system?.ram || 0),
-        ram: formatMBytes(state.device.system?.ram || 0)
+        // ram: formatMBytes(state.device.system?.ram || 0),
+        ram: formatMBytes(state.vm.system?.max_ram || state.device.system?.ram || 0)
       };
       // adding twice for a proper graph display, otherwise showing dots
       newNode.cpuUsage = [cpuUsage(state, nodeStat.time), cpuUsage(state, nodeStat.time)];
@@ -155,7 +156,7 @@ function createWorkloads (workloads: Array<WorkloadsResponseInfo>): Workload[] {
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
-  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu && state.device?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.device.system.cpu : 0;
+  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.vm.system.cpu : 0;
   let sysCPU= (state?.device?.load?.cpu || 0) * 100 - vmCPU;
   if (sysCPU < 0) {
     sysCPU = 0;
@@ -179,7 +180,7 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
   const totalMem= formatMBytes(state.vm?.system?.max_ram || 0);
   const vmMem= (state.vm?.system?.ram) ? formatMBytes(state.vm.system.ram) : 0;
-  const sysMem= parseFloat((formatMBytes((state.device?.system?.ram || 0), state.device?.load?.ram) - vmMem).toFixed(1));
+  const sysMem= parseFloat((formatMBytes((state.vm?.system?.max_ram || 0), state.device?.load?.ram) - vmMem).toFixed(1));
   let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));
   freeMem = (freeMem < 0) ? 0 : freeMem;
 
