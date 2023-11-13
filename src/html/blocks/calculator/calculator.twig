@@ -142,13 +142,18 @@
       const otherPrice = priceComparison.cloudHour * hoursValue * parseInt(numberOfInstances.value, 10)
       otherPriceElement.innerHTML = `$${otherPrice.toFixed(1)}`
 
-      if (hoursValue > 200) {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * priceComparison.nodeRatio * 3
+      if (hoursValue > 300) {
+        const computersNumber = parseInt(numberOfInstances.value, 10) * 3
         const cuestPrice = priceComparison.cpus * computersNumber
         cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
         computersNumberElement.innerHTML = `${computersNumber}`
+      } else if (hoursValue > 100){
+        const computersNumber = parseInt(numberOfInstances.value, 10) * 2
+        const cuestPrice = priceComparison.cpus  * computersNumber
+        cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
+        computersNumberElement.innerHTML = `${computersNumber}`
       } else {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * priceComparison.nodeRatio * 2
+        const computersNumber = parseInt(numberOfInstances.value, 10) * 1
         const cuestPrice = priceComparison.cpus  * computersNumber
         cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
         computersNumberElement.innerHTML = `${computersNumber}`
@@ -163,57 +168,57 @@
         'm4.large': {
           cloudHour: 0.1,
           cpus: 2,
-          nodeRatio:1,
+          
         },
         'c5d.xlarge': {
           cloudHour: 0.192,
           cpus: 4,
-          nodeRatio: 1,
+          
         },
         'm6idn.xlarge': {
           cloudHour: 0.318,
           cpus: 4,
-          nodeRatio: 1,
+          
         },
         'c5.2xlarge': {
           cloudHour: 0.340,
           cpus: 8,
-          nodeRatio: 1,
+          
         },
         'e2-standard-2': {
           cloudHour: 0.067,
           cpus: 2,
-          nodeRatio: 1,
+          
         },
         'e2-standard-4': {
           cloudHour: 0.134,
           cpus: 4,
-          nodeRatio: 1,
+          
         },
         'e2-standard-8': {
           cloudHour: 0.268,
           cpus: 8,
-          nodeRatio: 1,
+          
         },
         'D2as v5': {
           cloudHour: 0.086,
           cpus: 2,
-          nodeRatio: 1,
+          
         },
         'A4 v2': {
           cloudHour: 0.191,
           cpus: 4,
-          nodeRatio: 1,
+          
         },
         'D4as v5': {
           cloudHour: 0.172,
           cpus: 4,
-          nodeRatio: 1,
+          
         },
         'A8 v2': {
           cloudHour: 0.4,
           cpus: 8,
-          nodeRatio: 1,
+          
         }
       }
       calculatePriceValue(tablePricing)
