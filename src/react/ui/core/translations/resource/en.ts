@@ -18,7 +18,9 @@ const resourceLanguage: ResourceLanguage = {
     cancel: 'Cancel',
     delete: 'Delete',
     save: 'Save',
-    add: 'Add'
+    add: 'Add',
+    ok: 'OK',
+    suspended_node_workloads_dialog_message: 'Currently running workloads will run until completed'
   },
   dashboard: {
     system: 'System',
