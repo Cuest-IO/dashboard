@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useMemo, useState} from 'react';
 import { Skeleton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import { useTranslation } from "react-i18next";
 import NodeViewCard from "./NodeViewCard";
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
+import NodeSuspendDialog from "./NodeSuspendDialog";
 
 interface Props {
   nodes?: Map<string, ClusterViewNode>;
@@ -15,6 +16,7 @@ interface Props {
 
 const ClusterView: React.FC<Props> = () => {
   const { t } = useTranslation()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const {
     data: nodes,
     isLoading
@@ -42,6 +44,7 @@ const ClusterView: React.FC<Props> = () => {
         <Box
           padding='16px 0'
         >
+          <NodeSuspendDialog isOpen={isDialogOpen} toggleDialog={setIsDialogOpen} />
           {
             (cards.length === 0)
               ? (
@@ -59,7 +62,7 @@ const ClusterView: React.FC<Props> = () => {
                   gap={4}
                 >
                   {cards.map((card) => (
-                    <NodeViewCard node={card} key={card.nodeName}/>
+                    <NodeViewCard node={card} key={card.nodeName} toggleDialog={setIsDialogOpen} />
                   ))}
                 </Grid>
               )

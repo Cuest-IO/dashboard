@@ -20,9 +20,9 @@ export interface CPUUsage {
 
 export interface MemoryUsage {
   totalMemory: number;
-  availMemory: number;
-  sysMemory: number;
-  usedMemory: number;
+  availableMemory: number;
+  inUseMemory: number;
+  allocatedMemory: number;
   timestamp: number;
 }
 
@@ -42,7 +42,7 @@ export interface ClusterViewNode {
   cpuUsage: CPUUsage[];
   memUsage: MemoryUsage[];
   workloads: Workload[];
-  accessibility?: AccessStatuses;
+  accessStatus?: AccessStatuses;
 }
 
 export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage): ClusterViewNode | void {
@@ -99,7 +99,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     cpuUsage: [] as CPUUsage[],
     memUsage: [] as MemoryUsage[],
     workloads: [] as Workload[],
-    accessibility: nodeStat.accessibility
+    accessStatus: nodeStat.accessStatus
   }
 
   if (nodeStat.info && nodeStat.info.state) {
@@ -112,11 +112,10 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.battery = state.battery as Battery;
     if (state.device && state.vm) {
       newNode.system = {
-        cpu: state.vm.system?.cpu || state.device.system?.cpu,
-        disk: state.vm.system?.disk || state.device.system?.disk,
+        cpu: state.device.system?.cpu,
+        disk: state.device.system?.disk,
         // memory: formatMBytes(state.device.system?.ram || 0),
-        // ram: formatMBytes(state.device.system?.ram || 0),
-        ram: formatMBytes(state.vm.system?.max_ram || state.device.system?.ram || 0)
+        ram: formatMBytes(state.device.system?.ram || 0),
       };
       // adding twice for a proper graph display, otherwise showing dots
       newNode.cpuUsage = [cpuUsage(state, nodeStat.time), cpuUsage(state, nodeStat.time)];
@@ -156,7 +155,7 @@ function createWorkloads (workloads: Array<WorkloadsResponseInfo>): Workload[] {
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
-  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.vm.system.cpu : 0;
+  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu && state.device?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.device.system.cpu : 0;
   let sysCPU= (state?.device?.load?.cpu || 0) * 100 - vmCPU;
   if (sysCPU < 0) {
     sysCPU = 0;
@@ -178,17 +177,17 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
 }
 
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
-  const totalMem= formatMBytes(state.vm?.system?.max_ram || 0);
-  const vmMem= (state.vm?.system?.ram) ? formatMBytes(state.vm.system.ram) : 0;
-  const sysMem= parseFloat((formatMBytes((state.vm?.system?.max_ram || 0), state.device?.load?.ram) - vmMem).toFixed(1));
+  const totalMem= formatMBytes(state.device?.system?.ram || 0);
+  const vmMem= (state.vm?.system?.ram && state.vm?.load?.ram) ? formatMBytes(state.vm.system.ram * state.vm.load.ram) : 0;
+  const sysMem= parseFloat((formatMBytes(state.vm?.system?.ram || 0) - vmMem).toFixed(1));
   let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));
   freeMem = (freeMem < 0) ? 0 : freeMem;
 
   return {
     totalMemory: totalMem,
-    availMemory: freeMem,
-    sysMemory: sysMem,
-    usedMemory: vmMem,
+    availableMemory: freeMem,
+    inUseMemory: sysMem,
+    allocatedMemory: vmMem,
     timestamp: timestamp
   }
 }

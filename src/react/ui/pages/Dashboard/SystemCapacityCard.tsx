@@ -11,7 +11,7 @@ interface Props {
   systemLoad: SystemCapacityState
 }
 
-const NodeCard: React.FC<Props> = ({ systemLoad }) => {
+const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
   const { t } = useTranslation()
   const totalCpu = systemLoad.cpu?.free + systemLoad.cpu?.used
   const totalRam = systemLoad.memory?.free + systemLoad.memory?.used
@@ -75,9 +75,9 @@ const NodeCard: React.FC<Props> = ({ systemLoad }) => {
           <Tooltip formatter={(value, name, bar) => {
             if (!systemLoad?.cpu && !systemLoad.memory) return null
             if (bar.payload.name === 'RAM') {
-              return `${systemLoad?.cpu[bar.dataKey as 'free' | 'used'].toFixed(2)}GB`
+              return `${systemLoad?.memory[bar.dataKey as 'free' | 'used'].toFixed(2)}GB`
             }
-            return systemLoad?.memory[bar.dataKey as 'free' | 'used']
+            return systemLoad?.cpu[bar.dataKey as 'free' | 'used']
           }} />
           <Legend
             // @ts-ignore
@@ -91,7 +91,7 @@ const NodeCard: React.FC<Props> = ({ systemLoad }) => {
             align="right"
             formatter={renderColorfulLegendText}
           />
-          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#B6ED8B" radius={[0, 0, 8, 8]} />
+          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#B6ED8B" radius={systemLoad.memory?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
           <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#E2E2E2" radius={[8, 8, 0, 0]} />
         </BarChart>
       </Box>
@@ -99,4 +99,4 @@ const NodeCard: React.FC<Props> = ({ systemLoad }) => {
   );
 }
 
-export default NodeCard;
+export default SystemCapacityCard;
