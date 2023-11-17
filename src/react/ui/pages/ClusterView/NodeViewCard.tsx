@@ -12,6 +12,7 @@ interface Props {
 }
 
 const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
+  console.log(node)
   return (
     <Card
       header={
@@ -33,7 +34,6 @@ const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
             item
             width='100%'
             alignItems='center'
-            gap={4}
             height={(theme) => theme.spacing(25)}
             sx={{
               '&> div': {

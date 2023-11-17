@@ -72,7 +72,7 @@ const PodsTable: React.FC<Props> = ({ node }) => {
           }}
         >
           {
-            node.connected && node.workloads.map((row) => (
+            node.connected && Array.from(node.workloads.values()).map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

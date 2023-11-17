@@ -17,7 +17,7 @@ interface Props {
 const ResourceChart: React.FC<Props> = ({ node }) => {
   return (
     <>
-      <ResponsiveContainer width="50%" height="100%">
+      <ResponsiveContainer width={230} height="100%">
         <AreaChart
           width={100}
           height={100}
@@ -64,8 +64,10 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
           <Area type="monotone" unit="%" dataKey="availCPU" stackId="1" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
         </AreaChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width="50%" height="100%" >
+      <ResponsiveContainer width={250} height="100%" >
         <AreaChart
+          width={100}
+          height={100}
           data={node.memUsage}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         >

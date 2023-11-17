@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Card from "../../components/common/Card";
 import { SystemCapacityState } from "../../../engine/dto/systemLoad";
+import SystemCapacityTooltip from "./SystemCapacityTooltip";
 
 interface Props {
   systemLoad: SystemCapacityState
@@ -17,8 +18,8 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
   const totalRam = systemLoad.memory?.free + systemLoad.memory?.used
 
   const data = [
-    { name: 'CPU', free: systemLoad.cpu?.free * 100 / totalCpu, used: systemLoad.cpu?.used * 100 / totalCpu },
-    { name: 'RAM', free: systemLoad.memory?.free * 100 / totalRam, used: systemLoad.memory?.used * 100 / totalRam }
+    { name: 'CPU', free: totalCpu ? (systemLoad.cpu?.free * 100 / totalCpu).toFixed(2) : 100, used: totalCpu ? (systemLoad.cpu?.used * 100 / totalCpu).toFixed(2) :0 },
+    { name: 'RAM', free: totalRam ? (systemLoad.memory?.free * 100 / totalRam).toFixed(2) : 100, used: totalRam ? (systemLoad.memory?.used * 100 / totalRam).toFixed(2) : 0 }
   ];
 
   const renderColorfulLegendText: Formatter = (value, entry) => {
@@ -72,13 +73,11 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
           margin={{top: 0, right: 0, left: 0, bottom: 0}}
         >
           <XAxis dataKey="name" axisLine={false} tickLine={false} />
-          <Tooltip formatter={(value, name, bar) => {
-            if (!systemLoad?.cpu && !systemLoad.memory) return null
-            if (bar.payload.name === 'RAM') {
-              return `${systemLoad?.memory[bar.dataKey as 'free' | 'used'].toFixed(2)}GB`
+          <Tooltip
+            content={({ active, payload }) =>
+              <SystemCapacityTooltip active={active} payload={payload} systemLoad={systemLoad} />
             }
-            return systemLoad?.cpu[bar.dataKey as 'free' | 'used']
-          }} />
+          />
           <Legend
             // @ts-ignore
             width="40%"
@@ -91,8 +90,8 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
             align="right"
             formatter={renderColorfulLegendText}
           />
-          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#B6ED8B" radius={systemLoad.memory?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
-          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#E2E2E2" radius={[8, 8, 0, 0]} />
+          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#ffc658" radius={systemLoad.memory?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
+          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#B6ED8B" radius={[8, 8, 0, 0]} />
         </BarChart>
       </Box>
     </Card>
