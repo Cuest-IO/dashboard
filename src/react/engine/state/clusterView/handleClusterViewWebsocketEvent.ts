@@ -15,11 +15,11 @@ export const handleClusterViewWebsocketEvent = (message: ClusterViewMessage, que
       updatedNode = addNode(nodeStat, oldNodes as Map<string, ClusterViewNode>);
     }
 
-    switch (updatedNode?.status) {
-      case 'Initializing':
-      case 'Fatal':
-        updatedNode.workloads = [];
-    }
+    // switch (updatedNode?.status) {
+    //   case 'Initializing':
+    //   case 'Fatal':
+    //     updatedNode.workloads = [];
+    // }
 
     if (updatedNode?.connected) {
       nodes.set(updatedNode.nodeId, updatedNode);

@@ -31,7 +31,7 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
   const handleSuspendNode = () => {
     updateNode({ id: node.nodeId, accessStatus: AccessStatuses.suspended })
     handleMenuClose()
-    if (node.workloads?.length) {
+    if (node.workloads?.size) {
       toggleDialog(true)
     }
   }

@@ -11,10 +11,10 @@ export const useSystemLoad = () => {
     queryFn: async () => {
       const info = await systemLoadService.getRecord()
 
-      const cpuFree = info?.load?.cpu && info?.system?.cpu ? info.system.cpu - info.system.cpu * info.load.cpu : 0
       const cpuUsed = info?.load?.cpu && info?.system?.cpu ? info.system.cpu * info.load.cpu : 0
+      const cpuFree = cpuUsed && info?.system?.cpu ? info.system.cpu - cpuUsed : info?.system?.cpu || 0
       const memoryUsed = info?.load?.ram && info.system?.ram ? info.load.ram * info.system.ram : 0
-      const memoryFree = info?.system?.ram && memoryUsed ? info.system.ram - memoryUsed : 0
+      const memoryFree = info?.system?.ram && memoryUsed ? info.system.ram - memoryUsed : info?.system?.ram || 0
 
       const capacity: SystemCapacityState = {
         cpu: {

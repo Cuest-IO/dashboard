@@ -8,10 +8,11 @@ import MenuItem from '@mui/material/MenuItem';
 import PersonIcon from '@mui/icons-material/Person';
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Grid from "@mui/material/Grid";
+import { Auth } from "aws-amplify";
 
 export function Header() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const { user, signOut, authStatus } = useAuthenticator();
+  const { user, authStatus } = useAuthenticator();
 
   const companyName = user.attributes?.['custom:Company']
 
@@ -22,8 +23,7 @@ export function Header() {
   const handleCloseUserMenu = () => setAnchorElUser(null);
   const handleLogout = () => {
     try {
-      handleCloseUserMenu()
-      signOut()
+      Auth.signOut().then(() => handleCloseUserMenu())
     } catch (error) {
       console.log(error)
     }

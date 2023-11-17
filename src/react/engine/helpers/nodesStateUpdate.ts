@@ -41,11 +41,11 @@ export interface ClusterViewNode {
   system: Resources;
   cpuUsage: CPUUsage[];
   memUsage: MemoryUsage[];
-  workloads: Workload[];
+  workloads: Map<string, Workload>;
   accessStatus?: AccessStatuses;
 }
 
-export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage): ClusterViewNode | void {
+export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse): ClusterViewNode | void {
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
@@ -75,20 +75,23 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage)
       node.cpuUsage = [];
       node.memUsage = [];
       node.battery = {} as Battery;
-      node.workloads=[];
+      node.workloads = new Map();
     }
   }
 
-  if (nodeStat.workload) {
-    node.workloads = [...setWorkloads(node.workloads, nodeStat.workload)];
-    console.log(node.nodeName, nodeStat.workload);
+  if ((nodeStat as ClusterViewMessage).workload) {
+    node.workloads = setWorkloads(node.workloads, (nodeStat as ClusterViewMessage).workload);
+    console.log(node.nodeName, (nodeStat as ClusterViewMessage).workload);
+  }
+  if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
+    node.workloads = createWorkloads(node.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return node
 }
 
 export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse, nodes: Map<string, ClusterViewNode>): ClusterViewNode | void {
-  const newNode = {
+  const newNode: ClusterViewNode = {
     timestamp: nodeStat.time,
     nodeId: nodeStat.device,
     nodeName: nodes.size + 1,
@@ -98,7 +101,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     system: {} as Resources,
     cpuUsage: [] as CPUUsage[],
     memUsage: [] as MemoryUsage[],
-    workloads: [] as Workload[],
+    workloads: new Map(),
     accessStatus: nodeStat.accessStatus
   }
 
@@ -124,34 +127,37 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
   }
 
   if ((nodeStat as ClusterViewMessage).workload) {
-    newNode.workloads = [...setWorkloads(newNode.workloads, (nodeStat as ClusterViewMessage).workload)];
+    newNode.workloads = setWorkloads(newNode.workloads, (nodeStat as ClusterViewMessage).workload);
   }
   if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
-    newNode.workloads = createWorkloads((nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
+    newNode.workloads = createWorkloads(newNode.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return newNode
 }
 
-export function setWorkloads (workloads: Workload[], newWorkload: WorkloadsMessageInfo): Workload[] {
-  const workloadIndex = workloads.findIndex(workload => workload.name === newWorkload.name)
+export function setWorkloads (workloads: Map<string, Workload>, newWorkload: WorkloadsMessageInfo): Map<string, Workload> {
+  const workload = workloads.get(newWorkload.name)
 
-  if (newWorkload.event.toLowerCase() === "deleted" && workloadIndex >= 0) {
-    return workloads.slice(workloadIndex, 1);
-  } else if (workloadIndex >= 0) {
-    const updatedWorkloads = [...workloads]
-    updatedWorkloads[workloadIndex].status = newWorkload.status
-    return updatedWorkloads
+  if (newWorkload.event.toLowerCase() === "deleted" && workload) {
+    workloads.delete(newWorkload.name);
+  } else if (workload) {
+    workloads.set(newWorkload.name, newWorkload)
   } else {
-    return [...workloads, newWorkload]
+    workloads.set(newWorkload.name, newWorkload)
   }
+  return workloads
 }
 
-function createWorkloads (workloads: Array<WorkloadsResponseInfo>): Workload[] {
-  return workloads.map(workload => ({
-    name: workload.podName,
-    status: workload.podStatus,
-  }))
+function createWorkloads (workloads: Map<string, Workload>, newWorkloads: Array<WorkloadsResponseInfo>): Map<string, Workload> {
+  newWorkloads.forEach(workload => {
+    workloads.set(workload.podName, {
+      name: workload.podName,
+      status: workload.podStatus,
+    })
+  })
+
+  return workloads
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
