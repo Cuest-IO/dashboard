@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import { Grid, Typography } from '@mui/material';
 import BatteryChart from './BatteryChart';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
@@ -13,9 +13,10 @@ import { AccessStatuses } from "../../../engine/dto/nodes";
 
 interface Props {
   node: ClusterViewNode;
+  toggleDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
+const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
   const { t } = useTranslation()
   const { mutate: updateNode } = useMutateNodes()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -28,17 +29,20 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
   };
 
   const handleSuspendNode = () => {
-    updateNode({ id: node.nodeId, accessibility: AccessStatuses.suspended })
+    updateNode({ id: node.nodeId, accessStatus: AccessStatuses.suspended })
     handleMenuClose()
+    if (node.workloads?.size) {
+      toggleDialog(true)
+    }
   }
 
   const handleEnableNode = () => {
-    updateNode({ id: node.nodeId, accessibility: undefined })
+    updateNode({ id: node.nodeId, accessStatus: AccessStatuses.available })
     handleMenuClose()
   }
 
   const handleBlockNode = () => {
-    updateNode({ id: node.nodeId, accessibility: AccessStatuses.blocked })
+    updateNode({ id: node.nodeId, accessStatus: AccessStatuses.blocked })
     handleMenuClose()
   }
 
@@ -53,7 +57,7 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
         fontWeight={700}
         color={(theme) => theme.palette.secondary.main}
       >
-        {t('core:node')} #: {node.nodeName} ({node.status}{node.accessibility ? `/${node.accessibility}` : ''}) {' '}
+        {t('core:node')} #: {node.nodeName} ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
       </Typography>
       <Grid
         item
@@ -88,19 +92,19 @@ const NodeViewCardHeader: React.FC<Props> = ({ node }) => {
         >
           <MenuItem
             onClick={handleSuspendNode}
-            disabled={node.accessibility === AccessStatuses.suspended}
+            disabled={node.accessStatus === AccessStatuses.suspended}
           >
             {t('cluster_view:suspend')}
           </MenuItem>
           <MenuItem
             onClick={handleEnableNode}
-            disabled={!node.accessibility || node.accessibility === AccessStatuses.available}
+            disabled={!node.accessStatus || node.accessStatus === AccessStatuses.available}
           >
             {t('cluster_view:enable')}
           </MenuItem>
           <MenuItem
             onClick={handleBlockNode}
-            disabled={node.accessibility === AccessStatuses.blocked}
+            disabled={node.accessStatus === AccessStatuses.blocked}
           >
             {t('cluster_view:block')}
           </MenuItem>

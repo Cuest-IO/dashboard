@@ -5,7 +5,7 @@ export interface NodeItemResponse {
   created_at: number;
   last_connected_at: number;
   is_connected: boolean;
-  accessibility?: AccessStatuses;
+  accessStatus?: AccessStatuses;
   cpu?: number;
   ram?: number;
   disk?: number;

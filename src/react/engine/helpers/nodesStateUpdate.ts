@@ -20,9 +20,9 @@ export interface CPUUsage {
 
 export interface MemoryUsage {
   totalMemory: number;
-  availMemory: number;
-  sysMemory: number;
-  usedMemory: number;
+  availableMemory: number;
+  inUseMemory: number;
+  allocatedMemory: number;
   timestamp: number;
 }
 
@@ -41,11 +41,11 @@ export interface ClusterViewNode {
   system: Resources;
   cpuUsage: CPUUsage[];
   memUsage: MemoryUsage[];
-  workloads: Workload[];
-  accessibility?: AccessStatuses;
+  workloads: Map<string, Workload>;
+  accessStatus?: AccessStatuses;
 }
 
-export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage): ClusterViewNode | void {
+export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse): ClusterViewNode | void {
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
@@ -75,20 +75,23 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage)
       node.cpuUsage = [];
       node.memUsage = [];
       node.battery = {} as Battery;
-      node.workloads=[];
+      node.workloads = new Map();
     }
   }
 
-  if (nodeStat.workload) {
-    node.workloads = [...setWorkloads(node.workloads, nodeStat.workload)];
-    console.log(node.nodeName, nodeStat.workload);
+  if ((nodeStat as ClusterViewMessage).workload) {
+    node.workloads = setWorkloads(node.workloads, (nodeStat as ClusterViewMessage).workload);
+    console.log(node.nodeName, (nodeStat as ClusterViewMessage).workload);
+  }
+  if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
+    node.workloads = createWorkloads(node.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return node
 }
 
 export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse, nodes: Map<string, ClusterViewNode>): ClusterViewNode | void {
-  const newNode = {
+  const newNode: ClusterViewNode = {
     timestamp: nodeStat.time,
     nodeId: nodeStat.device,
     nodeName: nodes.size + 1,
@@ -98,8 +101,8 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     system: {} as Resources,
     cpuUsage: [] as CPUUsage[],
     memUsage: [] as MemoryUsage[],
-    workloads: [] as Workload[],
-    accessibility: nodeStat.accessibility
+    workloads: new Map(),
+    accessStatus: nodeStat.accessStatus
   }
 
   if (nodeStat.info && nodeStat.info.state) {
@@ -112,11 +115,10 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.battery = state.battery as Battery;
     if (state.device && state.vm) {
       newNode.system = {
-        cpu: state.vm.system?.cpu || state.device.system?.cpu,
-        disk: state.vm.system?.disk || state.device.system?.disk,
+        cpu: state.device.system?.cpu,
+        disk: state.device.system?.disk,
         // memory: formatMBytes(state.device.system?.ram || 0),
-        // ram: formatMBytes(state.device.system?.ram || 0),
-        ram: formatMBytes(state.vm.system?.max_ram || state.device.system?.ram || 0)
+        ram: formatMBytes(state.device.system?.ram || 0),
       };
       // adding twice for a proper graph display, otherwise showing dots
       newNode.cpuUsage = [cpuUsage(state, nodeStat.time), cpuUsage(state, nodeStat.time)];
@@ -125,38 +127,41 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
   }
 
   if ((nodeStat as ClusterViewMessage).workload) {
-    newNode.workloads = [...setWorkloads(newNode.workloads, (nodeStat as ClusterViewMessage).workload)];
+    newNode.workloads = setWorkloads(newNode.workloads, (nodeStat as ClusterViewMessage).workload);
   }
   if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
-    newNode.workloads = createWorkloads((nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
+    newNode.workloads = createWorkloads(newNode.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return newNode
 }
 
-export function setWorkloads (workloads: Workload[], newWorkload: WorkloadsMessageInfo): Workload[] {
-  const workloadIndex = workloads.findIndex(workload => workload.name === newWorkload.name)
+export function setWorkloads (workloads: Map<string, Workload>, newWorkload: WorkloadsMessageInfo): Map<string, Workload> {
+  const workload = workloads.get(newWorkload.name)
 
-  if (newWorkload.event.toLowerCase() === "deleted" && workloadIndex >= 0) {
-    return workloads.slice(workloadIndex, 1);
-  } else if (workloadIndex >= 0) {
-    const updatedWorkloads = [...workloads]
-    updatedWorkloads[workloadIndex].status = newWorkload.status
-    return updatedWorkloads
+  if (newWorkload.event.toLowerCase() === "deleted" && workload) {
+    workloads.delete(newWorkload.name);
+  } else if (workload) {
+    workloads.set(newWorkload.name, newWorkload)
   } else {
-    return [...workloads, newWorkload]
+    workloads.set(newWorkload.name, newWorkload)
   }
+  return workloads
 }
 
-function createWorkloads (workloads: Array<WorkloadsResponseInfo>): Workload[] {
-  return workloads.map(workload => ({
-    name: workload.podName,
-    status: workload.podStatus,
-  }))
+function createWorkloads (workloads: Map<string, Workload>, newWorkloads: Array<WorkloadsResponseInfo>): Map<string, Workload> {
+  newWorkloads.forEach(workload => {
+    workloads.set(workload.podName, {
+      name: workload.podName,
+      status: workload.podStatus,
+    })
+  })
+
+  return workloads
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
-  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.vm.system.cpu : 0;
+  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu && state.device?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.device.system.cpu : 0;
   let sysCPU= (state?.device?.load?.cpu || 0) * 100 - vmCPU;
   if (sysCPU < 0) {
     sysCPU = 0;
@@ -178,17 +183,17 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
 }
 
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
-  const totalMem= formatMBytes(state.vm?.system?.max_ram || 0);
-  const vmMem= (state.vm?.system?.ram) ? formatMBytes(state.vm.system.ram) : 0;
-  const sysMem= parseFloat((formatMBytes((state.vm?.system?.max_ram || 0), state.device?.load?.ram) - vmMem).toFixed(1));
+  const totalMem= formatMBytes(state.device?.system?.ram || 0);
+  const vmMem= (state.vm?.system?.ram && state.vm?.load?.allocated) ? formatMBytes(state.vm.system.ram * state.vm.load.allocated) : 0;
+  const sysMem= parseFloat( (totalMem * (state.device?.load?.ram || 0) - vmMem).toFixed(1));
   let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));
   freeMem = (freeMem < 0) ? 0 : freeMem;
 
   return {
     totalMemory: totalMem,
-    availMemory: freeMem,
-    sysMemory: sysMem,
-    usedMemory: vmMem,
+    availableMemory: freeMem,
+    inUseMemory: sysMem,
+    allocatedMemory: vmMem,
     timestamp: timestamp
   }
 }

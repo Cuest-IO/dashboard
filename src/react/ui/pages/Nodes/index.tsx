@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, {useMemo, useState} from "react";
 import moment from "moment/moment";
 import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import Grid from "@mui/material/Grid";
@@ -14,10 +14,12 @@ import { useMutateNodes } from "../../../engine/state/nodes/useUpdateNode";
 import Button from "@mui/material/Button";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
+import NodeSuspendDialog from "../ClusterView/NodeSuspendDialog";
 
 export type NodesColumns = (Omit<MRT_ColumnDef<NodeItemResponse>, 'id'> & { id: string; })[];
 
 const Nodes = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const { data: nodes } = useNodes()
   const { t } = useTranslation()
   const { mutate: updateNode } = useMutateNodes()
@@ -67,10 +69,10 @@ const Nodes = () => {
         Cell: ({ cell }) => formatMBytes(cell.getContext().getValue() as number)
       },
       {
-        id: 'accessibility',
-        accessorKey: 'accessibility',
-        header: 'Accessibility',
-        Cell: ({ cell }) => cell.getContext().getValue<string>() || 'Enabled'
+        id: 'accessStatus',
+        accessorKey: 'accessStatus',
+        header: 'accessStatus',
+        Cell: ({ cell }) => cell.getContext().getValue<string>() || 'Available'
       }
     ],
     [],
@@ -78,19 +80,20 @@ const Nodes = () => {
 
   const handleSuspendNode = (row: MRT_Row<NodeItemResponse>) => {
     const { id } = row.original
-    updateNode({ id, accessibility: AccessStatuses.suspended })
+    updateNode({ id, accessStatus: AccessStatuses.suspended })
     handleMenuClose()
+    setIsDialogOpen(true)
   }
 
   const handleEnableNode = (row: MRT_Row<NodeItemResponse>) => {
     const { id } = row.original
-    updateNode({ id, accessibility: AccessStatuses.available })
+    updateNode({ id, accessStatus: AccessStatuses.available })
     handleMenuClose()
   }
 
   const handleBlockNode = (row: MRT_Row<NodeItemResponse>) => {
     const { id } = row.original
-    updateNode({ id, accessibility: AccessStatuses.blocked })
+    updateNode({ id, accessStatus: AccessStatuses.blocked })
     handleMenuClose()
   }
 
@@ -105,6 +108,7 @@ const Nodes = () => {
         xs={12}
         maxWidth='100% !important'
       >
+        <NodeSuspendDialog isOpen={isDialogOpen} toggleDialog={setIsDialogOpen} />
         <Typography
           variant='h5'
           fontWeight={700}
@@ -154,19 +158,19 @@ const Nodes = () => {
               >
                 <MenuItem
                   onClick={() => handleSuspendNode(row)}
-                  disabled={row.original.accessibility === AccessStatuses.suspended}
+                  disabled={row.original.accessStatus === AccessStatuses.suspended}
                 >
                   {t('nodes:suspend')}
                 </MenuItem>
                 <MenuItem
                   onClick={() => handleEnableNode(row)}
-                  disabled={!row.original.accessibility || row.original.accessibility === AccessStatuses.available}
+                  disabled={!row.original.accessStatus || row.original.accessStatus === AccessStatuses.available}
                 >
                   {t('nodes:enable')}
                 </MenuItem>
                 <MenuItem
                   onClick={() => handleBlockNode(row)}
-                  disabled={row.original.accessibility === AccessStatuses.blocked}
+                  disabled={row.original.accessStatus === AccessStatuses.blocked}
                 >
                   {t('nodes:block')}
                 </MenuItem>

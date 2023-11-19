@@ -1,27 +1,23 @@
-import { useQuery } from '@tanstack/react-query';
+import {QueryFunction, useQuery, useQueryClient} from '@tanstack/react-query';
 import { useClusterViewService } from "./useClusterViewService";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { addNode, ClusterViewNode } from "../../helpers/nodesStateUpdate";
-import { useEffect, useState } from "react";
+import {addNode, ClusterViewNode, updateNode} from "../../helpers/nodesStateUpdate";
+import {useCallback, useEffect, useState} from "react";
 import useWebsocket from "../websocket/useWebsocket";
 
 export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean }) => {
+  const queryClient = useQueryClient()
   const [isWebsocketEnabled, setIsWebsocketEnabled] = useState<boolean>(false);
   const clusterViewService = useClusterViewService();
   const { user } = useAuthenticator();
   const { createWebsocketConnection, websocket } = useWebsocket(isWebsocketEnabled, setIsWebsocketEnabled)
 
-  const createNewConnectionIfInterrupted = () => {
+  const createNewConnectionIfInterrupted = useCallback(() => {
     if (websocket?.readyState === 3) {
       setIsWebsocketEnabled(false)
       query.refetch()
     }
-  }
-
-  const reconnectWebsocket = () => {
-    websocket?.close()
-    createWebsocketConnection()
-  }
+  }, [websocket, websocket?.readyState])
 
   useEffect(() => {
     if (!isWebsocketEnabled) {
@@ -43,35 +39,45 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
     if (isUserAuthLoaded && user) query.refetch()
   }, [isUserAuthLoaded, user])
 
+  const queryFn: QueryFunction = useCallback(async () => {
+    const initData = queryClient.getQueryData<Map<string, ClusterViewNode>>(['clusterView']) || new Map()
+    if (isUserAuthLoaded && !user || !isUserAuthLoaded) {
+      return new Map()
+    }
+
+    return clusterViewService.getList({}).then(clusterViewResponse => {
+      const nodes = clusterViewResponse.reduce(
+        (acc: Map<string, ClusterViewNode>, clusterViewNode) => {
+          const node: ClusterViewNode | undefined = acc?.get(clusterViewNode.device);
+
+          let updatedNode;
+          if (node) {
+            updatedNode = updateNode(node, clusterViewNode);
+          } else {
+            updatedNode = addNode(clusterViewNode, acc as Map<string, ClusterViewNode>)
+          }
+
+          if (updatedNode?.connected) {
+            acc.set(updatedNode.nodeId, updatedNode);
+          }
+          return acc
+        }, new Map(initData))
+
+      createWebsocketConnection()
+
+      return nodes
+    }).catch(createWebsocketConnection) // TODO: fix temp
+  }, [clusterViewService, websocket, isUserAuthLoaded, user])
+
   const query = useQuery<unknown, unknown, Map<string, ClusterViewNode>>({
     queryKey: isUserAuthLoaded && user ? ['clusterView'] : ['clusterView', 'nonAuth'],
-    queryFn: async () => {
-
-      if (isUserAuthLoaded && !user || !isUserAuthLoaded) {
-        return new Map()
-      }
-
-      return clusterViewService.getList({}).then(clusterViewResponse => {
-        const nodes = clusterViewResponse.reduce(
-          (acc: Map<string, ClusterViewNode>, clusterViewNode) => {
-            const updatedNode = addNode(clusterViewNode, acc as Map<string, ClusterViewNode>)
-            if (updatedNode?.connected) {
-              acc.set(updatedNode.nodeId, updatedNode);
-            }
-            return acc
-          }, new Map())
-
-        // createWebsocketConnection()
-        reconnectWebsocket()
-
-        return nodes
-      }).catch(reconnectWebsocket) // TODO: fix temp
-    },
+    queryFn,
     keepPreviousData: true,
     staleTime: 0, // TODO: fix or update
     retry: 2,
     refetchOnWindowFocus: false,
-    initialData: new Map()
+    initialData: new Map(),
+    cacheTime: 0,
   });
 
   return query;

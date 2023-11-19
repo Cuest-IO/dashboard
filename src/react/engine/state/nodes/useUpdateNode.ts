@@ -6,13 +6,13 @@ export const useMutateNodes = () => {
   const nodesService = useNodesService();
   const queryClient = useQueryClient()
 
-  const mutation = useMutation<NodeItemResponse, unknown, NodeBody>((agent: NodeBody) => {
-    const { id } = agent
+  const mutation = useMutation<NodeItemResponse, unknown, NodeBody & { id: string }>((agent) => {
+    const { id, ...body } = agent
 
-    return nodesService.updateOne(id, agent)
+    return nodesService.updateOne(id, body)
   },
     {
-      onSettled: () => [
+      onSuccess: () => [
         queryClient.invalidateQueries(['nodes']),
         queryClient.invalidateQueries(['clusterView'])
       ],

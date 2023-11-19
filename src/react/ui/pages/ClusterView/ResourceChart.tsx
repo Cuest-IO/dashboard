@@ -17,7 +17,7 @@ interface Props {
 const ResourceChart: React.FC<Props> = ({ node }) => {
   return (
     <>
-      <ResponsiveContainer width="50%" height="100%">
+      <ResponsiveContainer width={230} height="100%">
         <AreaChart
           width={100}
           height={100}
@@ -64,8 +64,10 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
           <Area type="monotone" unit="%" dataKey="availCPU" stackId="1" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
         </AreaChart>
       </ResponsiveContainer>
-      <ResponsiveContainer width="50%" height="100%" >
+      <ResponsiveContainer width={250} height="100%" >
         <AreaChart
+          width={100}
+          height={100}
           data={node.memUsage}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         >
@@ -98,9 +100,9 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             cursor={{ fill: "transparent" }}
           />
           <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
-          <Area type="monotone" unit="GB" dataKey="usedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
-          <Area type="monotone" unit="GB" dataKey="sysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
-          <Area type="monotone" unit="GB" dataKey="availMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
+          <Area type="monotone" unit="GB" dataKey="allocatedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
+          <Area type="monotone" unit="GB" dataKey="inUseMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+          <Area type="monotone" unit="GB" dataKey="availableMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
         </AreaChart>
       </ResponsiveContainer>
     </>

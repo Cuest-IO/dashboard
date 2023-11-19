@@ -28,6 +28,7 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
   }, [])
 
   const createWebsocketConnection = async () => {
+    websocket.current?.close()
     websocket.current = new WebSocket("wss://".concat("socket.cuest.io?type=web&token=").concat((await Auth.currentSession()).getIdToken().getJwtToken()));
 
     websocket.current.onopen = () => {
