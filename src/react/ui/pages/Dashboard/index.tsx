@@ -41,10 +41,10 @@ export default function Dashboard() {
         (!isNodesLoading && !isClustersLoading && !isSystemLoadLoading && !nodesError && !clustersError) ? (
           <Grid container gap={6}>
             {/*<BillingCard title={`${t('dashboard:last')} ${t('dashboard:month').toLowerCase()}`} />*/}
-            <ClusterCard clusters={clusters}  nodes={nodes} />
+            <SystemCapacityCard systemLoad={systemLoad}  />
+            {/*<ClusterCard clusters={clusters}  nodes={nodes} />*/}
             <NodeCard nodes={nodes}/>
             <SystemCard nodes={nodes} />
-            <SystemCapacityCard systemLoad={systemLoad}  />
           </Grid>
         ) : (
           <Skeleton

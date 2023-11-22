@@ -17,10 +17,18 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
   const totalCpu = systemLoad.cpu?.free + systemLoad.cpu?.used
   const totalRam = systemLoad.memory?.free + systemLoad.memory?.used
 
-  const data = [
-    { name: 'CPU', free: totalCpu ? (systemLoad.cpu?.free * 100 / totalCpu).toFixed(2) : 100, used: totalCpu ? (systemLoad.cpu?.used * 100 / totalCpu).toFixed(2) :0 },
-    { name: 'RAM', free: totalRam ? (systemLoad.memory?.free * 100 / totalRam).toFixed(2) : 100, used: totalRam ? (systemLoad.memory?.used * 100 / totalRam).toFixed(2) : 0 }
-  ];
+  const data = {
+    cpu: [{
+      name: 'CPU',
+      free: totalCpu ? (systemLoad.cpu?.free * 100 / totalCpu).toFixed(2) : 100,
+      used: totalCpu ? (systemLoad.cpu?.used * 100 / totalCpu).toFixed(2) : 0
+    }],
+    memory: [{
+      name: 'RAM',
+      free: totalRam ? (systemLoad.memory?.free * 100 / totalRam).toFixed(2) : 100,
+      used: totalRam ? (systemLoad.memory?.used * 100 / totalRam).toFixed(2) : 0
+    }]
+  };
 
   const renderColorfulLegendText: Formatter = (value, entry) => {
     return (
@@ -63,24 +71,43 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
     >
       <Box
         width='100%'
+        display='flex'
         fontSize='14px'
       >
         <BarChart
-          width={300}
+          width={90}
           height={145}
-          data={data}
+          data={data.cpu}
           barGap={2}
           margin={{top: 0, right: 0, left: 0, bottom: 0}}
         >
           <XAxis dataKey="name" axisLine={false} tickLine={false} />
           <Tooltip
+            cursor={{fill: 'transparent'}}
+            content={({ active, payload }) =>
+              <SystemCapacityTooltip active={active} payload={payload} systemLoad={systemLoad} />
+            }
+          />
+          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#ffc658" radius={systemLoad.cpu?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
+          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#B6ED8B" radius={!systemLoad.cpu?.used ? [8, 8, 8, 8] : [8, 8, 0, 0]} />
+        </BarChart>
+        <BarChart
+          width={160}
+          height={145}
+          data={data.memory}
+          barGap={2}
+          margin={{top: 0, right: 0, left: 0, bottom: 0}}
+        >
+          <XAxis dataKey="name" axisLine={false} tickLine={false} />
+          <Tooltip
+            cursor={{fill: 'transparent'}}
             content={({ active, payload }) =>
               <SystemCapacityTooltip active={active} payload={payload} systemLoad={systemLoad} />
             }
           />
           <Legend
             // @ts-ignore
-            width="40%"
+            width="50%"
             fontSize="14px"
             iconType="circle"
             layout="vertical"
@@ -91,7 +118,7 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
             formatter={renderColorfulLegendText}
           />
           <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#ffc658" radius={systemLoad.memory?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
-          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#B6ED8B" radius={[8, 8, 0, 0]} />
+          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#B6ED8B" radius={!systemLoad.memory?.used ? [8, 8, 8, 8] : [8, 8, 0, 0]} />
         </BarChart>
       </Box>
     </Card>
