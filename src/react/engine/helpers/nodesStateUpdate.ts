@@ -49,7 +49,7 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage 
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
-    if (nodeStat.info.connectivity || status === "") {
+    if (status === "") {
       return; // don't process messages without proper status, like connect, disconnect etc
     }
 
