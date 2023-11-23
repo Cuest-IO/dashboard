@@ -49,9 +49,6 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage 
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
-    if (status === "") {
-      return; // don't process messages without proper status, like connect, disconnect etc
-    }
 
     node.status = status;
     node.timestamp = nodeStat.time; // don't update timestamp for k8s messages, only for state info
@@ -111,9 +108,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.connected = nodeStat.info.connectivity;
     const state = nodeStat.info.state;
     newNode.status = setNodeStatus(state.status);
-    if (!newNode.connected || newNode.status === "") {
-      return; // don't process messages without proper status, like connect, disconnect etc
-    }
+
     newNode.battery = state.battery as Battery;
     if (state.device && state.vm) {
       newNode.system = {

@@ -24,6 +24,7 @@ const resourceLanguage: ResourceLanguage = {
   },
   dashboard: {
     system: 'System',
+    system_load: 'System load',
     view_clusters: 'View clusters',
     view_nodes: 'View nodes',
     cluster_name: 'Cluster Name',
