@@ -53,18 +53,18 @@ const Nodes = () => {
       },
       {
         id: 'cpu',
-        accessorKey: 'cpu',
+        accessorKey: 'device.cpu',
         header: 'Cores',
       },
       {
         id: 'ram',
-        accessorKey: 'ram',
+        accessorKey: 'device.ram',
         header: 'Memory',
         Cell: ({ cell }) => formatMBytes(cell.getContext().getValue() as number)
       },
       {
         id: 'disk',
-        accessorKey: 'disk',
+        accessorKey: 'device.disk',
         header: 'Disk',
         Cell: ({ cell }) => formatMBytes(cell.getContext().getValue() as number)
       },

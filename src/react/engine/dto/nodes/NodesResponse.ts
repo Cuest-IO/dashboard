@@ -1,4 +1,5 @@
 import { AccessStatuses } from "./AccessStatuses";
+import { Resources } from "../common";
 
 export interface NodeItemResponse {
   id: string;
@@ -6,9 +7,8 @@ export interface NodeItemResponse {
   last_connected_at: number;
   is_connected: boolean;
   accessStatus?: AccessStatuses;
-  cpu?: number;
-  ram?: number;
-  disk?: number;
+  device?: Resources;
+  vm?: Resources;
 }
 
 export type NodesResponse = NodeItemResponse[]

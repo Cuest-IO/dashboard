@@ -39,8 +39,6 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
     if (isUserAuthLoaded && user) query.refetch()
   }, [isUserAuthLoaded, user])
 
-
-
   const queryFn: QueryFunction = useCallback(async () => {
     const initData = queryClient.getQueryData<Map<string, ClusterViewNode>>(['clusterView']) || new Map() as Map<string, ClusterViewNode>
     if (isUserAuthLoaded && !user || !isUserAuthLoaded) {
@@ -61,6 +59,8 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
 
           if (updatedNode?.connected) {
             acc.set(updatedNode.nodeId, updatedNode);
+          } else if (!updatedNode || !updatedNode?.connected || !updatedNode?.status) {
+            nodes.delete(clusterViewNode.device)
           }
           return acc
         }, new Map(initData))

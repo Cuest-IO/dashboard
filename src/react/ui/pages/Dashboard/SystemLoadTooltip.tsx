@@ -9,7 +9,7 @@ interface Props {
   systemLoad: SystemCapacityState;
 }
 
-const SystemCapacityTooltip: React.FC<Props> = ({ active, payload, systemLoad }: Props) => {
+const SystemLoadTooltip: React.FC<Props> = ({ active, payload, systemLoad }: Props) => {
   if (active && payload && payload.length > 0 ) {
     const valueFree = payload[0].payload.name === 'RAM' ? `${systemLoad?.memory[payload[1].dataKey as 'free' | 'used'].toFixed(2)}GB` : systemLoad?.cpu[payload[1].dataKey as 'free' | 'used']
     const valueUsed = payload[0].payload.name === 'RAM' ? `${systemLoad?.memory[payload[0].dataKey as 'free' | 'used'].toFixed(2)}GB` : systemLoad?.cpu[payload[0].dataKey as 'free' | 'used']
@@ -30,4 +30,4 @@ const SystemCapacityTooltip: React.FC<Props> = ({ active, payload, systemLoad }:
   return null;
 }
 
-export default SystemCapacityTooltip
+export default SystemLoadTooltip
