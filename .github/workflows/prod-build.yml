@@ -1,0 +1,61 @@
+name: PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches: ["main"]
+
+env:
+  NODE_VERSION: "16.14"
+
+jobs:
+  CI:
+    name: Build
+    if: (github.event.pull_request.merged != true && github.event.action != 'closed')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 16.14
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: CI=false npm run build:prod
+
+      # - name: Build Failed - Send Slack message in case of failure
+      #   if: failure()
+      #   uses: slackapi/slack-github-action@v1.15.0
+      #   with:
+      #     channel-id: "###########"
+      #     slack-message: |
+      #       Hello @here !
+      #       :no_entry:  Build for service *${{ github.repository }}* failed  :no_entry:
+      #       *Please review the logs of the failed Build*
+      #       repo: ${{ github.repository }}
+      #       branch: ${{ github.ref }}
+      #       author: *${{ github.event.head_commit.author.name }}*
+      #       commit desc: "'${{ github.event.head_commit.message }}'' --> '${{ github.event.head_commit.url }}''"
+      #       gitflow action: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      # - name: Send Slack message (Build-notification) on new Build
+      #   if: success()
+      #   uses: slackapi/slack-github-action@v1.15.0
+      #   with:
+      #     channel-id: "########"
+      #     slack-message: |
+      #       Hello @here !
+      #       :fire: New Build for service *${{ github.repository }}* :fire:
+      #       repo: *${{ github.repository }}*
+      #       branch: ${{ github.ref }}
+      #       author: *${{ github.event.head_commit.author.name }}*
+      #       commit desc: "'${{ github.event.head_commit.message }}'' --> '${{ github.event.head_commit.url }}''"
