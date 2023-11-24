@@ -49,13 +49,12 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage 
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
-    if (nodeStat.info.connectivity && status === "") {
-      return; // don't process messages without proper status, like connect, disconnect etc
-    }
 
     node.status = status;
     node.timestamp = nodeStat.time; // don't update timestamp for k8s messages, only for state info
     node.connected = nodeStat.info.connectivity;
+
+    node.accessStatus = nodeStat.accessStatus;
     if (node.connected) {
       if (state.device && state.vm) {
         node.cpuUsage.push(cpuUsage(state, nodeStat.time));
@@ -109,9 +108,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.connected = nodeStat.info.connectivity;
     const state = nodeStat.info.state;
     newNode.status = setNodeStatus(state.status);
-    if (!newNode.connected || newNode.status === "") {
-      return; // don't process messages without proper status, like connect, disconnect etc
-    }
+
     newNode.battery = state.battery as Battery;
     if (state.device && state.vm) {
       newNode.system = {
@@ -206,4 +203,14 @@ export function setNodeStatus(status?: string){
     case 'Fatal': return 'Fatal';
   }
   return '';
+}
+
+export const filterOutAbsentData = <TData>(initData: Map<string, TData>, updatedData: Map<string, TData>): Map<string, TData> => {
+  Array.from(initData.keys()).forEach(key => {
+    if (!updatedData.has(key)) {
+      initData.delete(key)
+    }
+  })
+
+  return initData;
 }

@@ -1,47 +1,59 @@
-import React from 'react';
-import { Formatter } from "recharts/types/component/DefaultLegendContent";
+import { useNavigate } from "react-router-dom";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Bar, BarChart, Legend, Tooltip, XAxis } from "recharts";
 import Typography from "@mui/material/Typography";
+import { ChevronRight } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { formatMBytes, formatFloat, toNumber } from "../../../engine/helpers/utilities";
+import { NodeItemResponse, NodesResponse } from "../../../engine/dto/nodes";
 import Card from "../../components/common/Card";
-import { SystemCapacityState } from "../../../engine/dto/systemLoad";
-import SystemCapacityTooltip from "./SystemCapacityTooltip";
+import SystemLoad from "./SystemLoad";
 
 interface Props {
-  systemLoad: SystemCapacityState
+  nodes: NodesResponse
 }
 
-const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
+const SystemCapacityCard: React.FC<Props> = ({ nodes }: Props) => {
+  const navigate = useNavigate()
   const { t } = useTranslation()
-  const totalCpu = systemLoad.cpu?.free + systemLoad.cpu?.used
-  const totalRam = systemLoad.memory?.free + systemLoad.memory?.used
 
-  const data = [
-    { name: 'CPU', free: totalCpu ? (systemLoad.cpu?.free * 100 / totalCpu).toFixed(2) : 100, used: totalCpu ? (systemLoad.cpu?.used * 100 / totalCpu).toFixed(2) :0 },
-    { name: 'RAM', free: totalRam ? (systemLoad.memory?.free * 100 / totalRam).toFixed(2) : 100, used: totalRam ? (systemLoad.memory?.used * 100 / totalRam).toFixed(2) : 0 }
-  ];
+  const systemCPU = useMemo(() => {
+    return nodes.reduce((acc, node: NodeItemResponse) => {
+      if (node.is_connected) {
+        return [
+          { ...acc[0], count: acc[0].count + toNumber(node.vm?.cpu) },
+          acc[1],
+        ]
+      }
+      return [
+        acc[0],
+        { ...acc[1], count: acc[1].count + toNumber(node.vm?.cpu) },
+      ]
+    }, [
+      { count: 0, name: "Online", fill: "#B6ED8B" },
+      { count: 0, name: "Offline", fill: "#E2E2E2" },
+    ])
+  }, [nodes])
 
-  const renderColorfulLegendText: Formatter = (value, entry) => {
-    return (
-      <Box
-        component='span'
-        color='#575757'
-        fontWeight={500}
-        paddingLeft='5px'
-      >
-        <Box component='span'>{value}</Box>
-        <Box
-          component='span'
-          position='absolute'
-          right='0px'
-        >
-          {/* @ts-ignore */}
-          {(data.length && entry.id) && (data[0][entry.dataKey as keyof typeof data[0]])}
-        </Box>
-      </Box>
-    );
-  };
+  const systemMem = useMemo(() => {
+    return nodes.reduce((acc, node: NodeItemResponse) => {
+      if (node.is_connected) {
+        return [
+          { ...acc[0], count: acc[0].count + formatMBytes(node.vm?.ram || 0) },
+          acc[1],
+        ]
+      }
+      return [
+        acc[0],
+        { ...acc[1], count: acc[1].count + formatMBytes(node.vm?.ram || 0) },
+      ]
+    }, [
+      { count: 0, name: "Online", fill: "#B6ED8B" },
+      { count: 0, name: "Offline", fill: "#E2E2E2" },
+    ]).map(node => ({ ...node, count: formatFloat(node.count) }))
+  }, [nodes])
 
   return (
     <Card
@@ -61,41 +73,25 @@ const SystemCapacityCard: React.FC<Props> = ({ systemLoad }) => {
         p: 6,
       }}
     >
-      <Box
-        width='100%'
-        fontSize='14px'
-      >
-        <BarChart
-          width={300}
-          height={145}
-          data={data}
-          barGap={2}
-          margin={{top: 0, right: 0, left: 0, bottom: 0}}
+      <Box>
+        <Button
+          variant='outlined'
+          color='primary'
+          onClick={() => navigate('/clusters')}
+          sx={{
+            borderRadius: 5,
+            lineHeight: '17px',
+          }}
         >
-          <XAxis dataKey="name" axisLine={false} tickLine={false} />
-          <Tooltip
-            content={({ active, payload }) =>
-              <SystemCapacityTooltip active={active} payload={payload} systemLoad={systemLoad} />
-            }
-          />
-          <Legend
-            // @ts-ignore
-            width="40%"
-            fontSize="14px"
-            iconType="circle"
-            layout="vertical"
-            verticalAlign="middle"
-            iconSize={10}
-            padding={0}
-            align="right"
-            formatter={renderColorfulLegendText}
-          />
-          <Bar barSize={50} dataKey="used" name="Used" stackId="a" fill="#ffc658" radius={systemLoad.memory?.free ? [0, 0, 8, 8] : [8, 8, 8, 8]} />
-          <Bar barSize={50} dataKey="free" name="Free" stackId="a" fill="#B6ED8B" radius={[8, 8, 0, 0]} />
-        </BarChart>
+          {t('dashboard:report_a_problem')} <ChevronRight sx={{ fontSize: '17px' }} viewBox='0 3 19 19' />
+        </Button>
       </Box>
+      <Grid container gap={3} fontSize='14px' height='169px' pt={2}>
+        <SystemLoad data={systemCPU} label="vCPU" unit="   "/>
+        <SystemLoad data={systemMem} label="Mem(GB)" unit="GB"/>
+      </Grid>
     </Card>
-  );
+  ) ;
 }
 
 export default SystemCapacityCard;

@@ -12,7 +12,6 @@ interface Props {
 }
 
 const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
-  console.log(node)
   return (
     <Card
       header={

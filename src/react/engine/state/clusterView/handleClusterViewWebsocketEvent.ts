@@ -23,8 +23,8 @@ export const handleClusterViewWebsocketEvent = (message: ClusterViewMessage, que
 
     if (updatedNode?.connected) {
       nodes.set(updatedNode.nodeId, updatedNode);
-    } else if (updatedNode?.nodeId) {
-      nodes.delete(updatedNode.nodeId);
+    } else if (!updatedNode || !updatedNode?.connected || !updatedNode?.status) {
+      nodes.delete(nodeStat.device)
     }
     return nodes
   })
