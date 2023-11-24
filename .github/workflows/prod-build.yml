@@ -6,7 +6,7 @@ on:
       - opened
       - reopened
       - synchronize
-    branches: ["ci_cd/main"]
+    branches: ["main"]
 
 env:
   NODE_VERSION: "16.14"
