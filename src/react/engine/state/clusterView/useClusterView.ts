@@ -56,7 +56,7 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
           } else {
             updatedNode = addNode(clusterViewNode, acc as Map<string, ClusterViewNode>)
           }
-          console.log(1111, updatedNode)
+          
           if (updatedNode?.connected) {
             acc.set(updatedNode.nodeId, updatedNode);
           } else if (!updatedNode || !updatedNode?.connected || !updatedNode?.status) {
