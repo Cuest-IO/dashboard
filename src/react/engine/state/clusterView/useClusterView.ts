@@ -56,18 +56,17 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
           } else {
             updatedNode = addNode(clusterViewNode, acc as Map<string, ClusterViewNode>)
           }
-
+          console.log(1111, updatedNode)
           if (updatedNode?.connected) {
             acc.set(updatedNode.nodeId, updatedNode);
           } else if (!updatedNode || !updatedNode?.connected || !updatedNode?.status) {
             nodes.delete(clusterViewNode.device)
           }
           return acc
-        }, new Map(initData))
+        }, new Map(filterOutAbsentData<ClusterViewNode>(initData, clusterViewResponse)))
 
       createWebsocketConnection()
-
-      return filterOutAbsentData<ClusterViewNode>(initData, nodes)
+      return nodes
     }).catch(createWebsocketConnection) // TODO: fix temp
   }, [clusterViewService, websocket, isUserAuthLoaded, user])
 
