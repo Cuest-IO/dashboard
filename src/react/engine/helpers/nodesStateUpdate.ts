@@ -3,6 +3,7 @@ import { formatMBytes } from "./utilities";
 import {
   ClusterViewItemResponse,
   ClusterViewMessage,
+  ClusterViewResponse,
   DeviceInfo,
   WorkloadsMessageInfo,
   WorkloadsResponseInfo
@@ -83,7 +84,7 @@ export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage 
     console.log(node.nodeName, (nodeStat as ClusterViewMessage).workload);
   }
   if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
-    node.workloads = createWorkloads(node.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
+    node.workloads = createWorkloads(new Map(), (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return node
@@ -127,7 +128,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     newNode.workloads = setWorkloads(newNode.workloads, (nodeStat as ClusterViewMessage).workload);
   }
   if ((nodeStat as ClusterViewItemResponse).workloads?.length) {
-    newNode.workloads = createWorkloads(newNode.workloads, (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
+    newNode.workloads = createWorkloads(new Map(), (nodeStat as ClusterViewItemResponse).workloads as WorkloadsResponseInfo[]);
   }
 
   return newNode
@@ -205,9 +206,9 @@ export function setNodeStatus(status?: string){
   return '';
 }
 
-export const filterOutAbsentData = <TData>(initData: Map<string, TData>, updatedData: Map<string, TData>): Map<string, TData> => {
+export const filterOutAbsentData = <TData>(initData: Map<string, TData>, updatedData: ClusterViewResponse): Map<string, TData> => {
   Array.from(initData.keys()).forEach(key => {
-    if (!updatedData.has(key)) {
+    if (updatedData.find((item: ClusterViewItemResponse) => item.device)) {
       initData.delete(key)
     }
   })
