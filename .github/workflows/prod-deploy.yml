@@ -41,12 +41,12 @@ jobs:
           aws-region: ${{ env.DEFAULT_AWS_REGION }}
 
       - name: Deploy WEB
-      - run: |
+        run: |
               aws s3 cp s3://${{ env.WEB_BUCKET_NAME }} s3://backup-${{ env.WEB_BUCKET_NAME }}
               aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
 
       - name: Deploy Dashboard 
-      - run: |
+        run: |
               aws s3 cp s3://${{ env.CONSOLE_BUCKET_NAME }} s3://backup-${{ env.CONSOLE_BUCKET_NAME }}
               aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
 
