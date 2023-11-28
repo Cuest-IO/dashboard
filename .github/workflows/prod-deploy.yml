@@ -8,8 +8,9 @@ on:
 
 env:
   DEFAULT_AWS_REGION: us-east-1
-  BUCKET_NAME: cuest-ci-frontend/dev-docs-stage-cuest-io/prod
-  NODE_VERSION: "16.14"
+  WEB_BUCKET_NAME: web-stage-cuest-io
+  CONSOLE_BUCKET_NAME: console.cuest.io
+  NODE_VERSION: "18.15"
 
 jobs:
   CD:
@@ -21,7 +22,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Use Node.js 16.14
+      - name: Set Node.js  ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -29,7 +30,7 @@ jobs:
       - name: Run npm install
         run: npm ci
 
-      - name: Run npm install
+      - name: Build npm
         run: CI=false npm run build:prod
 
       - name: Configure AWS Credentials
@@ -39,9 +40,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET }}
           aws-region: ${{ env.DEFAULT_AWS_REGION }}
 
-      - name: Deploy static site to S3 bucket
-        run: aws s3 sync ./build/ s3://${{ env.BUCKET_NAME }} --delete
+      - name: Deploy WEB
+        run: |
+              aws s3 cp s3://${{ env.WEB_BUCKET_NAME }} s3://backup-${{ env.WEB_BUCKET_NAME }}
+              aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
 
+      - name: Deploy Dashboard 
+        run: |
+              aws s3 cp s3://${{ env.CONSOLE_BUCKET_NAME }} s3://backup-${{ env.CONSOLE_BUCKET_NAME }}
+              aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
+
+              
       # - name: Deployment Failed - Send Slack message in case of failure
       #   if: failure()
       #   uses: slackapi/slack-github-action@v1.15.0
