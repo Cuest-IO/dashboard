@@ -19,6 +19,7 @@ const resourceLanguage: ResourceLanguage = {
     delete: 'Delete',
     save: 'Save',
     add: 'Add',
+    edit: 'Edit',
     ok: 'OK',
     suspended_node_workloads_dialog_message: 'Currently running workloads will run until completed'
   },
@@ -41,7 +42,7 @@ const resourceLanguage: ResourceLanguage = {
     system_capacity: 'System capacity'
   },
   clusters: {
-
+    edit_cluster: 'Edit cluster'
   },
   nodes: {
     suspend: 'Suspend',

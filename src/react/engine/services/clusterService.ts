@@ -1,5 +1,10 @@
 import { RepositoryClient } from "../clients/repository";
-import { ClusterResponse, ClustersResponse, ClusterParams } from "../dto/clusters";
+import {
+  ClusterResponse,
+  ClustersResponse,
+  ClusterParams,
+  ClusterBody
+} from "../dto/clusters";
 
 export class ClusterService {
   constructor(
@@ -12,5 +17,9 @@ export class ClusterService {
 
   async getOne (id: string): Promise<ClusterResponse> {
     return this.clusterRepository.getOne<ClusterResponse, ClusterParams>(id);
+  };
+
+  updateOne = async (id: string, body: ClusterBody): Promise<ClusterResponse> => {
+    return this.clusterRepository.updateOne(id, body);
   };
 }

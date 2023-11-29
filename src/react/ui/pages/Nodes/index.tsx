@@ -24,7 +24,7 @@ const Nodes = () => {
   const { t } = useTranslation()
   const { mutate: updateNode } = useMutateNodes()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+
   const handleMenuToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -147,7 +147,7 @@ const Nodes = () => {
               </Button>
               <Menu
                 anchorEl={anchorEl}
-                open={open}
+                open={!!anchorEl}
                 onClose={handleMenuClose}
                 sx={{
                   '& .MuiMenu-paper': {
