@@ -57,7 +57,7 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
         fontWeight={700}
         color={(theme) => theme.palette.secondary.main}
       >
-        {t('core:node')} #: {node.nodeName} ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
+        {t('core:node')}: {node.nodeName} - ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
       </Typography>
       <Grid
         item
