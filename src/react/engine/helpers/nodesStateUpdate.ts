@@ -35,7 +35,7 @@ export interface Workload {
 export interface ClusterViewNode {
   timestamp: number;
   nodeId: string;
-  nodeName: number;
+  nodeName: string;
   connected: boolean;
   status: string;
   battery?: Battery;
@@ -46,7 +46,10 @@ export interface ClusterViewNode {
   accessStatus?: AccessStatuses;
 }
 
-export function updateNode (node: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse): ClusterViewNode | void {
+export function updateNode (nodeData: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse): ClusterViewNode | void {
+  const node = {
+    ...nodeData,
+  }
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
@@ -94,7 +97,7 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
   const newNode: ClusterViewNode = {
     timestamp: nodeStat.time,
     nodeId: nodeStat.device,
-    nodeName: nodes.size + 1,
+    nodeName: nodeStat.device.slice(0, 4),
     connected: true,
     status: "",
     battery: {} as Battery,
