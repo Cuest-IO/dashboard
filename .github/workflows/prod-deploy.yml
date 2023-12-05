@@ -7,11 +7,15 @@ on:
     branches: ["main"]
 
 env:
-  DEFAULT_AWS_REGION: us-east-1
+  AWS_REGION: us-east-1
   WEB_BUCKET_NAME: web-stage-cuest-io
   CONSOLE_BUCKET_NAME: console.cuest.io
   NODE_VERSION: "18.15"
-
+# Permission to work with AWS IAM role   
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+  
 jobs:
   CD:
     name: Deployment
@@ -36,9 +40,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_DEV_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET }}
-          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy WEB
         run: |
