@@ -138,15 +138,12 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
 }
 
 export function setWorkloads (workloads: Map<string, Workload>, newWorkload: WorkloadsMessageInfo): Map<string, Workload> {
-  const workload = workloads.get(newWorkload.name)
-
-  if (newWorkload.event.toLowerCase() === "deleted" && workload) {
-    workloads.delete(newWorkload.name);
-  } else if (workload) {
-    workloads.set(newWorkload.name, newWorkload)
-  } else {
-    workloads.set(newWorkload.name, newWorkload)
+  if (newWorkload.event.toLowerCase() === "deleted") {
+      workloads.delete(newWorkload.name);
+      return workloads
   }
+  // for any other status either add or update the workload in the map
+  workloads.set(newWorkload.name, newWorkload);
   return workloads
 }
 
