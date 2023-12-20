@@ -1,6 +1,6 @@
 import {QueryFunction, useQuery, useQueryClient} from '@tanstack/react-query';
-import { useClusterViewService } from "./useClusterViewService";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import {useClusterViewService} from "./useClusterViewService";
+import {useAuthenticator} from "@aws-amplify/ui-react";
 import {addNode, ClusterViewNode, filterOutAbsentData, updateNode} from "../../helpers/nodesStateUpdate";
 import {useCallback, useEffect, useState} from "react";
 import useWebsocket from "../websocket/useWebsocket";
@@ -40,19 +40,18 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
   }, [isUserAuthLoaded, user])
 
   const queryFn: QueryFunction = useCallback(async () => {
-    const initData = queryClient.getQueryData<Map<string, ClusterViewNode>>(['clusterView']) || new Map() as Map<string, ClusterViewNode>
     if (isUserAuthLoaded && !user || !isUserAuthLoaded) {
       return new Map()
     }
-
     return clusterViewService.getList({}).then(clusterViewResponse => {
+      const initData = queryClient.getQueryData<Map<string, ClusterViewNode>>(['clusterView']) || new Map() as Map<string, ClusterViewNode>
       const nodes = clusterViewResponse.reduce(
         (acc: Map<string, ClusterViewNode>, clusterViewNode) => {
           const node: ClusterViewNode | undefined = acc?.get(clusterViewNode.device);
 
           let updatedNode;
           if (node) {
-            updatedNode = updateNode(node, clusterViewNode);
+            updatedNode = updateNode(node, clusterViewNode, true);
           } else {
             updatedNode = addNode(clusterViewNode, acc as Map<string, ClusterViewNode>)
           }
