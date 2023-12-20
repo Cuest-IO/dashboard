@@ -1,13 +1,15 @@
 import React, {useMemo, useState} from 'react';
-import { Skeleton } from "@mui/material";
+import {Skeleton} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import Grid from "@mui/material/Grid";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import NodeViewCard from "./NodeViewCard";
-import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
+import {ClusterViewNode} from "../../../engine/helpers/nodesStateUpdate";
 import NodeSuspendDialog from "./NodeSuspendDialog";
+import {AccessStatuses} from "../../../engine/dto/nodes";
+import {toNumber} from "../../../engine/helpers/utilities";
 
 interface Props {
   nodes?: Map<string, ClusterViewNode>;
@@ -61,7 +63,9 @@ const ClusterView: React.FC<Props> = () => {
                   container
                   gap={4}
                 >
-                  {cards.map((card) => (
+                  {cards.sort((a, b) => {
+                    return Number(b.accessStatus === AccessStatuses.available) - Number(a.accessStatus === AccessStatuses.available)
+                  }).map((card) => (
                     <NodeViewCard node={card} key={card.nodeName} toggleDialog={setIsDialogOpen} />
                   ))}
                 </Grid>
