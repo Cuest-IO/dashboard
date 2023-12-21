@@ -46,14 +46,13 @@ export interface ClusterViewNode {
   accessStatus?: AccessStatuses;
 }
 
-export function updateNode (nodeData: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse): ClusterViewNode | void {
+export function updateNode (nodeData: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse, isRest?: boolean): ClusterViewNode | void {
   const node = {
     ...nodeData,
   }
   if (nodeStat.info && nodeStat.info.state) {
     const state  = nodeStat.info.state;
     const status = setNodeStatus(state.status);
-
     node.status = status;
     node.timestamp = nodeStat.time; // don't update timestamp for k8s messages, only for state info
     node.connected = nodeStat.info.connectivity;
@@ -61,13 +60,15 @@ export function updateNode (nodeData: ClusterViewNode, nodeStat: ClusterViewMess
     node.accessStatus = nodeStat.accessStatus;
     if (node.connected) {
       if (state.device && state.vm) {
-        node.cpuUsage.push(cpuUsage(state, nodeStat.time));
-        node.memUsage.push(memoryUsage(state, nodeStat.time));
-        const firstTimestamp = (nodeStat.time - 600000);
-        for (let i=0; i< node.cpuUsage.length; i++) {
-          if (node.cpuUsage[i].timestamp < firstTimestamp) {
-            node.cpuUsage.splice(i, 1);
-            node.memUsage.splice(i, 1);
+        if (!isRest) {
+          node.cpuUsage.push(cpuUsage(state, nodeStat.time));
+          node.memUsage.push(memoryUsage(state, nodeStat.time));
+          const firstTimestamp = (nodeStat.time - 600000);
+          for (let i=0; i< node.cpuUsage.length; i++) {
+            if (node.cpuUsage[i].timestamp < firstTimestamp) {
+              node.cpuUsage.splice(i, 1);
+              node.memUsage.splice(i, 1);
+            }
           }
         }
         node.cpuUsage = [...node.cpuUsage];
@@ -208,7 +209,7 @@ export function setNodeStatus(status?: string){
 
 export const filterOutAbsentData = <TData>(initData: Map<string, TData>, updatedData: ClusterViewResponse): Map<string, TData> => {
   Array.from(initData.keys()).forEach(key => {
-    if (updatedData.find((item: ClusterViewItemResponse) => item.device)) {
+    if (!updatedData.find((item: ClusterViewItemResponse) => item.device)) {
       initData.delete(key)
     }
   })
