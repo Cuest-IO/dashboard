@@ -44,6 +44,8 @@ export interface ClusterViewNode {
   memUsage: MemoryUsage[];
   workloads: Map<string, Workload>;
   accessStatus?: AccessStatuses;
+  hostname: string;
+  os: string;
 }
 
 export function updateNode (nodeData: ClusterViewNode, nodeStat: ClusterViewMessage | ClusterViewItemResponse, isRest?: boolean): ClusterViewNode | void {
@@ -106,7 +108,9 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     cpuUsage: [] as CPUUsage[],
     memUsage: [] as MemoryUsage[],
     workloads: new Map(),
-    accessStatus: nodeStat.accessStatus
+    accessStatus: nodeStat.accessStatus,
+    hostname: nodeStat.info.hostname,
+    os: nodeStat.info.os,
   }
 
   if (nodeStat.info && nodeStat.info.state) {

@@ -51,13 +51,15 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
       container
       direction='row'
       justifyContent='space-between'
+      flexWrap='wrap'
     >
       <Typography
         variant='h5'
         fontWeight={700}
         color={(theme) => theme.palette.secondary.main}
+        width='80%'
       >
-        {t('core:node')}: {node.nodeName} - ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
+        {node.hostname} {node.os} - ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
       </Typography>
       <Grid
         item
