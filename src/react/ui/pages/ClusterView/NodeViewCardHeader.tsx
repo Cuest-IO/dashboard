@@ -1,5 +1,5 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import { Grid, Typography } from '@mui/material';
+import React, {Dispatch, ReactElement, SetStateAction} from 'react';
+import { Grid, Tooltip, Typography } from '@mui/material';
 import BatteryChart from './BatteryChart';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -10,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useMutateNodes } from "../../../engine/state/nodes/useUpdateNode";
 import { AccessStatuses } from "../../../engine/dto/nodes";
+import renderOsIcon from "../../../engine/helpers/renderOsIcon";
 
 interface Props {
   node: ClusterViewNode;
@@ -53,14 +54,39 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
       justifyContent='space-between'
       flexWrap='wrap'
     >
-      <Typography
-        variant='h5'
-        fontWeight={700}
-        color={(theme) => theme.palette.secondary.main}
-        width='80%'
-      >
-        {node.hostname} {node.os} - ({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
-      </Typography>
+      <Grid item>
+        <Grid container alignItems='center'>
+          <Tooltip title={node.hostname} placement='top'>
+            <Typography
+              variant='h5'
+              fontWeight={700}
+              color={(theme) => theme.palette.secondary.main}
+              width='150px'
+              overflow='hidden'
+              textOverflow='ellipsis'
+              sx={{
+                textWrap: 'nowrap'
+              }}
+            >
+              {node.hostname}
+            </Typography>
+          </Tooltip>
+          {node.os && (
+            <Tooltip title={node.os} placement='top'>
+              <Grid container alignItems='center' width='auto'>
+                {renderOsIcon(node.os) as ReactElement}
+              </Grid>
+            </Tooltip>
+          )}
+          <Typography
+            variant='h5'
+            fontWeight={700}
+            color={(theme) => theme.palette.secondary.main}
+          >
+            {'  - '}({node.status}{node.accessStatus?.replace(AccessStatuses.available, '') ? `/${node.accessStatus}` : ''}) {' '}
+          </Typography>
+        </Grid>
+      </Grid>
       <Grid
         item
         gap={3}

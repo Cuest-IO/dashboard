@@ -23,7 +23,6 @@ const Clusters = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [record, setRecord] = useState<ClusterResponse | null>(null)
-  console.log(isDrawerOpen)
   const handleMenuToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     event.preventDefault()
