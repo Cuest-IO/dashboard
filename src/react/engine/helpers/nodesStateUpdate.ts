@@ -109,8 +109,8 @@ export function addNode (nodeStat: ClusterViewMessage | ClusterViewItemResponse,
     memUsage: [] as MemoryUsage[],
     workloads: new Map(),
     accessStatus: nodeStat.accessStatus,
-    hostname: nodeStat.info.hostname,
-    os: nodeStat.info.os,
+    hostname: nodeStat.hostname,
+    os: nodeStat.os,
   }
 
   if (nodeStat.info && nodeStat.info.state) {
@@ -188,7 +188,7 @@ export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsa
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
   const totalMem= formatMBytes(state.device?.system?.ram || 0);
   const vmMem= (state.vm?.system?.ram && state.vm?.load?.allocated) ? formatMBytes(state.vm.system.ram * state.vm.load.allocated) : 0;
-  const sysMem= parseFloat( (totalMem * (state.device?.load?.ram || 0) - vmMem).toFixed(1));
+  const sysMem= parseFloat((totalMem * (state.device?.load?.ram || 0) - vmMem).toFixed(1));
   let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));
   freeMem = (freeMem < 0) ? 0 : freeMem;
 

@@ -17,13 +17,12 @@ import EditClusterDrawer from "./EditClusterDrawer";
 export type ClustersColumns = (Omit<MRT_ColumnDef<ClusterResponse>, 'id'> & { id: string; })[];
 
 const Clusters = () => {
-  const { data: clusters } = useClusters()
+  const { data: clusters, isFetching, error } = useClusters()
   const navigate = useNavigate();
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [record, setRecord] = useState<ClusterResponse | null>(null)
-  console.log(isDrawerOpen)
   const handleMenuToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     event.preventDefault()
@@ -94,56 +93,67 @@ const Clusters = () => {
         xs={12}
         maxWidth='100% !important'
       >
-        <ReactQueryTable
-          data={clusters}
-          columns={columns}
-          muiTableBodyRowProps={() => ({
-            //implement row selection click events manually
-            onClick: () => navigate('/clusterview'),
-            sx: {
-              cursor: 'pointer',
-            },
-          })}
-          enableRowActions
-          renderRowActions={({ row }) => (
-            <>
-              <Button
-                onClick={handleMenuToggle}
-                disableRipple
-                sx={{
-                  verticalAlign: 'unset',
-                  p: 0,
-                  minWidth: '29px',
-                  maxHeight: '29px',
-                  display: 'inline-block'
-                }}
-              >
-                <MoreVertIcon
-                  sx={{ fontSize: 29, alignItems: 'center' }}
-                  color='secondary'
-                />
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={!!anchorEl}
-                onClose={handleMenuClose}
-                sx={{
-                  '& .MuiMenu-paper': {
-                    boxShadow: '0px 6px 6px 0px #0000000A',
-                    borderRadius: 2,
-                  }
-                }}
-              >
-                <MenuItem
-                  onClick={(event) => handleEdit(row, event)}
+        {error ? (
+          <Typography
+            variant='h5'
+            fontWeight={700}
+            color={(theme) => theme.palette.secondary.main}
+          >
+            Error occurred while request
+          </Typography>
+        ) : (
+          <ReactQueryTable
+            data={clusters}
+            columns={columns}
+            isLoading={isFetching}
+            muiTableBodyRowProps={() => ({
+              //implement row selection click events manually
+              onClick: () => navigate('/clusterview'),
+              sx: {
+                cursor: 'pointer',
+              },
+            })}
+            enableRowActions
+            renderRowActions={({ row }) => (
+              <>
+                <Button
+                  onClick={handleMenuToggle}
+                  disableRipple
+                  sx={{
+                    verticalAlign: 'unset',
+                    p: 0,
+                    minWidth: '29px',
+                    maxHeight: '29px',
+                    display: 'inline-block'
+                  }}
                 >
-                  {t('common:edit')}
-                </MenuItem>
-              </Menu>
-            </>
-          )}
-          positionActionsColumn='last'
-        />
+                  <MoreVertIcon
+                    sx={{ fontSize: 29, alignItems: 'center' }}
+                    color='secondary'
+                  />
+                </Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={!!anchorEl}
+                  onClose={handleMenuClose}
+                  sx={{
+                    '& .MuiMenu-paper': {
+                      boxShadow: '0px 6px 6px 0px #0000000A',
+                      borderRadius: 2,
+                    }
+                  }}
+                >
+                  <MenuItem
+                    onClick={(event) => handleEdit(row, event)}
+                  >
+                    {t('common:edit')}
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+            positionActionsColumn='last'
+          />
+        )}
       </Grid>
       <EditClusterDrawer
         record={record}

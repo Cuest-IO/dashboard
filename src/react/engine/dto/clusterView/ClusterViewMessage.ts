@@ -7,7 +7,9 @@ export interface ClusterViewMessage {
   info: DeviceInfo;
   time: number;
   workload: WorkloadsMessageInfo;
-  accessStatus: AccessStatuses
+  accessStatus: AccessStatuses;
+  hostname: string;
+  os: string;
 }
 
 

@@ -14,7 +14,6 @@ export default function SignIn() {
   const navigator = useNavigate()
 
   useEffect(() => {
-    console.log(authStatus)
     if (authStatus === 'authenticated') {
       navigator('/')
     }

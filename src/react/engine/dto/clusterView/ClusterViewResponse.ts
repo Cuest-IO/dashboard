@@ -7,7 +7,9 @@ export interface ClusterViewItemResponse {
   info: DeviceInfo
   time: number;
   workloads: Array<WorkloadsResponseInfo>;
-  accessStatus: AccessStatuses
+  accessStatus: AccessStatuses;
+  hostname: string;
+  os: string;
 }
 
 export type ClusterViewResponse = ClusterViewItemResponse[]
