@@ -20,7 +20,7 @@ export type NodesColumns = (Omit<MRT_ColumnDef<NodeItemResponse>, 'id'> & { id: 
 
 const Nodes = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { data: nodes } = useNodes()
+  const { data: nodes, isFetching, error } = useNodes()
   const { t } = useTranslation()
   const { mutate: updateNode } = useMutateNodes()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -123,62 +123,73 @@ const Nodes = () => {
         xs={12}
         maxWidth='100% !important'
       >
-        <ReactQueryTable
-          columns={columns}
-          data={nodes}
-          enableRowActions
-          renderRowActions={({ row }) => (
-            <>
-              <Button
-                onClick={handleMenuToggle}
-                disableRipple
-                sx={{
-                  verticalAlign: 'unset',
-                  p: 0,
-                  minWidth: '29px',
-                  maxHeight: '29px',
-                  display: 'inline-block'
-                }}
-              >
-                <MoreVertIcon
-                  sx={{ fontSize: 29, alignItems: 'center' }}
-                  color='secondary'
-                />
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={!!anchorEl}
-                onClose={handleMenuClose}
-                sx={{
-                  '& .MuiMenu-paper': {
-                    boxShadow: '0px 6px 6px 0px #0000000A',
-                    borderRadius: 2,
-                  }
-                }}
-              >
-                <MenuItem
-                  onClick={() => handleSuspendNode(row)}
-                  disabled={row.original.accessStatus === AccessStatuses.suspended}
+        {error ? (
+          <Typography
+            variant='h5'
+            fontWeight={700}
+            color={(theme) => theme.palette.secondary.main}
+          >
+            Error occurred while request
+          </Typography>
+        ) : (
+          <ReactQueryTable
+            columns={columns}
+            data={nodes}
+            isLoading={isFetching}
+            enableRowActions
+            renderRowActions={({ row }) => (
+              <>
+                <Button
+                  onClick={handleMenuToggle}
+                  disableRipple
+                  sx={{
+                    verticalAlign: 'unset',
+                    p: 0,
+                    minWidth: '29px',
+                    maxHeight: '29px',
+                    display: 'inline-block'
+                  }}
                 >
-                  {t('nodes:suspend')}
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleEnableNode(row)}
-                  disabled={!row.original.accessStatus || row.original.accessStatus === AccessStatuses.available}
+                  <MoreVertIcon
+                    sx={{ fontSize: 29, alignItems: 'center' }}
+                    color='secondary'
+                  />
+                </Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={!!anchorEl}
+                  onClose={handleMenuClose}
+                  sx={{
+                    '& .MuiMenu-paper': {
+                      boxShadow: '0px 6px 6px 0px #0000000A',
+                      borderRadius: 2,
+                    }
+                  }}
                 >
-                  {t('nodes:enable')}
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleBlockNode(row)}
-                  disabled={row.original.accessStatus === AccessStatuses.blocked}
-                >
-                  {t('nodes:block')}
-                </MenuItem>
-              </Menu>
-            </>
-          )}
-          positionActionsColumn='last'
-        />
+                  <MenuItem
+                    onClick={() => handleSuspendNode(row)}
+                    disabled={row.original.accessStatus === AccessStatuses.suspended}
+                  >
+                    {t('nodes:suspend')}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => handleEnableNode(row)}
+                    disabled={!row.original.accessStatus || row.original.accessStatus === AccessStatuses.available}
+                  >
+                    {t('nodes:enable')}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => handleBlockNode(row)}
+                    disabled={row.original.accessStatus === AccessStatuses.blocked}
+                  >
+                    {t('nodes:block')}
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+            positionActionsColumn='last'
+          />
+        )}
       </Grid>
     </Grid>
   );
