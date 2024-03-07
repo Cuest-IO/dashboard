@@ -60,6 +60,10 @@ const resourceLanguage: ResourceLanguage = {
     suspend: 'Suspend',
     block: 'Block',
     enable: 'Enable'
+  },
+  account: {
+    loadingStatus: 'Loading account status...',
+    creationInProgress: 'Creating your account'
   }
 };
 

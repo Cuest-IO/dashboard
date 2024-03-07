@@ -6,7 +6,7 @@ export class SystemLoadService {
     private readonly systemLoadRepository: RepositoryClient
   ) {}
 
-  async getRecord (): Promise<SystemLoadResponse> {
+  async getRecord(): Promise<SystemLoadResponse> {
     return this.systemLoadRepository.getRecord<SystemLoadResponse, null>();
   };
 }
