@@ -61,7 +61,7 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
               variant='h5'
               fontWeight={700}
               color={(theme) => theme.palette.secondary.main}
-              width='150px'
+              maxWidth='150px'
               overflow='hidden'
               textOverflow='ellipsis'
               sx={{
@@ -71,13 +71,6 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
               {node.hostname}
             </Typography>
           </Tooltip>
-          {node.os && (
-            <Tooltip title={node.os} placement='top'>
-              <Grid container alignItems='center' width='auto'>
-                {renderOsIcon(node.os) as ReactElement}
-              </Grid>
-            </Tooltip>
-          )}
           <Typography
             variant='h5'
             fontWeight={700}
@@ -91,7 +84,13 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
         item
         gap={3}
         alignItems='center'
+        fontSize={29}
       >
+        {node.os && (
+            <Tooltip title={node.os} placement='top'>
+                {renderOsIcon(node.os) as ReactElement}
+            </Tooltip>
+        )}
         {node.battery && <BatteryChart battery={node.battery}/>}
         <PowerSettingsNewOutlinedIcon
           sx={{ fontSize: 29, alignItems: 'center' }}

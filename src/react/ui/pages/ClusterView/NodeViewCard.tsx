@@ -28,6 +28,9 @@ const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
           alignItems='center'
           direction='column'
           gap={4}
+          sx={{
+            p: 0
+          }}
         >
           <Grid
             item
@@ -45,8 +48,8 @@ const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
           <Grid
             item
             width='100%'
-            minHeight={(theme) => theme.spacing(25)}
-            maxHeight={(theme) => theme.spacing(25)}
+            minHeight={(theme) => theme.spacing(30)}
+            maxHeight={(theme) => theme.spacing(30)}
           >
             <PodsTable node={node} key={node.nodeId}/>
           </Grid>
