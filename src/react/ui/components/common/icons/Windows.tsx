@@ -2,7 +2,7 @@ import React from 'react';
 
 const Windows = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 20 20" version="1.1">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="1em" height="1em" viewBox="-3 -3 24 24" version="1.1">
 
       <title>windows [#174]</title>
       <desc>Created with Sketch.</desc>
