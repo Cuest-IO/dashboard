@@ -23,30 +23,22 @@
               <select id="select-type" onchange="recalculateValues()"></select>
             </div>
           </div>
-          <div class="selects__item">
-            <label for="select-number">Number of instances</label>
-            <div class="selects__item__container">
-              <select id="select-number" onchange="recalculateValues()">
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-                <option value="35">35</option>
-                <option value="40">40</option>
-                <option value="45">45</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
+        </div>
+        <div class="config__range">
+            <label for="select-instances">Number of instances</label>
+            <span id="instancesValue"></span>
+            <input type="range" id="select-instances" min="2" max="100" value="10" step="1" onchange="rangeInputChanged()" />
+            <div class="min_max_values">
+              <span>2</span> 
+              <span>100</span>
             </div>
-          </div>
         </div>
         <div class="config__range">
           <label for="hours">Monthly utilization per instance</label>
           <span id="hoursValue"></span>
-          <input type="range" id="hours" min="0" max="732" value="250" step="5" onchange="rangeInputChanged()" />
+          <input type="range" id="hours" min="10" max="732" value="400" step="10" onchange="rangeInputChanged()" />
           <div class="min_max_values">
-            <span>0 hrs</span>
+            <span>10 hrs</span>
             <span>730 hrs</span>
           </div>
         </div>
@@ -54,7 +46,7 @@
       <div class="calculator__results_block">
         <div class="calculator__results_block__compare">
           <h3>Crowd Cloud:</h3>
-          <p>You may get the same compute power with <span id="computers-number">--</span> employee computers / laptops for:</p>
+          <p>You can enjoy the same compute power with <span id="computers-number">--</span> employee computers / laptops for:</p>
           <div class="counted_amount">
             <h2 id="cuestPrice">--</h2>
             <span>/mo</span>
@@ -73,7 +65,25 @@
     </div>
   </div>
   <script>
-    const updateRangeValue = () => {
+    const updateInstancesRangeValue = () => {
+      const instancesInput = document.getElementById('select-instances');
+      const instancesValue = document.getElementById('instancesValue');
+      const val = (instancesInput.value - instancesInput.min) / (instancesInput.max - instancesInput.min);
+      const off = (instancesInput.offsetWidth - 16) / (parseInt(instancesInput.max) - parseInt(instancesInput.min));
+      console.log(val, off)
+      instancesInput.style.backgroundImage =
+        '-webkit-gradient(linear, left top, right top, ' +
+        'color-stop(' + val + ', #00A1EF), ' +
+        'color-stop(' + val + ', #DCF9FF)' +
+        ')';
+      console.log((instancesInput.valueAsNumber - parseInt(instancesInput.min)) * off, instancesValue.offsetWidth / 2)
+      const px = ((instancesInput.valueAsNumber - parseInt(instancesInput.min)) * off) - (instancesValue.offsetWidth / 2);
+      instancesValue.innerHTML = `${instancesInput.value}`;
+      instancesValue.style.left = `${px}px`;
+    }
+
+    
+    const updateHoursRangeValue = () => {
       const hoursInput = document.getElementById('hours');
       const hoursValue = document.getElementById('hoursValue');
       const val = (hoursInput.value - hoursInput.min) / (hoursInput.max - hoursInput.min);
@@ -88,6 +98,8 @@
       const px = ((hoursInput.valueAsNumber - parseInt(hoursInput.min)) * off) - (hoursValue.offsetWidth / 2);
       hoursValue.innerHTML = `${hoursInput.value} hrs/mo`;
       hoursValue.style.left = `${px}px`;
+
+
     };
 
     const updateTypeSelect = () => {
@@ -100,20 +112,20 @@
 
       const options = {
         'AWS': [
-          { value: 'm4.large', text: 'm4.large (2 vCPUs, 8 GB)' },
-          { value: 'c5d.xlarge', text: 'c5d.xlarge (4 vCPUs, 8 GB)' },
-          { value: 'm6idn.xlarge', text: 'm6idn.xlarge (4 vCPUs, 16 GB)' },
+          // { value: 'm4.large', text: 'm4.large (2 vCPUs, 8 GB)' },
+          { value: 'c7i.xlarge', text: 'c7i.xlarge (4 vCPUs, 8 GB)' },
+          { value: 'm6g.xlarge', text: 'm6g.xlarge (4 vCPUs, 16 GB)' },
           { value: 'c5.2xlarge', text: 'c5.2xlarge (8 vCPUs, 16 GB)' }
         ],
         'GCP': [
-          { value: 'e2-standard-2', text: 'e2-standard-2 (2 vCPUs, 8 GB)' },
+          // { value: 'e2-standard-2', text: 'e2-standard-2 (2 vCPUs, 8 GB)' },
           { value: 'e2-standard-4', text: 'e2-standard-4 (4 vCPUs, 16 GB)' },
           { value: 'e2-standard-8', text: 'e2-standard-8 (8 vCPUs, 32 GB)' }
         ],
         'Azure': [
-          { value: 'D2as v5', text: 'D2as v5 (2 vCPUs, 8 GB)' },
-          { value: 'A4 v2', text: 'A4 v2 (4 vCPUs, 8 GB)' },
-          { value: 'D4as v5', text: 'D4as v5 (4 vCPUs, 16 GB)' },
+          // { value: 'D2as v5', text: 'D2as v5 (2 vCPUs, 8 GB)' },
+          { value: 'B4ls v2', text: 'B4ls v2 (4 vCPUs, 8 GB)' },
+          { value: 'B4s v2', text: 'B4s v2 (4 vCPUs, 16 GB)' },
           { value: 'A8 v2', text: 'A8 v2 (8 vCPUs, 16 GB)' }
         ]
       };
@@ -129,7 +141,7 @@
 
     const calculatePriceValue = (table) => {
       const selectType = document.getElementById('select-type');
-      const numberOfInstances = document.getElementById('select-number');
+      const numberOfInstances = document.getElementById('select-instances');
       const hoursInput = document.getElementById('hours');
       const otherPriceElement = document.getElementById('otherPrice');
       const cuestPriceElement = document.getElementById('cuestPrice');
@@ -142,25 +154,13 @@
       const otherPrice = priceComparison.cloudHour * hoursValue * parseInt(numberOfInstances.value, 10)
       otherPriceElement.innerHTML = `$${otherPrice.toFixed(1)}`
 
-      if (hoursValue > 300) {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * 3
-        const cuestPrice = priceComparison.cpus * computersNumber
-        cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
-        computersNumberElement.innerHTML = `${computersNumber}`
-      } else if (hoursValue > 100){
-        const computersNumber = parseInt(numberOfInstances.value, 10) * 2
-        const cuestPrice = priceComparison.cpus  * computersNumber
-        cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
-        computersNumberElement.innerHTML = `${computersNumber}`
-      } else {
-        const computersNumber = parseInt(numberOfInstances.value, 10) * 1
-        const cuestPrice = priceComparison.cpus  * computersNumber
-        cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
-        computersNumberElement.innerHTML = `${computersNumber}`
+      const computersNumber = parseInt(numberOfInstances.value, 10) 
+      var cuestPrice = 0
+      if(computersNumber > 2){
+        cuestPrice = 20  * ( computersNumber-2 )
       }
-
-
-      // cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
+      cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
+      computersNumberElement.innerHTML = `${computersNumber}`
     }
 
     const recalculateValues = () => {
@@ -170,13 +170,13 @@
           cpus: 2,
           
         },
-        'c5d.xlarge': {
-          cloudHour: 0.192,
+        'c7i.xlarge': {
+          cloudHour: 0.1785,
           cpus: 4,
           
         },
-        'm6idn.xlarge': {
-          cloudHour: 0.318,
+        'm6g.xlarge': {
+          cloudHour: 0.154,
           cpus: 4,
           
         },
@@ -205,13 +205,13 @@
           cpus: 2,
           
         },
-        'A4 v2': {
-          cloudHour: 0.191,
+        'B4ls v2': {
+          cloudHour: 0.147,
           cpus: 4,
           
         },
-        'D4as v5': {
-          cloudHour: 0.172,
+        'B4s v2': {
+          cloudHour: 0.166,
           cpus: 4,
           
         },
@@ -230,12 +230,15 @@
     }
 
     const rangeInputChanged = () => {
-      updateRangeValue()
+      updateInstancesRangeValue()
+      updateHoursRangeValue()
       recalculateValues()
     }
 
     window.addEventListener('load', () => [selectEnvChanged(), rangeInputChanged()]);
     const hoursInput = document.getElementById('hours');
     hoursInput.addEventListener('input', rangeInputChanged);
+    const instances = document.getElementById('select-instances');
+    instances.addEventListener('input', rangeInputChanged);
   </script>
 </section>
