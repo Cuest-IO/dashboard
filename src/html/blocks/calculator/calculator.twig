@@ -157,7 +157,14 @@
       const computersNumber = parseInt(numberOfInstances.value, 10) 
       var cuestPrice = 0
       if(computersNumber > 2){
-        cuestPrice = 20  * ( computersNumber-2 )
+
+        if(hoursValue >= 300){
+          cuestPrice = 20  * ( computersNumber-2 )
+        }
+        else{
+          cuestPrice = hoursValue * 0.05 * ( computersNumber-2 )
+        }
+
       }
       cuestPriceElement.innerHTML = `$${cuestPrice.toFixed(1)}`
       computersNumberElement.innerHTML = `${computersNumber}`
