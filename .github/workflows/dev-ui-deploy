@@ -41,9 +41,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_DEV_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET }}
-          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy WEB
         run: |
