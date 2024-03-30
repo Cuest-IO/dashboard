@@ -1,5 +1,5 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,  ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,  ResponsiveContainer,Line , ComposedChart} from 'recharts';
 import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
 import CustomTooltip from "./CustomTooltip";
 
@@ -18,7 +18,7 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
   return (
     <>
       <ResponsiveContainer width={230} height="100%">
-        <AreaChart
+        <ComposedChart
           width={100}
           height={100}
           data={node.cpuUsage}
@@ -38,9 +38,9 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
               <stop offset="95%" stopColor="#ffc658" stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" />
+          {/* <CartesianGrid strokeDasharray="3 3" vertical={false}   /> */}
           <YAxis
-            dataKey="totalCPU"
+            dataKey="totalSysCPU"
             domain={[0, 'dataMax']}
             unit="%"
             style={axisStyle}
@@ -58,14 +58,15 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             }
             cursor={{ fill: "transparent" }}
           />
-          <Area type="linearClosed" dataKey="totalCPU"   stroke="#82ca9d" fill="#82ca9d" />
-          <Area type="monotone" unit="%" dataKey="usedCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
-          <Area type="monotone" unit="%" dataKey="sysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+          <Area type="linearClosed" dataKey="totalSysCPU"   stroke="#82ca9d" fill="#82ca9d" />
+          <Area type="monotone" unit="%" dataKey="usedVMCPU" stackId="1" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
+          <Area type="monotone" unit="%" dataKey="usedSysCPU" stackId="1" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
           <Area type="monotone" unit="%" dataKey="availCPU" stackId="1" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
-        </AreaChart>
+          <Line type="monotone" dataKey="totalVMCPU"  stroke="#ffc658" strokeDasharray="6 2" dot={false} />
+        </ComposedChart>
       </ResponsiveContainer>
       <ResponsiveContainer width={250} height="100%" >
-        <AreaChart
+        <ComposedChart
           width={100}
           height={100}
           data={node.memUsage}
@@ -85,13 +86,13 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
           <stop offset="95%" stopColor="#ffc658" stopOpacity={0}/>
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" />
+        {/* <CartesianGrid strokeDasharray="3 3" vertical={false}/> */}
           <XAxis
             style={axisStyle}
             label="Memory, last 10 min"
             tick={false}
           />
-          <YAxis dataKey="totalMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
+          <YAxis dataKey="totalSysMemory" domain={[0, 'dataMax']} unit="GB" style={axisStyle} />
           <Tooltip
             wrapperStyle={{ zIndex: 10 }}
             content={({ active, payload }) =>
@@ -99,11 +100,12 @@ const ResourceChart: React.FC<Props> = ({ node }) => {
             }
             cursor={{ fill: "transparent" }}
           />
-          <Area type="linearClosed" dataKey="totalMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
+          <Area type="linearClosed" dataKey="totalSysMemory" stackId="1"  stroke="#82ca9d" fill="#82ca9d" />
           <Area type="monotone" unit="GB" dataKey="allocatedMemory" stackId="2" fillOpacity={4} stroke="#ffc658" fill="url(#colorUsed)"  />
-          <Area type="monotone" unit="GB" dataKey="inUseMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
+          <Area type="monotone" unit="GB" dataKey="inUseSysMemory" stackId="2" fillOpacity={4} stroke="#8884d8" fill="url(#colorSys)"  />
           <Area type="monotone" unit="GB" dataKey="availableMemory" stackId="2" fillOpacity={4} stroke="#84d888" fill="url(#colorAvail)" />
-        </AreaChart>
+          <Line type="monotone" dataKey="totalVMMemory"  stroke="#ffc658" strokeDasharray="6 2" dot={false} />
+        </ComposedChart>
       </ResponsiveContainer>
     </>
   )
