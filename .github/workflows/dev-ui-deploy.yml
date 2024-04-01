@@ -1,16 +1,16 @@
 name: Deploy Static Website Files
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [dev]
+  push:
+    branches:
+      - develop
 
 env:
   AWS_REGION: us-east-1
   WEB_BUCKET_NAME: dev.web.cuest.io
   WEB_CLOUDFRONT_DISTRIBUTION_ID:
   CONSOLE_BUCKET_NAME: dev.console.cuest.io
-  CONSOLE_CLOUDFRONT_DISTRIBUTION_ID:
+  CONSOLE_CLOUDFRONT_DISTRIBUTION_ID: d3poi8j14lryuv.cloudfront.net
   NODE_VERSION: "18.15"
 # Permission to work with AWS IAM role   
 permissions:
@@ -41,7 +41,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
 
