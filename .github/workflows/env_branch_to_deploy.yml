@@ -1,0 +1,45 @@
+name: Environment Update
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+      - main
+
+jobs:
+  check-develop-branch:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'develop'
+    steps:
+      - name: Check if PR is merged into develop
+        run: echo "Pull request was merged into develop branch"
+
+  trigger-dev-deploy:
+    needs: check-develop-branch 
+    if: success('check-develop-branch')
+    uses: ./.github/workflows/webapp-deploy.yml
+    secrets: inherit
+    with:
+      env: dev 
+      branch: develop
+      aws_region: us-east-1
+      node_version: "18.15" 
+    
+  check-main-branch:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main'
+    steps:
+      - name: Check if PR is merged into main
+        run: echo "Pull request was merged into main branch"
+
+  trigger-prod-deploy:
+    needs: check-main-branch  
+    if: success('check-main-branch')
+    uses: ./.github/workflows/webapp-deploy.yml
+    secrets: inherit
+    with:
+      env: prod 
+      branch: main
+      aws_region: us-east-1
+      node_version: "18.15"       
