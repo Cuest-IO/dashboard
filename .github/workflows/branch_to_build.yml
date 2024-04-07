@@ -1,4 +1,4 @@
-name: Environment Update
+name: Build Based On Branch
 
 on:
   pull_request:
@@ -39,7 +39,7 @@ jobs:
     uses: ./.github/workflows/webapp-deploy.yml
     secrets: inherit
     with:
-      env: prod 
+      env: stage 
       branch: main
       aws_region: us-east-1
       node_version: "18.15"       
