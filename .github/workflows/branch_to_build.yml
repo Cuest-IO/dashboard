@@ -18,7 +18,7 @@ jobs:
   trigger-dev-deploy:
     needs: check-develop-branch 
     if: success('check-develop-branch')
-    uses: ./.github/workflows/webapp-deploy.yml
+    uses: ./.github/workflows/build_dashboard.yml
     secrets: inherit
     with:
       env: dev 
@@ -36,7 +36,7 @@ jobs:
   trigger-prod-deploy:
     needs: check-main-branch  
     if: success('check-main-branch')
-    uses: ./.github/workflows/webapp-deploy.yml
+    uses: ./.github/workflows/build_dashboard.yml
     secrets: inherit
     with:
       env: stage 
