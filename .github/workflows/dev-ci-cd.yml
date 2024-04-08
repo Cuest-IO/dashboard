@@ -1,9 +1,8 @@
 name: Dev - Deploy Static Website Files
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [develop]
+  push:
+    branches: [main]
 
 env:
   AWS_REGION: us-east-1
@@ -20,7 +19,6 @@ permissions:
 jobs:
   CD:
     name: Deployment
-    if: (github.event.pull_request.merged == true)
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
