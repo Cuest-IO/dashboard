@@ -1,8 +1,11 @@
-name: Build Based On Branch
+name: Build develop/main Based On Pull Request
 
 on:
   pull_request:
-    types: [closed]
+    types:
+      - opened
+      - reopened
+      - synchronize
     branches:
       - develop
       - main
@@ -12,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.base.ref == 'develop'
     steps:
-      - name: Check if PR is merged into develop
-        run: echo "Pull request was merged into develop branch"
+      - name: Check if PR target is develop branch
+        run: echo "This pull request targets the develop branch"
 
   trigger-dev-deploy:
     needs: check-develop-branch 
@@ -30,8 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.base.ref == 'main'
     steps:
-      - name: Check if PR is merged into main
-        run: echo "Pull request was merged into main branch"
+      - name: Check if PR target is main branch
+        run: echo "This pull request targets the main branch"
 
   trigger-prod-deploy:
     needs: check-main-branch  
