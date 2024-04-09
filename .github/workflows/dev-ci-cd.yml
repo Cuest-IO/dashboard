@@ -28,6 +28,13 @@ jobs:
         with:
           ref: develop
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+      
       - name: Set Node.js  ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
@@ -38,13 +45,6 @@ jobs:
 
       - name: Build npm
         run: CI=false npm run build:dev
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.DEFAULT_AWS_REGION }}
 
       - name: Deploy WEB
         run: |
