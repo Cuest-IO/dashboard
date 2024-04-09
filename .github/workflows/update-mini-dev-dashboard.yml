@@ -1,0 +1,62 @@
+name: Mini Dev - Deploy Static Website Files
+
+on:
+  workflow_dispatch:
+    # inputs:
+    #   web_cloudfront_distribution_id:
+    #     description: 'Enter WEB CLOUDFRONT DISTRIBUTION ID:'
+    #     required: true
+    #   console_cloudfront_distribution_id:
+    #     description: 'Enter Console CLOUDFRONT DISTRIBUTION ID:'
+    #     required: true
+
+env:
+  AWS_REGION: us-east-1
+  WEB_BUCKET_NAME: ${{ github.actor }}.dev.web.cuest.io
+  # WEB_CLOUDFRONT_DISTRIBUTION_ID: ${{ inputs.web_cloudfront_distribution_id }}
+  CONSOLE_BUCKET_NAME: ${{ github.actor }}.dev.console.cuest.io
+  # CONSOLE_CLOUDFRONT_DISTRIBUTION_ID: ${{ inputs.console_cloudfront_distribution_id }}
+  NODE_VERSION: "18.15"
+# Permission to work with AWS IAM role   
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+  
+jobs:
+  CD:
+    name: Deployment
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set Node.js  ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run npm install
+        run: npm ci
+
+      - name: Build npm
+        run: CI=false npm run build:dev
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy WEB
+        run: |
+              aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
+            #   --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
+            #   aws cloudfront create-invalidation --distribution-id ${{ env.WEB_CLOUDFRONT_DISTRIBUTION_ID }}  --paths "/*" 
+
+      - name: Deploy Dashboard 
+        run: |
+              aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
+            #   aws cloudfront create-invalidation --distribution-id ${{ env.CONSOLE_CLOUDFRONT_DISTRIBUTION_ID }}  --paths "/*" 
+

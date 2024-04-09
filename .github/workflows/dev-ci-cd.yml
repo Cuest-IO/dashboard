@@ -2,14 +2,14 @@ name: Dev - Deploy Static Website Files
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 env:
   AWS_REGION: us-east-1
   WEB_BUCKET_NAME: dev.web.cuest.io
-  WEB_CLOUDFRONT_DISTRIBUTION_ID:
+  WEB_CLOUDFRONT_DISTRIBUTION_ID: E3GYUZG3PWIGH5
   CONSOLE_BUCKET_NAME: dev.console.cuest.io
-  CONSOLE_CLOUDFRONT_DISTRIBUTION_ID:
+  CONSOLE_CLOUDFRONT_DISTRIBUTION_ID: E12XG7C9CQ987Q
   NODE_VERSION: "18.15"
 # Permission to work with AWS IAM role   
 permissions:
