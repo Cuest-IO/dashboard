@@ -33,7 +33,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.DEFAULT_AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
       
       - name: Set Node.js  ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
