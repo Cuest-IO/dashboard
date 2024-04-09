@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   repository_dispatch:
-    types: [trigger-workflow]
+    types: [prod-deployment]
   # pull_request:
   #   types:
   #     - closed
