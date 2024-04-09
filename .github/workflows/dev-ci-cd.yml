@@ -40,11 +40,11 @@ jobs:
         run: CI=false npm run build:dev
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.DEFAULT_AWS_REGION }}
 
       - name: Deploy WEB
         run: |
