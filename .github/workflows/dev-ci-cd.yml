@@ -10,8 +10,8 @@ on:
 env:
   AWS_REGION: us-east-1
   # WEB_BUCKET_NAME: ${{ github.event.client_payload.actor }}.dev.web.cuest.io || dev.web.cuest.io
-  WEB_BUCKET_NAME: 'dev.web.cuest.io'
-  CONSOLE_BUCKET_NAME: 'dev.console.cuest.io' 
+  WEB_BUCKET_NAME: dev.web.cuest.io
+  CONSOLE_BUCKET_NAME: dev.console.cuest.io
   # CONSOLE_BUCKET_NAME: ${{ github.event.client_payload.actor }}.dev.console.cuest.io' || 'dev.console.cuest.io' 
   NODE_VERSION: "18.15"
 # Permission to work with AWS IAM role   
@@ -48,11 +48,24 @@ jobs:
       - name: Build npm
         run: CI=false npm run build:dev
 
-      - name: Deploy WEB
+      - name: Deploy WEB to dev env
+        if: ${{ ! github.event.client_payload.actor }}
         run: |
               aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
               # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
+      
+      - name: Deploy WEB to ${{ github.event.client_payload.actor }} mini dev env
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/html s3://${{ github.event.client_payload.actor }}.${{ env.WEB_BUCKET_NAME }} --delete
+              # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
 
-      - name: Deploy Dashboard 
+      - name: Deploy Dashboard to dev env
+        if: ${{ ! github.event.client_payload.actor }}
         run: |
               aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
+      
+      - name: Deploy Dashboard to ${{ github.event.client_payload.actor }} mini dev env
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/react s3://${{ github.event.client_payload.actor }}.${{ env.CONSOLE_BUCKET_NAME }} --delete
