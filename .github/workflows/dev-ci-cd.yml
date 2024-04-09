@@ -9,11 +9,10 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  # WEB_BUCKET_NAME: ${{ github.event.client_payload.actor }}.dev.web.cuest.io || dev.web.cuest.io
   WEB_BUCKET_NAME: web.dev.cuest.io
   CONSOLE_BUCKET_NAME: console.dev.cuest.io
-  # CONSOLE_BUCKET_NAME: ${{ github.event.client_payload.actor }}.dev.console.cuest.io' || 'dev.console.cuest.io' 
   NODE_VERSION: "18.15"
+
 # Permission to work with AWS IAM role   
 permissions:
   id-token: write   # This is required for requesting the JWT
