@@ -48,11 +48,24 @@ jobs:
       - name: Build npm
         run: CI=false npm run build:dev
 
-      - name: Deploy WEB
+      - name: Deploy WEB to dev
+        if: ${{ ! github.event.client_payload.actor }}
         run: |
               aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
               # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
 
-      - name: Deploy Dashboard 
+      - name: Deploy WEB to ${{ github.event.client_payload.actor }} mini-dev dev
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
+              # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
+      
+      - name: Deploy Dashboard to dev
+        if: ${{ ! github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
+
+      - name: Deploy Dashboard to ${{ github.event.client_payload.actor }} mini-dev
+        if: ${{ ! github.event.client_payload.actor }}
         run: |
               aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
