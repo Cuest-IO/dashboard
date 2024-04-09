@@ -1,4 +1,4 @@
-name: Dev - Deploy Static Website Files
+name: Dev CI/CD
 
 on:
   push:
