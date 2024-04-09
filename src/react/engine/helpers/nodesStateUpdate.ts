@@ -12,17 +12,21 @@ import { Resources, Battery } from "../dto/common";
 import { AccessStatuses } from "../dto/nodes";
 
 export interface CPUUsage {
-  totalCPU: number;
+  totalSysCPU: number; // total CPU percentage on a Node (100%)
+  totalVMCPU: number;   // total CPU percentage allocated for a VM
+  totalSysCores: number;  //total vCores count
+  totalVMCores: number;   // total vCores allocated for a VM
   availCPU: number;
-  sysCPU: number;
-  usedCPU: number;
+  usedSysCPU: number;   // CPU percantage used by the Node not including Vm
+  usedVMCPU: number;  // CPU percentage used by the VM
   timestamp: number;
 }
 
 export interface MemoryUsage {
-  totalMemory: number;
+  totalSysMemory: number;
+  totalVMMemory: number;
   availableMemory: number;
-  inUseMemory: number;
+  inUseSysMemory: number;
   allocatedMemory: number;
   timestamp: number;
 }
@@ -164,38 +168,46 @@ function createWorkloads (workloads: Map<string, Workload>, newWorkloads: Array<
 }
 
 export function cpuUsage (state: DeviceInfo['state'], timestamp: number): CPUUsage {
-  let vmCPU= state?.vm?.load?.cpu && state?.vm?.system?.cpu && state.device?.system?.cpu ? (state.vm.load?.cpu * state.vm.system.cpu * 100) / state.device.system.cpu : 0;
-  let sysCPU= (state?.device?.load?.cpu || 0) * 100 - vmCPU;
-  if (sysCPU < 0) {
-    sysCPU = 0;
+  let totalSysCores = state?.device?.system?.cpu || 1;
+  let totalVMCores = state?.vm?.system?.cpu  || 0 ;
+  let totalVMCPU = totalVMCores * 100 / totalSysCores ;
+  let usedVMCPU = state?.vm?.load?.cpu ? (state.vm.load.cpu * totalVMCores * 100) / totalSysCores : 0;
+  let usedSysCPU= (state?.device?.load?.cpu || 0) * 100 - usedVMCPU;
+  if (usedSysCPU < 0) {
+    usedSysCPU = 0;
   }
 
-  vmCPU = parseFloat(vmCPU.toFixed(1))
-  sysCPU= parseFloat(sysCPU.toFixed(1))
+  usedVMCPU = parseFloat(usedVMCPU.toFixed(1))
+  usedSysCPU= parseFloat(usedSysCPU.toFixed(1))
 
-  const freeCPU = 100 - sysCPU - vmCPU;
+  const freeCPU = 100 - usedSysCPU - usedVMCPU;
   const availCPU = (freeCPU < 0) ? 0 : freeCPU;
 
   return {
-    totalCPU: 100,
+    totalSysCPU: 100,
+    totalSysCores,
+    totalVMCPU,
+    totalVMCores,
     availCPU,
-    sysCPU,
-    usedCPU: vmCPU,
+    usedSysCPU,
+    usedVMCPU,
     timestamp
   }
 }
 
 export function memoryUsage(state: DeviceInfo['state'], timestamp: number): MemoryUsage {
-  const totalMem= formatMBytes(state.device?.system?.ram || 0);
+  const totalSysMemory= formatMBytes(state.device?.system?.ram || 0);
+  const totalVMMemory= formatMBytes(state.vm?.system?.ram || 0);
   const vmMem= (state.vm?.system?.ram && state.vm?.load?.allocated) ? formatMBytes(state.vm.system.ram * state.vm.load.allocated) : 0;
-  const sysMem= parseFloat((totalMem * (state.device?.load?.ram || 0) - vmMem).toFixed(1));
-  let freeMem = parseFloat((totalMem - sysMem - vmMem).toFixed(1));
+  const inUseSysMemory= parseFloat((totalSysMemory * (state.device?.load?.ram || 0) - vmMem).toFixed(1));
+  let freeMem = parseFloat((totalSysMemory - inUseSysMemory - vmMem).toFixed(1));
   freeMem = (freeMem < 0) ? 0 : freeMem;
 
   return {
-    totalMemory: totalMem,
+    totalSysMemory,
+    totalVMMemory,
     availableMemory: freeMem,
-    inUseMemory: sysMem,
+    inUseSysMemory,
     allocatedMemory: vmMem,
     timestamp: timestamp
   }
