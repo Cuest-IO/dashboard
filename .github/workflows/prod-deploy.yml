@@ -10,8 +10,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  WEB_BUCKET_NAME: web-stage-cuest-io
-  CONSOLE_BUCKET_NAME: console.cuest.io
+  WEB_BUCKET_NAME: prod.cuest.io
+  CONSOLE_BUCKET_NAME: console.prod.cuest.io
   NODE_VERSION: "18.15"
 # Permission to work with AWS IAM role   
 permissions:
