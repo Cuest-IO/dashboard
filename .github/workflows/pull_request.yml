@@ -18,7 +18,7 @@ jobs:
       - name: Check if PR target is develop branch
         run: echo "This pull request targets the develop branch"
 
-  trigger-dev-deploy:
+  trigger-dev-build:
     needs: check-develop-branch 
     if: success('check-develop-branch')
     uses: ./.github/workflows/build_dashboard.yml
@@ -36,7 +36,7 @@ jobs:
       - name: Check if PR target is main branch
         run: echo "This pull request targets the main branch"
 
-  trigger-prod-deploy:
+  trigger-prod-build:
     needs: check-main-branch  
     if: success('check-main-branch')
     uses: ./.github/workflows/build_dashboard.yml
