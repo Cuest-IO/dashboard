@@ -16,6 +16,7 @@ const root = createRoot(container);
 
 const queryClient = new QueryClient();
 
+awsmobile.oauth.domain = "auth.dev.cuest.io";
 Amplify.configure(awsmobile);
 
 root.render(

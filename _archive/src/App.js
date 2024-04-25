@@ -8,7 +8,7 @@ import awsconfig from './aws-exports';
 // Helpers
 import './././_helpers/scss/reset.scss';
 
-
+awsmobile.oauth.domain = "auth.dev.cuest.io";
 Amplify.configure(awsconfig);
 
 export default function App() {
