@@ -43,7 +43,19 @@ jobs:
 
       - name: Run npm install
         run: npm ci
+      
+      - name: Deploy WEB to "${{ github.event.client_payload.actor }}" mini-dev dev
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+          sed -ie "s|^REACT_APP_CONSOLE_DOMAIN=.*|REACT_APP_CONSOLE_DOMAIN=https://${{ github.event.client_payload.actor }}.console.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_DOCS_DOMAIN=.*|REACT_APP_DOCS_DOMAIN=https://${{ github.event.client_payload.actor }}.docs.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=https://${{ github.event.client_payload.actor }}.socket.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI=.*|REACT_APP_REST_URI=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI_DEVICES=.*|REACT_APP_REST_URI_DEVICES=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
 
+          echo "Changed .env.devevelopment file"
+          cat .env.development
+        
       - name: Build npm
         run: CI=false npm run build:dev
 
