@@ -1,15 +1,17 @@
 name: Deploy
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches: ["main"]
+  repository_dispatch:
+    types: [prod-deployment]
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches: ["main"]
 
 env:
   AWS_REGION: us-east-1
-  WEB_BUCKET_NAME: web-stage-cuest-io
-  CONSOLE_BUCKET_NAME: console.cuest.io
+  WEB_BUCKET_NAME: prod.cuest.io
+  CONSOLE_BUCKET_NAME: console.prod.cuest.io
   NODE_VERSION: "18.15"
 # Permission to work with AWS IAM role   
 permissions:
@@ -19,12 +21,13 @@ permissions:
 jobs:
   CD:
     name: Deployment
-    if: (github.event.pull_request.merged == true)
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+        with:
+          ref: main
 
       - name: Set Node.js  ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3

@@ -1,0 +1,82 @@
+name: Dev CI/CD
+
+on:
+  push:
+    branches: [develop]
+  repository_dispatch:
+    types: [mini-dev-deployment]  
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  WEB_BUCKET_NAME: dev.cuest.io
+  CONSOLE_BUCKET_NAME: console.dev.cuest.io
+  NODE_VERSION: "18.15"
+
+# Permission to work with AWS IAM role   
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+  
+jobs:
+  CD:
+    name: CI & CD
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CUEST_DEV_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Set Node.js  ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run npm install
+        run: npm ci
+      
+      - name: Deploy WEB to "${{ github.event.client_payload.actor }}" mini-dev dev
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+          sed -ie "s|^REACT_APP_CONSOLE_DOMAIN=.*|REACT_APP_CONSOLE_DOMAIN=https://${{ github.event.client_payload.actor }}.console.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_DOCS_DOMAIN=.*|REACT_APP_DOCS_DOMAIN=https://${{ github.event.client_payload.actor }}.docs.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=https://${{ github.event.client_payload.actor }}.socket.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI=.*|REACT_APP_REST_URI=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI_DEVICES=.*|REACT_APP_REST_URI_DEVICES=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
+
+          echo "Changed .env.devevelopment file"
+          cat .env.development
+        
+      - name: Build npm
+        run: CI=false npm run build:dev
+
+      - name: Deploy WEB to ${{ env.WEB_BUCKET_NAME }} bucket
+        if: ${{ ! github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
+              # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
+
+      - name: Deploy WEB to "${{ github.event.client_payload.actor }}" mini-dev dev
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/html s3://${{ github.event.client_payload.actor }}.${{ env.WEB_BUCKET_NAME }} --delete
+              # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
+      
+      - name: Deploy Dashboard to ${{ env.CONSOLE_BUCKET_NAME }} bucket
+        if: ${{ ! github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
+
+      - name: Deploy Dashboard to "${{ github.event.client_payload.actor }}" mini-dev
+        if: ${{ github.event.client_payload.actor }}
+        run: |
+              aws s3 sync ./build/react s3://${{ github.event.client_payload.actor }}.${{ env.CONSOLE_BUCKET_NAME }} --delete
