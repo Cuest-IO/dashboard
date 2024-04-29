@@ -48,7 +48,7 @@ jobs:
         if: ${{ ! github.event.client_payload.actor }}
         run: |
           sed -ie "s/<pool-id>/us-east-1_5l6s55NjQ/" src/aws-exports.js
-          sed -ie "s/<app-client-id>/4s2uoqacg6dtkbdlhf81p8jahv/" src/aws-exports.js
+          sed -ie "s/<app-client-id>/5pts3p2qmkidpv5c309cumfapd/" src/aws-exports.js
 
           cat src/aws-exports.js
 
