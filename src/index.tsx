@@ -20,12 +20,14 @@ const updatedAwsConfig = {
   ...config,
   oauth: {
     ...config.oauth,
-    domain: "https://auth.dev.cuest.io"
+    domain: "auth.dev.cuest.io"
     // domain: process.env.REACT_APP_AWS_COGNITO_URL,
     // redirectSignIn: process.env.REACT_APP_BASE_URL,
     // redirectSignOut: process.env.REACT_APP_BASE_URL
   }
 };
+// updatedAwsConfig.oauth.domain = "{{ YOUR CUSTOM DOMAIN - auth.example.com}}"
+
 Amplify.configure(updatedAwsConfig);
 
 root.render(
