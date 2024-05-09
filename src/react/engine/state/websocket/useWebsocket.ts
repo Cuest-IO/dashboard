@@ -28,8 +28,11 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
   }, [])
 
   const createWebsocketConnection = async () => {
-    websocket.current?.close()
-    websocket.current = new WebSocket(`${process.env.REACT_APP_WSS_URI}?type=web&token=`.concat((await Auth.currentSession()).getIdToken().getJwtToken()));
+    websocket.current?.close();
+    const token = (await Auth.currentSession()).getIdToken().getJwtToken();
+    const connectUrl = `${process.env.REACT_APP_WSS_URI}?type=web&token=${token}`
+    console.log(`Create wss connection to: ${connectUrl}`);
+    websocket.current = new WebSocket(connectUrl);
 
     websocket.current.onopen = () => {
       pingConnection.current = setInterval(() => {
