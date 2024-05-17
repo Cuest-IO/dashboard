@@ -12,7 +12,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  WEB_BUCKET_NAME: ${{ github.actor }}.dev.web.cuest.io
+  WEB_BUCKET_NAME: ${{ github.actor }}.dev.cuest.io
   # WEB_CLOUDFRONT_DISTRIBUTION_ID: ${{ inputs.web_cloudfront_distribution_id }}
   CONSOLE_BUCKET_NAME: ${{ github.actor }}.dev.console.cuest.io
   # CONSOLE_CLOUDFRONT_DISTRIBUTION_ID: ${{ inputs.console_cloudfront_distribution_id }}

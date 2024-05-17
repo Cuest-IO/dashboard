@@ -8,7 +8,7 @@ import i18n from './react/ui/core/translations';
 import App from './react/ui/core/App';
 import './assets/fonts/product_sans/style.scss';
 import './_helpers/scss/reset.scss';
-import awsmobile from "./aws-exports";
+import config from "./aws-exports";
 import CuestThemeProvider from "./react/ui/core/CuestThemeProvider";
 
 const container = document.getElementById('root')!;
@@ -16,7 +16,19 @@ const root = createRoot(container);
 
 const queryClient = new QueryClient();
 
-Amplify.configure(awsmobile);
+const updatedAwsConfig = {
+  ...config,
+  oauth: {
+    ...config.oauth,
+    domain: "auth.dev.cuest.io"
+    // domain: process.env.REACT_APP_AWS_COGNITO_URL,
+    // redirectSignIn: process.env.REACT_APP_BASE_URL,
+    // redirectSignOut: process.env.REACT_APP_BASE_URL
+  }
+};
+// updatedAwsConfig.oauth.domain = "{{ YOUR CUSTOM DOMAIN - auth.example.com}}"
+
+Amplify.configure(updatedAwsConfig);
 
 root.render(
   <Authenticator.Provider>

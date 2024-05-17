@@ -107,12 +107,13 @@
   },
   "scripts": {
     "build:local": "npm run gulp:local && npm run webpack:local && npm run react:build",
-    "build:dev": "npm run webpack:dev && npm run gulp:dev && npm run react:build",
+    "build:dev": "npm run webpack:dev && npm run gulp:dev && npm run react:dev",
     "build:prod": "npm run webpack:prod && npm run gulp:prod && npm run react:build",
     "html:start": "npm-run-all --parallel html:server webpack:watch gulp:local",
     "html:server": "NODE_ENV=local webpack-dev-server --config config/webpack.config.local.js",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
+    "react:dev": "dotenv -e .env.development react-scripts build",
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
     "gulp:prod": "NODE_ENV=production gulp --gulpfile config/gulpfile.js",
@@ -150,6 +151,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "dotenv-cli": "^7.4.1",
     "eslint-config-prettier": "^8.8.0",
     "resolve-url-loader": "^5.0.0",
     "stylelint": "^15.4.0",
