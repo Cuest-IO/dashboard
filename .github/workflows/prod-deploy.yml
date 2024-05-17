@@ -3,10 +3,7 @@ name: Deploy
 on:
   repository_dispatch:
     types: [prod-deployment]
-  # pull_request:
-  #   types:
-  #     - closed
-  #   branches: ["main"]
+  workflow_dispatch:
 
 env:
   AWS_REGION: us-east-1
@@ -29,6 +26,13 @@ jobs:
         with:
           ref: main
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_CUEST_PROD_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      
       - name: Set Node.js  ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v3
         with:
@@ -37,15 +41,18 @@ jobs:
       - name: Run npm install
         run: npm ci
 
+      - name: update aws-export.js
+        if: ${{ ! github.event.client_payload.actor }}
+        run: |
+          sed -ie "s/<pool-id>/us-east-1_C7xZd3JlF/" src/aws-exports.js
+          sed -ie "s/<app-client-id>/6k7kfknd1l4lng64p6l89c8o8c/" src/aws-exports.js
+
+          cat src/aws-exports.js
+      
       - name: Build npm
         run: CI=false npm run build:prod
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+
 
       - name: Deploy WEB
         run: |
