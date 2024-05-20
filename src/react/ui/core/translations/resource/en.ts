@@ -64,6 +64,13 @@ const resourceLanguage: ResourceLanguage = {
   account: {
     loadingStatus: 'Loading account status...',
     creationInProgress: 'Creating your account'
+  },
+  access_key: {
+    connect_kubernetes_cluster: 'Connect Kubernetes cluster',
+    add_nodes_to_cluster: 'Add Nodes to the cluster',
+    security_key_and_secret: 'Security Key and Secret',
+    download_minikube: 'https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe',
+    helm_description: 'Copy and run the Helm command. Please note, the command is personalized for your account and contains security keys. Please keep privately. If you intend to run multiple clusters or wish to have more personalized cluster name, please replace the cluster name with a unique and meaningful name.'
   }
 };
 

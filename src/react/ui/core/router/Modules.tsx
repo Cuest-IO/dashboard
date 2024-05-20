@@ -52,6 +52,13 @@ const LoadableCLusterView = loadable(
   }
 )
 
+const LoadableAccessKey = loadable(
+  () => import('../../pages/AccessKey'),
+  {
+    fallback: 'Loading...',
+  },
+);
+
 const dashboardModule = {
   routes: {
     Dashboard: {
@@ -102,10 +109,21 @@ const nodesModule = {
   },
 };
 
+const accessKeyModule = {
+  routes: {
+    AccessKey: {
+      path: '/access-key',
+      Component: <LoadableAccessKey />,
+      caseSensitive: true,
+    },
+  },
+};
+
 modules.push(dashboardModule);
 modules.push(signInModule);
 modules.push(clustersModule);
 modules.push(clusterViewModule);
 modules.push(nodesModule);
+modules.push(accessKeyModule);
 
 export default modules;
