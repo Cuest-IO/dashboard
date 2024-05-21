@@ -7,5 +7,6 @@ export const loggedInRoutes: string[] = [
   'Dashboard',
   'Clusters',
   'ClusterView',
-  'Nodes'
+  'Nodes',
+  'AccessKey'
 ]

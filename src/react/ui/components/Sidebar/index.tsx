@@ -8,6 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import HiveIcon from '@mui/icons-material/Hive';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import Link from '@mui/material/Link'
 import { Logo } from './styles';
 import logo from '../../../../assets/img/logo.svg';
@@ -27,6 +28,11 @@ const items = [
     label: 'Nodes',
     link: '/nodes',
     icon: <LanOutlinedIcon />
+  },
+  {
+    label: 'Access Key',
+    link: '/access-key',
+    icon: <VpnKeyIcon />
   }
 ]
 

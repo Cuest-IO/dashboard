@@ -1,15 +1,15 @@
-import {useNodes} from '../../../engine/state/nodes/useNodes';
-import {useClusters} from '../../../engine/state/clusters/useClusters';
+import { useNodes } from '../../../engine/state/nodes/useNodes';
+import { useClusters } from '../../../engine/state/clusters/useClusters';
 import Box from '@mui/material/Box';
-import MessagePanel from './MessagePanel';
-import {Skeleton} from '@mui/material';
+import MessagePanel from '../../components/common/MessagePanel';
+import { Skeleton } from '@mui/material';
 import React from 'react';
 // import ClusterCard from './ClusterCard';
 import NodeCard from './NodeCard';
 import SystemCapacityCard from './SystemCapacityCard';
 import Grid from '@mui/material/Grid';
-import {useTranslation} from 'react-i18next';
-import {useSystemLoad} from "../../../engine/state/systemLoad/useSystemLoad";
+import { useTranslation } from 'react-i18next';
+import { useSystemLoad } from "../../../engine/state/systemLoad/useSystemLoad";
 import SystemLoadCard from "./SystemLoadCard";
 // import BillingCard from "./BillingCard";
 

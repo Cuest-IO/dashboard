@@ -7,17 +7,19 @@ import routes from '.';
 import { getSignInLink } from "../../../engine/helpers/router";
 import Layout from "../Layout";
 import { AccountStatuses } from "../../../engine/dto/account";
-import {AccountCreateInProgress} from "../../components/AccountCreateInProgress";
+import { AccountCreateInProgress } from "../../components/AccountCreateInProgress";
 
 interface Props {
   isUserAuthLoaded: boolean;
   accountStatus: AccountStatuses;
+  isAccountStatusFetched: boolean;
   isAccountStatusLoading: boolean;
 }
 
 const Routes: React.FC<Props> = ({
   isUserAuthLoaded,
   accountStatus,
+  isAccountStatusFetched,
   isAccountStatusLoading
 }) => {
   const { user } = useAuthenticator();
@@ -50,7 +52,7 @@ const Routes: React.FC<Props> = ({
                 <Route key={e} path='/' element={<Layout />}>
                   <Route
                     path={route.path}
-                    element={accountStatus === AccountStatuses.Completed
+                    element={isAccountStatusFetched && accountStatus === AccountStatuses.Completed
                       ? route.Component
                       : (
                         <AccountCreateInProgress
