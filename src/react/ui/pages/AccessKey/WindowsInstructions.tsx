@@ -22,9 +22,6 @@ const WindowsInstructions: React.FC<Props> = ({ credentials }) => {
           When prompted, please use the below access Key and Secret:
         </Typography>
       </Grid>
-      <Grid item xs={12}>
-        <ClientCredentialsList credentials={credentials} />
-      </Grid>
     </Grid>
   );
 };
