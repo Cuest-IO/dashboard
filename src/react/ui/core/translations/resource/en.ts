@@ -70,7 +70,9 @@ const resourceLanguage: ResourceLanguage = {
     add_nodes_to_cluster: 'Add Nodes to the cluster',
     security_key_and_secret: 'Security Key and Secret',
     download_minikube: 'https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe',
-    helm_description: 'Copy and run the Helm command. Please note, the command is personalized for your account and contains security keys. Please keep privately. If you intend to run multiple clusters or wish to have more personalized cluster name, please replace the cluster name with a unique and meaningful name.'
+    helm_add_command: 'helm repo add cuestio https://cuest-io.github.io/releases/cuest_vnode',
+    helm_update_command: 'helm repo update',
+    helm_install_command: 'helm install cuest cuestio/vnode --set AUTH_ID={{authId}} --set AUTH_SECRET={{authSecret}} --set KUBELET_ID=vNode-123'
   }
 };
 
