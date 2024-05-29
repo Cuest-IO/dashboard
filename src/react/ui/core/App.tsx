@@ -14,7 +14,8 @@ const App: React.FC = () => {
   useClusterView({ isUserAuthLoaded });
   const {
     data: accountStatusData,
-    isLoading: isAccountStatusLoading,
+    isFetching: isAccountStatusLoading,
+    isFetched: isAccountStatusFetched,
   } = useAccountStatus()
 
   const timer = useRef<NodeJS.Timer | null>(null)
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       isUserAuthLoaded={isUserAuthLoaded}
       accountStatus={accountStatusData?.status}
       isAccountStatusLoading={isAccountStatusLoading}
+      isAccountStatusFetched={isAccountStatusFetched}
     />
   );
 }

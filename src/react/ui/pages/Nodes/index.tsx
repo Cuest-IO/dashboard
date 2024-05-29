@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import NodeSuspendDialog from "../ClusterView/NodeSuspendDialog";
+import MessagePanel from '../../components/common/MessagePanel';
 
 export type NodesColumns = (Omit<MRT_ColumnDef<NodeItemResponse>, 'id'> & { id: string; })[];
 
@@ -109,13 +110,7 @@ const Nodes = () => {
         maxWidth='100% !important'
       >
         <NodeSuspendDialog isOpen={isDialogOpen} toggleDialog={setIsDialogOpen} />
-        <Typography
-          variant='h5'
-          fontWeight={700}
-          color={(theme) => theme.palette.secondary.main}
-        >
-          {t('core:nodes')}
-        </Typography>
+        <MessagePanel message={t('core:nodes')} />
       </Grid>
       <Grid
         item

@@ -1,7 +1,7 @@
-import React, {useMemo, useState} from "react";
+import React, { useMemo, useState } from "react";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
-import {MRT_ColumnDef, MRT_Row} from "material-react-table";
+import { MRT_ColumnDef, MRT_Row } from "material-react-table";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditClusterDrawer from "./EditClusterDrawer";
+import MessagePanel from '../../components/common/MessagePanel';
 
 export type ClustersColumns = (Omit<MRT_ColumnDef<ClusterResponse>, 'id'> & { id: string; })[];
 
@@ -87,21 +88,25 @@ const Clusters = () => {
           {t('core:clusters')}
         </Typography>
       </Grid>
+      {!error && !clusters.length && (
+        <Grid
+          item
+          pt={6}
+          xs={12}
+          maxWidth='100% !important'
+        >
+          <MessagePanel message="Connect your first cluster" />
+        </Grid>
+      )}
       <Grid
         item
         py={6}
         xs={12}
         maxWidth='100% !important'
       >
-        {error ? (
-          <Typography
-            variant='h5'
-            fontWeight={700}
-            color={(theme) => theme.palette.secondary.main}
-          >
-            Error occurred while request
-          </Typography>
-        ) : (
+        {error
+          ? (<MessagePanel message="Error occurred while request" />)
+          : (
           <ReactQueryTable
             data={clusters}
             columns={columns}

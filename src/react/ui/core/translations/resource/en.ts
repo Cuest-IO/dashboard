@@ -64,6 +64,15 @@ const resourceLanguage: ResourceLanguage = {
   account: {
     loadingStatus: 'Loading account status...',
     creationInProgress: 'Creating your account'
+  },
+  access_key: {
+    connect_kubernetes_cluster: 'Connect Kubernetes cluster',
+    add_nodes_to_cluster: 'Add Nodes to the cluster',
+    security_key_and_secret: 'Security Key and Secret',
+    download_minikube: 'https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe',
+    helm_add_command: 'helm repo add cuestio https://cuest-io.github.io/releases/cuest_vnode',
+    helm_update_command: 'helm repo update',
+    helm_install_command: 'helm install cuest cuestio/vnode --set AUTH_ID={{authId}} --set AUTH_SECRET={{authSecret}} --set KUBELET_ID=vNode-123'
   }
 };
 

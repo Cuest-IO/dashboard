@@ -18,7 +18,7 @@ export const AccountCreateInProgress: FC<Props> = ({ accountStatus, isLoading })
       color={(theme) => theme.palette.secondary.main}
     >
       {(!accountStatus && isLoading) && t('account:loadingStatus')}
-      {accountStatus !== AccountStatuses.Completed && t('account:creationInProgress')}
+      {!isLoading && accountStatus && accountStatus !== AccountStatuses.Completed && t('account:creationInProgress')}
     </Typography>
   );
 };
