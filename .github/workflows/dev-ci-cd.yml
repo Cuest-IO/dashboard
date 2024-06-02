@@ -3,9 +3,12 @@ name: Dev CI/CD
 on:
   push:
     branches: [develop]
-  repository_dispatch:
-    types: [mini-dev-deployment]  
   workflow_dispatch:
+    inputs:
+      actor: 
+        description: 'GitHub actor who triggered the workflow'
+        required: false 
+        
 
 env:
   AWS_REGION: us-east-1
@@ -45,7 +48,7 @@ jobs:
         run: npm ci
 
       - name: update aws-export.js for dev
-        if: ${{ ! github.event.client_payload.actor }}
+        if: ${{ ! github.event.inputs.actor }}
         run: |
           sed -ie "s/<pool-id>/us-east-1_jUzfTm0jm/" src/aws-exports.js
           sed -ie "s/<app-client-id>/577csb81ujt2ak20mhvgl5la8r/" src/aws-exports.js
@@ -53,20 +56,20 @@ jobs:
           cat src/aws-exports.js
 
       - name: update aws-export.js for dev
-        if: ${{ github.event.client_payload.actor }}
+        if: ${{ github.event.inputs.actor }}
         run: |
           sed -ie "s/<pool-id>/us-east-1_fACAGa8pr/" src/aws-exports.js
           sed -ie "s/<app-client-id>/66vh4mrd6eeqnd118cmr3i6aob/" src/aws-exports.js
 
           cat src/aws-exports.js
-      - name: Deploy WEB to "${{ github.event.client_payload.actor }}" mini-dev
-        if: ${{ github.event.client_payload.actor }}
+      - name: Deploy WEB to "${{ github.event.inputs.actor }}" mini-dev
+        if: ${{ github.event.inputs.actor }}
         run: |
-          sed -ie "s|^REACT_APP_CONSOLE_DOMAIN=.*|REACT_APP_CONSOLE_DOMAIN=https://${{ github.event.client_payload.actor }}.console.dev.cuest.io|" .env.development
-          sed -ie "s|^REACT_APP_DOCS_DOMAIN=.*|REACT_APP_DOCS_DOMAIN=https://${{ github.event.client_payload.actor }}.docs.dev.cuest.io|" .env.development
-          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=https://${{ github.event.client_payload.actor }}.socket.dev.cuest.io|" .env.development
-          sed -ie "s|^REACT_APP_REST_URI=.*|REACT_APP_REST_URI=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
-          sed -ie "s|^REACT_APP_REST_URI_DEVICES=.*|REACT_APP_REST_URI_DEVICES=https://${{ github.event.client_payload.actor }}.api.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_CONSOLE_DOMAIN=.*|REACT_APP_CONSOLE_DOMAIN=https://${{ github.event.inputs.actor }}.console.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_DOCS_DOMAIN=.*|REACT_APP_DOCS_DOMAIN=https://${{ github.event.inputs.actor }}.docs.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=https://${{ github.event.inputs.actor }}.socket.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI=.*|REACT_APP_REST_URI=https://${{ github.event.inputs.actor }}.api.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_REST_URI_DEVICES=.*|REACT_APP_REST_URI_DEVICES=https://${{ github.event.inputs.actor }}.api.dev.cuest.io|" .env.development
 
           echo "Changed .env.devevelopment file"
           cat .env.development
@@ -75,23 +78,23 @@ jobs:
         run: CI=false npm run build:dev
 
       - name: Deploy WEB to ${{ env.WEB_BUCKET_NAME }} bucket
-        if: ${{ ! github.event.client_payload.actor }}
+        if: ${{ ! github.event.inputs.actor }}
         run: |
               aws s3 sync ./build/html s3://${{ env.WEB_BUCKET_NAME }} --delete
               # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
 
-      - name: Deploy WEB to "${{ github.event.client_payload.actor }}" mini-dev dev
-        if: ${{ github.event.client_payload.actor }}
+      - name: Deploy WEB to "${{ github.event.inputs.actor }}" mini-dev dev
+        if: ${{ github.event.inputs.actor }}
         run: |
-              aws s3 sync ./build/html s3://${{ github.event.client_payload.actor }}.${{ env.WEB_BUCKET_NAME }} --delete
+              aws s3 sync ./build/html s3://${{ github.event.inputs.actor }}.${{ env.WEB_BUCKET_NAME }} --delete
               # --delete: Deletes files in the destination S3 bucket that don't exist in the local directory, ensuring a clean deployment
       
       - name: Deploy Dashboard to ${{ env.CONSOLE_BUCKET_NAME }} bucket
-        if: ${{ ! github.event.client_payload.actor }}
+        if: ${{ ! github.event.inputs.actor }}
         run: |
               aws s3 sync ./build/react s3://${{ env.CONSOLE_BUCKET_NAME }} --delete
 
-      - name: Deploy Dashboard to "${{ github.event.client_payload.actor }}" mini-dev
-        if: ${{ github.event.client_payload.actor }}
+      - name: Deploy Dashboard to "${{ github.event.inputs.actor }}" mini-dev
+        if: ${{ github.event.inputs.actor }}
         run: |
-              aws s3 sync ./build/react s3://${{ github.event.client_payload.actor }}.${{ env.CONSOLE_BUCKET_NAME }} --delete
+              aws s3 sync ./build/react s3://${{ github.event.inputs.actor }}.${{ env.CONSOLE_BUCKET_NAME }} --delete
