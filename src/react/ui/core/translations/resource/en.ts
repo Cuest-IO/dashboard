@@ -72,7 +72,7 @@ const resourceLanguage: ResourceLanguage = {
     download_minikube: 'https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe',
     helm_add_command: 'helm repo add cuestio https://cuest-io.github.io/releases/cuest_vnode',
     helm_update_command: 'helm repo update',
-    helm_install_command: 'helm install cuest cuestio/vnode --set AUTH_ID={{authId}} --set AUTH_SECRET={{authSecret}} --set KUBELET_ID=vNode-123'
+    helm_install_command: 'helm install cuest cuestio/vnode --set AUTH_ID={{authId}} --set AUTH_Secret={{authSecret}} --set KUBELET_ID=vNode-123456789'
   }
 };
 
