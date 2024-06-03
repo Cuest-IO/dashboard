@@ -20,7 +20,7 @@ const ClientCredentialsList: React.FC<Props> = ({ credentials }) => {
         <Grid container alignItems="center">
           <Grid item xs={4}>
             <Typography variant="subtitle1" fontWeight={700}>
-              Access key ID
+              Account Access Key
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -49,7 +49,7 @@ const ClientCredentialsList: React.FC<Props> = ({ credentials }) => {
           <Grid container alignItems="center">
             <Grid item xs={4}>
               <Typography variant="subtitle1" fontWeight={700}>
-                Access key secret
+                Account Access Secret
               </Typography>
             </Grid>
             <Grid item xs={6}>
