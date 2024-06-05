@@ -69,7 +69,7 @@ const resourceLanguage: ResourceLanguage = {
     connect_kubernetes_cluster: 'Connect Kubernetes cluster',
     add_nodes_to_cluster: 'Add Nodes to the cluster',
     security_key_and_secret: 'Security Key and Secret',
-    download_minikube: 'https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe',
+    node_releases: 'https://github.com/Cuest-IO/releases/releases',
     helm_add_command: 'helm repo add cuestio https://cuest-io.github.io/releases/cuest_vnode',
     helm_update_command: 'helm repo update',
     helm_install_command: 'helm install cuest cuestio/vnode --set ACCESS_KEY={{accessKey}} --set ACCESS_SECRET={{accessSecret}} --set KUBELET_ID=vNode-123456789'
