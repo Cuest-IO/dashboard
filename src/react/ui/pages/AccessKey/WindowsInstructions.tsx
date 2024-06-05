@@ -16,8 +16,8 @@ const WindowsInstructions: React.FC<Props> = ({ credentials }) => {
     <Grid container direction="column">
       <Grid item xs={12} pt={2} pb={4}>
         <Typography>
-          Download and run the installer for the{' '}
-          <Link href={t('access_key:download_minikube')}>latest release</Link>
+          To connect your computer (aka Node) to the Kubernetes cluster, download and install the Crowd Cloud Agent from  {' '}
+          <Link href={t('access_key:node_releases')}>the latest release</Link>
           <br />
           When prompted, please use the below access Key and Secret:
         </Typography>
