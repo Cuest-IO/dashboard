@@ -24,7 +24,7 @@ permissions:
 jobs:
   CD:
     name: CI & CD
-    runs-on: arc-runner-set1 # ubuntu-22.04
+    runs-on: ubuntu-arc # ubuntu-22.04
     timeout-minutes: 20
     steps:
       - name: Check out the repo
