@@ -7,8 +7,11 @@ on:
     inputs:
       actor: 
         description: 'GitHub actor who triggered the workflow'
-        required: false 
-        
+        required: false
+      runner:
+        description: 'Set the Run-On Environment'
+        required: true
+        default: ubuntu-latest        
 
 env:
   AWS_REGION: us-east-1
@@ -24,7 +27,7 @@ permissions:
 jobs:
   CD:
     name: CI & CD
-    runs-on: ubuntu-arc # ubuntu-22.04
+    runs-on: ${{ inputs.runner }} # ubuntu-22.04
     timeout-minutes: 20
     steps:
       - name: Check out the repo
