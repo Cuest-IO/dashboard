@@ -8,8 +8,11 @@ on:
       actor: 
         description: 'GitHub actor who triggered the workflow'
         required: false 
-        
-
+      runner:
+       description: 'Set the Run-On Environment'
+       required: true
+       default: ubuntu-latest
+            
 env:
   AWS_REGION: us-east-1
   WEB_BUCKET_NAME: dev.cuest.io
@@ -24,7 +27,7 @@ permissions:
 jobs:
   CD:
     name: CI & CD
-    runs-on: ubuntu-arc # ubuntu-22.04
+    runs-on: ${{ inputs.runner }} # ubuntu-22.04
     timeout-minutes: 20
     steps:
       - name: Check out the repo
