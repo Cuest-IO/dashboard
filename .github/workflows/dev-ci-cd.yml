@@ -50,7 +50,7 @@ jobs:
       - name: Run npm install
         run: npm ci
 
-      - name: update aws-export.js for dev
+      - name: update aws-export.js for dev - ${{ github.event.inputs.actor }}
         if: ${{ ! github.event.inputs.actor }}
         run: |
           sed -ie "s/<pool-id>/us-east-1_jUzfTm0jm/" src/aws-exports.js
