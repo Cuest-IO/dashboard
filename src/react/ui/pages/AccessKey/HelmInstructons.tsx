@@ -19,8 +19,8 @@ const HelmInstructions: React.FC<Props> = ({ credentials }) => {
   const { t } = useTranslation()
 
   const helmInstallCommand = t('access_key:helm_install_command', {
-    authId: credentials.id,
-    authSecret: credentials.secret
+    accessKey: credentials.id,
+    accessSecret: credentials.secret
   });
 
   const helmAddCommand = t('access_key:helm_add_command');
