@@ -36,26 +36,49 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
 
     websocket.current.onopen = () => {
       pingConnection.current = setInterval(() => {
-        websocket.current?.send(`{\"msg_id\":\"${uuid()}\",\"action\":\"ap\",\"command\":\"ping\", \"timestamp\":${Date.now()}`)
-      }, 60 * 1000)
-
+        if (websocket?.current?.readyState === WebSocket.OPEN) {
+          const message = {
+            msg_id: uuid(),
+            action: "ap",
+            command: "ping",
+            timestamp: Date.now()
+          };
+          try {
+            websocket.current.send(JSON.stringify(message));
+            console.log('Sent to server:', message);
+          } catch (error) {
+            console.error('Error sending message:', error);
+          }
+        } else {
+          console.log('Connection is not open. Message not sent.');
+        }
+      }, 60*1000);
       setWsState(true);
     };
 
-    websocket.current.onclose = () => {
+    websocket.current.onclose = (ev) => {
+      console.log('ws closed', ev)
       setWsState(false);
     }
 
     websocket.current.onmessage = event => {
-      const message = JSON.parse(event.data);
-      if (message.command === 'pong') {
-        return
+      try {
+        const message = JSON.parse(event.data);
+        console.log('Message received from server:', message);
+        if (message.command === 'pong') {
+          console.log('pong', event.data);
+          return;
+        }
+        if (message.device === 'SYSTEM') {
+          console.log('Message SYSTEM:', message);
+          return handleSystemLoadWebsocketEvent(message, queryClient);
+        }
+        handleClusterViewWebsocketEvent(message, queryClient)
+      } catch (error) {
+        console.error('Error parsing message:', error);
       }
-      if (message.device === 'SYSTEM') {
-        return handleSystemLoadWebsocketEvent(message, queryClient)
-      }
-      handleClusterViewWebsocketEvent(message, queryClient)
-    }
+
+    };
   }
 
   return { createWebsocketConnection, websocket: websocket.current }
