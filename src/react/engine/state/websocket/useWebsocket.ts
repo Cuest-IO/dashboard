@@ -9,55 +9,94 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
   const queryClient = useQueryClient()
   const websocket = useRef<WebSocket | null>(null)
   const pingConnection = useRef<NodeJS.Timer | null>(null)
-
-  useEffect(() => {
-    if (!wsState) {
-      if (pingConnection.current) clearInterval(pingConnection.current)
-    }
-  }, [wsState])
+  const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
+  const shouldReconnect = useRef(true);
 
   useEffect(() => {
     return () => {
-      try {
-        websocket.current?.close()
-        if (pingConnection.current) clearInterval(pingConnection.current)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }, [])
+      shouldReconnect.current = false;
+      reconnectTimeout.current && clearTimeout(reconnectTimeout.current);
+      websocket.current?.close();
+      pingConnection.current && clearInterval(pingConnection.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    !wsState && pingConnection.current && clearInterval(pingConnection.current);
+  }, [wsState])
 
   const createWebsocketConnection = async () => {
-    websocket.current?.close();
-    const token = (await Auth.currentSession()).getIdToken().getJwtToken();
-    const connectUrl = `${process.env.REACT_APP_WSS_URI}?type=web&token=${token}`
-    console.log(`Create wss connection to: ${connectUrl}`);
-    websocket.current = new WebSocket(connectUrl);
-
-    websocket.current.onopen = () => {
-      pingConnection.current = setInterval(() => {
-        websocket.current?.send(`{\"msg_id\":\"${uuid()}\",\"action\":\"ap\",\"command\":\"ping\", \"timestamp\":${Date.now()}`)
-      }, 60 * 1000)
-
-      setWsState(true);
-    };
-
-    websocket.current.onclose = () => {
-      setWsState(false);
+    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+      console.debug("WebSocket already connected. Skipping reconnection.");
+      return;
     }
+    if (websocket.current) {
+      websocket.current.close();
+    }
+    try {
+      const token = (await Auth.currentSession()).getIdToken().getJwtToken();
+      const connectUrl = `${process.env.REACT_APP_WSS_URI}?type=web&token=${token}`
+      console.debug(`Create wss connection to: ${connectUrl}`);
+      websocket.current = new WebSocket(connectUrl);
+      websocket.current.onopen = () => {
+        setWsState(true);
+        pingConnection.current = setInterval(() => {
+            const message = {
+              msg_id: uuid(),
+              action: "ap",
+              command: "ping",
+              timestamp: Date.now()
+            };
+              websocket?.current?.send(JSON.stringify(message));
+              console.debug('Sent to server:', message);
+        }, 60*1000);
+      };
 
-    websocket.current.onmessage = event => {
-      const message = JSON.parse(event.data);
-      if (message.command === 'pong') {
-        return
+      websocket.current.onclose = (ev) => {
+        console.debug('ws closed', ev)
+        setWsState(false);
+        if (pingConnection.current) {
+          clearInterval(pingConnection.current);
+        }
+        if (shouldReconnect.current) {
+          reconnectTimeout.current = setTimeout(() => {
+            createWebsocketConnection();
+          }, 5000);
+        }
       }
-      if (message.device === 'SYSTEM') {
-        return handleSystemLoadWebsocketEvent(message, queryClient)
-      }
-      handleClusterViewWebsocketEvent(message, queryClient)
+      websocket.current.onerror = error => {
+        console.error("error WebSocket:", error);
+        websocket.current?.close();
+      };
+      websocket.current.onmessage = event => {
+        try {
+          const message = JSON.parse(event.data);
+          console.debug('Message received from server:', message);
+          switch (message.command) {
+            case 'pong':
+              console.debug('pong', event.data);
+              return;
+            default:
+              switch (message.device) {
+                case 'SYSTEM':
+                  console.debug('Message SYSTEM:', message);
+                  return handleSystemLoadWebsocketEvent(message, queryClient);
+                default:
+                  return handleClusterViewWebsocketEvent(message, queryClient);
+              }
+          }
+        } catch (error) {
+          console.error('Error parsing message:', error);
+        }
+      };
+    } catch (e) {
+      console.error("problem with socket, will try to open again...", e);
+      setWsState(false);
+      reconnectTimeout.current = setTimeout(() => {
+        createWebsocketConnection();
+      }, 5000);
     }
   }
-
   return { createWebsocketConnection, websocket: websocket.current }
 }
 
