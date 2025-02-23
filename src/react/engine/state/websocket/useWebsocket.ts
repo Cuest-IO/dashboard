@@ -12,18 +12,6 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
   const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
   const shouldReconnect = useRef(true);
 
-  // useEffect(() => {
-  //   if (websocket.current) {
-  //     const randomDelay = Math.floor(Math.random() * 10000) + 5000;
-  //     const randomClosure = setTimeout(() => {
-  //       console.log("Емуляція випадкового закриття сокету");
-  //       websocket.current?.close();
-  //     }, randomDelay);
-  //
-  //     return () => clearTimeout(randomClosure);
-  //   }
-  // }, [websocket.current]);
-
   useEffect(() => {
     return () => {
       shouldReconnect.current = false;
@@ -37,18 +25,11 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
     !wsState && pingConnection.current && clearInterval(pingConnection.current);
   }, [wsState])
 
-  useEffect(() => {
-    return () => {
-      try {
-        websocket.current?.close()
-        pingConnection.current && clearInterval(pingConnection.current)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }, [])
-
   const createWebsocketConnection = async () => {
+    if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+      console.debug("WebSocket already connected. Skipping reconnection.");
+      return;
+    }
     if (websocket.current) {
       websocket.current.close();
     }
@@ -68,7 +49,6 @@ const useWebsocket = (wsState: boolean, setWsState: Dispatch<SetStateAction<bool
             };
               websocket?.current?.send(JSON.stringify(message));
               console.debug('Sent to server:', message);
-
         }, 60*1000);
       };
 
