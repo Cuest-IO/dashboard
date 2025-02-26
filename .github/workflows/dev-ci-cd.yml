@@ -53,8 +53,8 @@ jobs:
       - name: update aws-export.js for dev - ${{ github.event.inputs.actor }}
         if: ${{ ! github.event.inputs.actor }}
         run: |
-          sed -ie "s/<pool-id>/us-east-1_jUzfTm0jm/" src/aws-exports.js
-          sed -ie "s/<app-client-id>/577csb81ujt2ak20mhvgl5la8r/" src/aws-exports.js
+          sed -ie "s/<pool-id>/us-east-1_OdHrOL60P/" src/aws-exports.js
+          sed -ie "s/<app-client-id>/3dbp0339amjh89uem3884ijdum/" src/aws-exports.js
 
           cat src/aws-exports.js
 
