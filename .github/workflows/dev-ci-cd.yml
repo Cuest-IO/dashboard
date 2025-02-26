@@ -78,7 +78,7 @@ jobs:
         run: |
           sed -ie "s|^REACT_APP_CONSOLE_DOMAIN=.*|REACT_APP_CONSOLE_DOMAIN=https://${{ github.event.inputs.actor }}.console.dev.cuest.io|" .env.development
           sed -ie "s|^REACT_APP_DOCS_DOMAIN=.*|REACT_APP_DOCS_DOMAIN=https://${{ github.event.inputs.actor }}.docs.dev.cuest.io|" .env.development
-          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=https://${{ github.event.inputs.actor }}.socket.dev.cuest.io|" .env.development
+          sed -ie "s|^REACT_APP_WSS_URI=.*|REACT_APP_WSS_URI=wss://${{ github.event.inputs.actor }}.socket.dev.cuest.io|" .env.development
           sed -ie "s|^REACT_APP_REST_URI=.*|REACT_APP_REST_URI=https://${{ github.event.inputs.actor }}.api.dev.cuest.io|" .env.development
           sed -ie "s|^REACT_APP_REST_URI_DEVICES=.*|REACT_APP_REST_URI_DEVICES=https://${{ github.event.inputs.actor }}.api.dev.cuest.io|" .env.development
 
