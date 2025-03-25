@@ -18,8 +18,8 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isL
         gap={3}
         direction='column'
       >
-        {Array.from(Array(3).keys()).map(() => (
-          <Grid item xs={12}>
+        {Array.from(Array(3).keys()).map((_, index) => (
+          <Grid item xs={12} key={index}>
             <Skeleton
               variant="rectangular"
               height={50}
@@ -75,7 +75,7 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isL
             }
           },
           'tbody': {
-            '& tr td:first-child': {
+            '& tr td:first-of-type': {
               borderTopLeftRadius: '8px',
               borderBottomLeftRadius: '8px'
             },
