@@ -1,5 +1,5 @@
-
 export interface ClientCredentialsResponse {
   id: string;
   secret: string;
+  version?: string;
 }

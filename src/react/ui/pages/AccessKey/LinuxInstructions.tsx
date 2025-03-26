@@ -1,17 +1,41 @@
+import { useEffect, useState } from 'react';
+
+import { FileCopy as FileCopyIcon } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, IconButton, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { Auth } from 'aws-amplify';
+
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
-import Box from '@mui/material/Box';
-import { IconButton, Tooltip } from '@mui/material';
-import { FileCopy as FileCopyIcon } from '@mui/icons-material';
 
 const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResponse }) => {
-  const envPart = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'env=dev ' : '';
+  const [token, setToken] = useState<string | null>(null);
 
-  const script = `curl -sSLf https://github.com/Cuest-IO/releases/releases/latest/download/linux_install | sudo ${envPart}access_key=${credentials.id} access_secret=${credentials.secret} sh`;
+  useEffect(() => {
+    async function fetchToken() {
+      try {
+        const jwt = (await Auth.currentSession()).getIdToken().getJwtToken();
+        setToken(jwt);
+      } catch (error) {
+        console.error('Failed to fetch token', error);
+      }
+    }
+    fetchToken();
+  }, []);
+
+  const environmentPrefix = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'dev' : 'prod';
+
+  const fullScript = token
+    ? `curl -sSLf -H "Authorization: Bearer ${token}" https://api.${environmentPrefix}.cuest.io/installer/script?version=${credentials.version}&os=linux | sudo version=${credentials.version} access_key=${credentials.id} access_secret=${credentials.secret} token=${token} sh -`
+    : null;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(script);
+    if (fullScript) {
+      navigator.clipboard.writeText(fullScript);
+    } else {
+      console.error('Cannot copy: fullScript is null');
+    }
   };
 
   return (
@@ -25,9 +49,36 @@ const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResp
       <Grid item xs={12} pt={4}>
         <Grid container alignItems="center">
           <Grid item xs={11}>
-            <Box borderRadius="4px" py={2} px={6} bgcolor="rgb(248,248,248)">
-              <Typography color="rgb(51,51,51)">{script}</Typography>
-            </Box>
+            <Accordion>
+              <AccordionSummary>
+                <Typography variant="body2">Show full command</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box
+                  borderRadius="4px"
+                  py={2}
+                  px={6}
+                  bgcolor="rgb(248,248,248)"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontFamily: 'monospace',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-all',
+                      flexGrow: 1,
+                      color: 'rgb(51,51,51)',
+                    }}
+                  >
+                    {fullScript || 'Loading command...'}
+                  </Typography>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
           </Grid>
           <Grid item xs={1}>
             <Tooltip title="Copy">
