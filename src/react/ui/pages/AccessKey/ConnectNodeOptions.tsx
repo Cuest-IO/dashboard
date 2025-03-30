@@ -6,9 +6,10 @@ import TabList from '@mui/lab/TabList';
 import TabContext from '@mui/lab/TabContext';
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
 import WindowsInstructions from './WindowsInstructions';
+import LinuxInstructions from './LinuxInstructions';
 
 interface Props {
-  credentials: ClientCredentialsResponse
+  credentials: ClientCredentialsResponse;
 }
 export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
   const [value, setValue] = React.useState('windows');
@@ -25,10 +26,16 @@ export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
           <Tab value="linux" label="Linux" />
           <Tab value="macos" label="Mac OS" />
         </TabList>
-        <TabPanel value="windows"><WindowsInstructions credentials={credentials} /></TabPanel>
-        <TabPanel value="linux"><WindowsInstructions credentials={credentials} /></TabPanel>
-        <TabPanel value="macos"><WindowsInstructions credentials={credentials} /></TabPanel>
+        <TabPanel value="windows">
+          <WindowsInstructions credentials={credentials} />
+        </TabPanel>
+        <TabPanel value="linux">
+          <LinuxInstructions credentials={credentials} />
+        </TabPanel>
+        <TabPanel value="macos">
+          <WindowsInstructions credentials={credentials} />
+        </TabPanel>
       </TabContext>
     </Box>
   );
-}
+};
