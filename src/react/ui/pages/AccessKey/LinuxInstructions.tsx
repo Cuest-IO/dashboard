@@ -29,15 +29,12 @@ const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResp
   const environmentPrefix = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'dev' : 'prod';
 
   const fullScript = token
-    ? `TOKEN=${token}; curl -sSLf -H "Authorization: Bearer $TOKEN" https://api.${environmentPrefix}.cuest.io/installer/script?version=${version}&os=linux | sudo version=${version} access_key=${id} access_secret=${secret} token=$TOKEN sh -`
+    ? `sudo -E env=${environmentPrefix} version=${version} access_key=${id} access_secret=${secret} token=${token} sh -c "curl -sSLf -H 'Authorization: Bearer ${'$'}token' https://api.${'$'}env.cuest.io/installer/script?version=${'$'}version&os=linux | sh"`
     : null;
 
   const handleCopy = () => {
-    if (fullScript) {
-      navigator.clipboard.writeText(fullScript);
-    } else {
-      console.error('Cannot copy: fullScript is null');
-    }
+    if (!fullScript) return;
+    navigator.clipboard.writeText(fullScript);
   };
 
   return (
