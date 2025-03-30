@@ -10,8 +10,6 @@ import { Auth } from 'aws-amplify';
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
 
 const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResponse }) => {
-  const { id, secret, version } = credentials;
-
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,7 +27,7 @@ const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResp
   const environmentPrefix = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'dev' : 'prod';
 
   const fullScript = token
-    ? `TOKEN=${token}; curl -X GET "https://api.${environmentPrefix}.cuest.io/installer/script?version=${version}&os=linux" -H "Authorization: Bearer $TOKEN" | sudo version=${version} access_key=${id} access_secret=${secret} token=$TOKEN sh -`
+    ? `curl -sSLf -H "Authorization: Bearer ${token}" https://api.${environmentPrefix}.cuest.io/installer/script?version=${credentials.version}&os=linux | sudo version=${credentials.version} access_key=${credentials.id} access_secret=${credentials.secret} token=${token} sh -`
     : null;
 
   const handleCopy = () => {
