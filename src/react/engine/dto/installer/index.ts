@@ -1,0 +1,1 @@
+export type { InstallScriptParams } from './InstallScriptParams';

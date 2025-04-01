@@ -10,7 +10,7 @@ const resourceLanguage: ResourceLanguage = {
     cluster: 'Cluster',
     clusters: 'Clusters',
     node: 'Node',
-    nodes: 'Nodes'
+    nodes: 'Nodes',
   },
   common: {
     search: 'Search',
@@ -21,7 +21,7 @@ const resourceLanguage: ResourceLanguage = {
     add: 'Add',
     edit: 'Edit',
     ok: 'OK',
-    suspended_node_workloads_dialog_message: 'Currently running workloads will run until completed'
+    suspended_node_workloads_dialog_message: 'Currently running workloads will run until completed',
   },
   dashboard: {
     system: 'System',
@@ -39,15 +39,15 @@ const resourceLanguage: ResourceLanguage = {
     aws_avoided_cost: 'AWS avoided cost',
     cpu_runtime: 'CPU runtime',
     workloads_executed: 'Workloads executed',
-    system_capacity: 'System capacity'
+    system_capacity: 'System capacity',
   },
   clusters: {
-    edit_cluster: 'Edit cluster'
+    edit_cluster: 'Edit cluster',
   },
   nodes: {
     suspend: 'Suspend',
     block: 'Block',
-    enable: 'Enable'
+    enable: 'Enable',
   },
   cluster_view: {
     waiting_for_nodes: 'Waiting for nodes to connect',
@@ -59,11 +59,11 @@ const resourceLanguage: ResourceLanguage = {
     allocated: 'Allocated',
     suspend: 'Suspend',
     block: 'Block',
-    enable: 'Enable'
+    enable: 'Enable',
   },
   account: {
     loadingStatus: 'Loading account status...',
-    creationInProgress: 'Creating your account'
+    creationInProgress: 'Creating your account',
   },
   access_key: {
     connect_kubernetes_cluster: 'Connect Kubernetes cluster',
@@ -72,8 +72,14 @@ const resourceLanguage: ResourceLanguage = {
     node_releases: 'https://github.com/Cuest-IO/releases/releases',
     helm_add_command: 'helm repo add cuestio https://cuest-io.github.io/releases/cuest_vnode',
     helm_update_command: 'helm repo update',
-    helm_install_command: 'helm install cuest cuestio/vnode --set ACCESS_KEY={{accessKey}} --set ACCESS_SECRET={{accessSecret}} --set KUBELET_ID=vNode-123456789'
-  }
+    helm_install_command:
+      'helm install cuest cuestio/vnode --set ACCESS_KEY={{accessKey}} --set ACCESS_SECRET={{accessSecret}} --set KUBELET_ID=vNode-123456789',
+    install_linux_command:
+      'Connect your server, VM or a computer to Crowd Cloud by using our installer script, personalized for your account:',
+    install_linux_command_loading: 'Loading command...',
+    toggle_command_show_more: 'Show more',
+    toggle_command_show_less: 'Show less',
+  },
 };
 
 export default resourceLanguage;

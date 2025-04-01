@@ -1,18 +1,20 @@
-import * as React from 'react';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import TabPanel from '@mui/lab/TabPanel';
-import TabList from '@mui/lab/TabList';
+import { useState } from 'react';
+
 import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
-import WindowsInstructions from './WindowsInstructions';
 import LinuxInstructions from './LinuxInstructions';
+import WindowsInstructions from './WindowsInstructions';
 
 interface Props {
   credentials: ClientCredentialsResponse;
 }
-export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
-  const [value, setValue] = React.useState('windows');
+export const ConnectNodeOptions = ({ credentials }: Props) => {
+  const [value, setValue] = useState('windows');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -24,7 +26,6 @@ export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
         <TabList onChange={handleChange} aria-label="lab API tabs example">
           <Tab value="windows" label="Windows" />
           <Tab value="linux" label="Linux" />
-          <Tab value="macos" label="Mac OS" />
         </TabList>
         <TabPanel value="windows">
           <WindowsInstructions credentials={credentials} />
@@ -32,10 +33,9 @@ export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
         <TabPanel value="linux">
           <LinuxInstructions credentials={credentials} />
         </TabPanel>
-        <TabPanel value="macos">
-          <WindowsInstructions credentials={credentials} />
-        </TabPanel>
       </TabContext>
     </Box>
   );
 };
+
+export default ConnectNodeOptions;
