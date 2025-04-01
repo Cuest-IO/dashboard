@@ -10,8 +10,9 @@ import LinuxInstructions from './LinuxInstructions';
 
 interface Props {
   credentials: ClientCredentialsResponse;
+  preSignedUrl: string;
 }
-export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
+export const ConnectNodeOptions: React.FC<Props> = ({ credentials, preSignedUrl }) => {
   const [value, setValue] = React.useState('windows');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -30,7 +31,7 @@ export const ConnectNodeOptions: React.FC<Props> = ({ credentials }) => {
           <WindowsInstructions credentials={credentials} />
         </TabPanel>
         <TabPanel value="linux">
-          <LinuxInstructions credentials={credentials} />
+          <LinuxInstructions credentials={credentials} preSignedUrl={preSignedUrl} />
         </TabPanel>
         <TabPanel value="macos">
           <WindowsInstructions credentials={credentials} />

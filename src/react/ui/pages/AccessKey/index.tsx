@@ -8,10 +8,15 @@ import { ConnectClusterOptions } from './ConnectClusterOptions';
 import { ConnectNodeOptions } from './ConnectNodeOptions';
 import ClientCredentialsList from './ClientCredentialsList';
 import Box from '@mui/material/Box';
+import { useInstallScript } from '../../../engine/state/installer/useInstallScript';
 
 const AccessKey = () => {
   const { t } = useTranslation()
   const { data: credentials } = useClientCredentials()
+  const { data: preSignedUrl } = useInstallScript({
+    version: credentials.version!, os: 'linux' },
+    { enabled: !!credentials.version }
+  )
 
   const contentContainerStyles = {
     py: 4,
@@ -65,7 +70,7 @@ const AccessKey = () => {
                 item
                 {...contentContainerStyles}
               >
-                <ConnectNodeOptions credentials={credentials} />
+                {preSignedUrl && <ConnectNodeOptions credentials={credentials} preSignedUrl={preSignedUrl} />}
               </Grid>
             </Grid>
           </Grid>

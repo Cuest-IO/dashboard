@@ -9,7 +9,12 @@ import { Auth } from 'aws-amplify';
 
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
 
-const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResponse }) => {
+type LinuxInstructionsProps = {
+  credentials: ClientCredentialsResponse;
+  preSignedUrl: string;
+};
+
+const LinuxInstructions = ({ credentials, preSignedUrl }: LinuxInstructionsProps) => {
   const { version, id, secret } = credentials;
 
   const [token, setToken] = useState<string | null>(null);
@@ -25,11 +30,11 @@ const LinuxInstructions = ({ credentials }: { credentials: ClientCredentialsResp
     }
     fetchToken();
   }, []);
-
   const environmentPrefix = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'dev' : 'prod';
+  const apiHost = process.env.REACT_APP_REST_URI?.replace('https://', '');
 
-  const fullScript = token
-    ? `sudo -E env=${environmentPrefix} version=${version} access_key=${id} access_secret=${secret} token=${token} sh -c "curl -sSLf -H 'Authorization: Bearer ${'$'}token' https://api.${'$'}env.cuest.io/installer/script?version=${'$'}version&os=linux | sh"`
+  const fullScript = token && preSignedUrl
+    ? `curl -sSLf "${preSignedUrl}" | sudo token="${token}" env="${environmentPrefix}" version="${version}" api_host="${apiHost}" access_key="${id}" access_secret="${secret}" sh`
     : null;
 
   const handleCopy = () => {
