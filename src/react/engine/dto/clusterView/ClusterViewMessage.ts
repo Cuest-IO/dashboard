@@ -1,6 +1,6 @@
-import { DeviceInfo } from "./DeviceInfo";
-import { WorkloadsMessageInfo } from "./WorkloadsInfo";
-import { AccessStatuses } from "../nodes";
+import { DeviceInfo } from './DeviceInfo';
+import { WorkloadsMessageInfo } from './WorkloadsInfo';
+import { AccessStatuses } from '../nodes';
 
 export interface ClusterViewMessage {
   device: string;
@@ -10,10 +10,5 @@ export interface ClusterViewMessage {
   accessStatus: AccessStatuses;
   hostname: string;
   os: string;
+  version?: string;
 }
-
-
-
-
-
-
