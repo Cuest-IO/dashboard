@@ -1,15 +1,16 @@
-import { DeviceInfo } from "./DeviceInfo";
-import { WorkloadsResponseInfo } from "./WorkloadsInfo";
-import { AccessStatuses } from "../nodes";
+import { DeviceInfo } from './DeviceInfo';
+import { WorkloadsResponseInfo } from './WorkloadsInfo';
+import { AccessStatuses } from '../nodes';
 
 export interface ClusterViewItemResponse {
   device: string;
-  info: DeviceInfo
+  info: DeviceInfo;
   time: number;
   workloads: Array<WorkloadsResponseInfo>;
   accessStatus: AccessStatuses;
   hostname: string;
   os: string;
+  version?: string;
 }
 
-export type ClusterViewResponse = ClusterViewItemResponse[]
+export type ClusterViewResponse = ClusterViewItemResponse[];
