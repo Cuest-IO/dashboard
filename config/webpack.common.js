@@ -3,9 +3,8 @@ const webpack = require('webpack');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const glob = require('glob');
+const { globSync } = require('glob');
 const ESLintPlugin = require('eslint-webpack-plugin');
-// const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const WebpackFavicons = require('webpack-favicons');
 
@@ -15,7 +14,7 @@ const twigOption = require('./webpack-settings/webpack.twig.option');
 
 function generateHTMLPlugins() {
   if (process.env.TWIG_PROCESS === 'true') {
-    const search = glob.sync(`./${process.env.TWIG_TEMPLATES}/pages/**/*.twig`, {ignore: `./${process.env.TWIG_TEMPLATES}/pages/**/*html.twig`});
+    const search = globSync(`./${process.env.TWIG_TEMPLATES}/pages/**/*.twig`, {ignore: `./${process.env.TWIG_TEMPLATES}/pages/**/*html.twig`});
     search.push(`./${process.env.TWIG_TEMPLATES}/index.twig`);
     return search.map(
       dir => {

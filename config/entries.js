@@ -1,5 +1,5 @@
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('glob');
 
 module.exports = () => {
   let pages = {
@@ -8,7 +8,7 @@ module.exports = () => {
       path.join(__dirname, `../${process.env.FOLDER_PRIVATE_BASE}/index.scss`),
     ],
   };
-  const files = glob.sync(`./${process.env.FOLDER_PRIVATE_BASE}/pages/**/*+(.scss|.css|.js)`);
+  const files = globSync(`./${process.env.FOLDER_PRIVATE_BASE}/pages/**/*+(.scss|.css|.js)`);
   files.forEach((file) => {
     const dir = path.parse(path.dirname(file)).name;
     if (!pages[dir]) {
