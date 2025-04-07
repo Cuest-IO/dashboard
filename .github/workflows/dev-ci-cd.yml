@@ -17,7 +17,7 @@ env:
   AWS_REGION: us-east-1
   WEB_BUCKET_NAME: dev.cuest.io
   CONSOLE_BUCKET_NAME: console.dev.cuest.io
-  NODE_VERSION: "18.15"
+  NODE_VERSION: "22.14.0"
 
 # Permission to work with AWS IAM role   
 permissions:
