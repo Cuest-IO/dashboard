@@ -9,7 +9,7 @@ export class AccountService {
     return this.accountRepository.getRecord<AccountStatusResponse, {}>({}, endpoint);
   }
 
-  async getClientCredentials(): Promise<ClientCredentialsResponse> {
+  async getClientAccessData(): Promise<ClientCredentialsResponse> {
     const endpoint = '/client-access-data';
     return this.accountRepository.getRecord<ClientCredentialsResponse, {}>({}, endpoint);
   }

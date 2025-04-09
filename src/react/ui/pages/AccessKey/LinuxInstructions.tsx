@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { FileCopy as FileCopyIcon } from '@mui/icons-material';
 import { Button, IconButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Auth } from 'aws-amplify';
 import { useTranslation } from 'react-i18next';
-
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
-import { useInstallScript } from '../../../engine/state/installer/useInstallScript';
 
 type LinuxInstructionsProps = {
   credentials: ClientCredentialsResponse;
@@ -17,37 +14,11 @@ type LinuxInstructionsProps = {
 
 const LinuxInstructions = ({ credentials }: LinuxInstructionsProps) => {
   const { t } = useTranslation();
-  const { version, id, secret } = credentials;
+  const { apiHost, version, apiKey, encodedPayLoad } = credentials;
 
-  const [token, setToken] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const { data: preSignedUrl } = useInstallScript(
-    {
-      version: credentials.version!,
-      os: 'linux',
-    },
-    { enabled: !!credentials.version },
-  );
-
-  useEffect(() => {
-    async function fetchToken() {
-      try {
-        const jwt = (await Auth.currentSession()).getIdToken().getJwtToken();
-        setToken(jwt);
-      } catch (error) {
-        console.error('Failed to fetch token', error);
-      }
-    }
-    fetchToken();
-  }, []);
-  const environmentPrefix = process.env.REACT_APP_CONSOLE_DOMAIN?.includes('dev') ? 'dev' : 'prod';
-  const apiHost = process.env.REACT_APP_REST_URI?.replace('https://', '');
-
-  const fullScript =
-    token && preSignedUrl
-      ? `curl -sSLf "${preSignedUrl}" | sudo token="${token}" env="${environmentPrefix}" version="${version}" api_host="${apiHost}" access_key="${id}" access_secret="${secret}" sh`
-      : null;
+  const fullScript = `curl -sSLf -H "x-api-key: ${apiKey}" "${apiHost}/installer/script?version=${version}&os=linux" | xargs curl | sudo version=${version} payload="${encodedPayLoad}" sh`;
 
   const handleCopy = () => {
     if (!fullScript) return;
