@@ -74,6 +74,12 @@ const Nodes = () => {
         accessorKey: 'accessStatus',
         header: 'accessStatus',
         Cell: ({ cell }) => cell.getContext().getValue<string>() || 'Available'
+      },
+      {
+        id: 'version',
+        accessorKey: 'version',
+        header: 'version',
+        Cell: ({ cell }) => cell.getContext().getValue<string>() || 'Available'
       }
     ],
     [],

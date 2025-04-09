@@ -1,5 +1,5 @@
 import React, { Dispatch, ReactElement, SetStateAction } from 'react';
-import { Grid, Tooltip, Typography } from '@mui/material';
+import {Divider, Grid, Popover, Tooltip, Typography} from '@mui/material';
 import BatteryChart from './BatteryChart';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -11,6 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { useMutateNodes } from '../../../engine/state/nodes/useUpdateNode';
 import { AccessStatuses } from '../../../engine/dto/nodes';
 import renderOsIcon from '../../../engine/helpers/renderOsIcon';
+import { Box } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import IconButton from '@mui/material/IconButton';
+import NodeInfoPopover from './nodeInfoPopover';
 
 interface Props {
   node: ClusterViewNode;
@@ -27,6 +31,14 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
   };
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+  const [infoAnchorEl, setInfoAnchorEl] = React.useState<null | HTMLElement>(null);
+  const infoOpen = Boolean(infoAnchorEl);
+  const handleInfoClick = (event: React.MouseEvent<HTMLElement>) => {
+    setInfoAnchorEl(event.currentTarget);
+  };
+  const handleInfoClose = () => {
+    setInfoAnchorEl(null);
   };
 
   const handleSuspendNode = () => {
@@ -72,33 +84,29 @@ const NodeViewCardHeader: React.FC<Props> = ({ node, toggleDialog }) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid item>
-        <Tooltip title={node.version} placement="top">
-          <Typography
-            variant="h5"
-            fontWeight={200}
-            color={theme => theme.palette.secondary.main}
-            maxWidth="150px"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            sx={{
-              textWrap: 'nowrap',
-            }}
-          >
-            v-{node.version}
-          </Typography>
-        </Tooltip>
-      </Grid>
-      <Grid item gap={3} alignItems="center" fontSize={29}>
+      <Grid item sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {node.os && (
           <Tooltip title={node.os} placement="top">
-            {renderOsIcon(node.os) as ReactElement}
+            <Box sx={{ position: 'relative', top: '5px' }}>
+              {renderOsIcon(node.os) as ReactElement}
+            </Box>
           </Tooltip>
         )}
         {node.battery && <BatteryChart battery={node.battery} />}
         <PowerSettingsNewOutlinedIcon
           sx={{ fontSize: 29, alignItems: 'center' }}
           color={node.connected ? 'success' : 'action'}
+        />
+        <Tooltip title="Information about node" placement="top">
+          <IconButton onClick={handleInfoClick} size="small">
+            <InfoOutlinedIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+        <NodeInfoPopover
+          open={infoOpen}
+          anchorEl={infoAnchorEl}
+          onClose={handleInfoClose}
+          nodeId={node.nodeId}
         />
         <Button
           onClick={handleMenuToggle}

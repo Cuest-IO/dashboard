@@ -4,6 +4,7 @@ import {useAuthenticator} from "@aws-amplify/ui-react";
 import {addNode, ClusterViewNode, filterOutAbsentData, updateNode} from "../../helpers/nodesStateUpdate";
 import {useCallback, useEffect, useState} from "react";
 import useWebsocket from "../websocket/useWebsocket";
+import {ClusterViewItemResponse} from "../../dto/clusterView";
 
 export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean }) => {
   const queryClient = useQueryClient()
@@ -81,4 +82,21 @@ export const useClusterView = ({ isUserAuthLoaded }: { isUserAuthLoaded: boolean
   });
 
   return query;
+};
+
+export const useNodeInfo = (nodeId: string | undefined) => {
+  const clusterViewService = useClusterViewService();
+
+  return useQuery<ClusterViewItemResponse | undefined>(
+    ['clusterViewNodeById', nodeId],
+    async () => {
+      if (!nodeId) return undefined;
+      const list = await clusterViewService.getList({});
+      return list.find(item => item.device === nodeId);
+    },
+    {
+      enabled: !!nodeId,
+      staleTime: 1,
+    }
+  );
 };
