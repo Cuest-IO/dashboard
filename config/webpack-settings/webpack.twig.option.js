@@ -1,9 +1,12 @@
-const path = require('path');
-const setProcessEnv = require('../env');
+import path, { dirname } from 'path';
+import setProcessEnv from '../env.js';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // Добавление ENV переменных в конфигурацию
 setProcessEnv(path.join(__dirname, `../../.env.${process.env.NODE_ENV}`));
-module.exports = {
+export default {
   data: (context) => {
     const globalData = path.join(__dirname, `../../${process.env.TWIG_TEMPLATES}/index.json`);
     const env = { ...process.env };

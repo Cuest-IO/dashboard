@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { FileCopy as FileCopyIcon } from '@mui/icons-material';
 import { Button, IconButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Typography from '@mui/material/Typography';
-import { Auth } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import { useTranslation } from 'react-i18next';
 
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
@@ -19,7 +19,7 @@ const LinuxInstructions = ({ credentials }: LinuxInstructionsProps) => {
   const { t } = useTranslation();
   const { version, id, secret } = credentials;
 
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null | undefined>(null);
   const [expanded, setExpanded] = useState(false);
 
   const { data: preSignedUrl } = useInstallScript(
@@ -33,7 +33,8 @@ const LinuxInstructions = ({ credentials }: LinuxInstructionsProps) => {
   useEffect(() => {
     async function fetchToken() {
       try {
-        const jwt = (await Auth.currentSession()).getIdToken().getJwtToken();
+        const session = await fetchAuthSession();
+        const jwt = session.tokens?.idToken?.toString();
         setToken(jwt);
       } catch (error) {
         console.error('Failed to fetch token', error);

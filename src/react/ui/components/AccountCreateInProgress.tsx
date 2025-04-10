@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import Typography from "@mui/material/Typography";
-import {useTranslation} from "react-i18next";
-import {AccountStatuses} from "../../engine/dto/account";
+import Typography from '@mui/material/Typography';
+import { useTranslation } from 'react-i18next';
+import { AccountStatuses } from '../../engine/dto/account';
 
 interface Props {
   accountStatus: AccountStatuses;
@@ -9,15 +9,11 @@ interface Props {
 }
 
 export const AccountCreateInProgress: FC<Props> = ({ accountStatus, isLoading }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
-    <Typography
-      variant='h5'
-      fontWeight={700}
-      color={(theme) => theme.palette.secondary.main}
-    >
-      {(!accountStatus && isLoading) && t('account:loadingStatus')}
+    <Typography variant="h5" fontWeight={700} sx={{ color: theme => theme.palette.secondary.main }}>
+      {!accountStatus && isLoading && t('account:loadingStatus')}
       {!isLoading && accountStatus && accountStatus !== AccountStatuses.Completed && t('account:creationInProgress')}
     </Typography>
   );

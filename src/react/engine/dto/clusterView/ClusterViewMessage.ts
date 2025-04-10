@@ -10,8 +10,8 @@ export interface ClusterViewMessage {
   accessStatus: AccessStatuses;
   hostname: string;
   os: string;
-  firstConnect: number;
-  lastConnect: number;
-  arch: string;
+  firstConnect?: number;
+  lastConnect?: number;
+  arch?: string;
   version?: string;
 }

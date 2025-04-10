@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Popover,
-  Divider,
-} from '@mui/material';
+import { Box, Typography, Popover, Divider } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useNodeInfo } from '../../../engine/state/clusterView/useClusterView';
 
@@ -15,7 +10,6 @@ interface NodeInfoPopoverProps {
   nodeId: string;
 }
 
-
 const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClose, nodeId }) => {
   const { data: node, isLoading, isError } = useNodeInfo(nodeId);
 
@@ -24,7 +18,9 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
   if (isLoading) {
     return (
       <Popover open={open} anchorEl={anchorEl} onClose={onClose}>
-        <Box p={3}><Typography>Loading...</Typography></Box>
+        <Box p={3}>
+          <Typography>Loading...</Typography>
+        </Box>
       </Popover>
     );
   }
@@ -32,7 +28,9 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
   if (isError || !node) {
     return (
       <Popover open={open} anchorEl={anchorEl} onClose={onClose}>
-        <Box p={3}><Typography color="error">Error loading node info</Typography></Box>
+        <Box p={3}>
+          <Typography color="error">Error loading node info</Typography>
+        </Box>
       </Popover>
     );
   }
@@ -52,7 +50,7 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
       }}
     >
       <Box maxWidth="500px" maxHeight="400px" overflow="auto">
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box display="flex" alignItems="center" gap={2}>
           <InfoOutlinedIcon color="primary" sx={{ mr: 1 }} />
           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
             Node Info
@@ -63,8 +61,8 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
           {
             title: 'General',
             fields: [
-              { label: 'Name', value: node.hostname || 'NoN' },
-              { label: 'Version', value: node.version || 'NoN' },
+              { label: 'Name', value: node.hostname || 'N/A' },
+              { label: 'Version', value: node.version || 'N/A' },
             ],
           },
           {
@@ -72,32 +70,28 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
             fields: [
               {
                 label: 'First Connect',
-                value: node.firstConnect
-                  ? new Date(node.firstConnect).toLocaleString()
-                  : 'NoN',
+                value: node.firstConnect ? new Date(node.firstConnect).toLocaleString() : 'N/A',
               },
               {
                 label: 'Last Connect',
-                value: node.lastConnect
-                  ? new Date(node.lastConnect).toLocaleString()
-                  : 'NoN',
+                value: node.lastConnect ? new Date(node.lastConnect).toLocaleString() : 'N/A',
               },
             ],
           },
           {
             title: 'System',
             fields: [
-              { label: 'OS', value: node.os || 'NoN' },
-              { label: 'Arch', value: node.arch || 'NoN' },
+              { label: 'OS', value: node.os || 'N/A' },
+              { label: 'Arch', value: node.arch || 'N/A' },
               {
                 label: 'CPU',
-                value: node.info.state.device?.system?.cpu ? `${node.info.state.device.system.cpu} cores` : 'NoN',
+                value: node.info.state.device?.system?.cpu ? `${node.info.state.device.system.cpu} cores` : 'N/A',
               },
               {
                 label: 'Memory',
-                value: node.info.state?.device?.system?.ram ? `${node.info.state.device.system.ram} GB` : 'NoN',
+                value: node.info.state?.device?.system?.ram ? `${node.info.state.device.system.ram} GB` : 'N/A',
               },
-              { label: 'GPU', value: 'NoN' },
+              { label: 'GPU', value: 'N/A' },
             ],
           },
         ].map((section, idx) => (
@@ -110,7 +104,6 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
                 gridTemplateColumns: '130px 1fr',
                 columnGap: 2,
                 rowGap: 1,
-                m: 0,
                 '& dt': {
                   fontWeight: 'bold',
                   textAlign: 'left',
@@ -120,7 +113,6 @@ const NodeInfoPopover: React.FC<NodeInfoPopoverProps> = ({ anchorEl, open, onClo
                   mr: 1,
                 },
                 '& dd': {
-                  m: 0,
                   pl: 1,
                 },
               }}

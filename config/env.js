@@ -1,9 +1,9 @@
-const fs = require('fs');
-const dotenv = require('dotenv');
+import fs from 'fs';
+import dotenv from 'dotenv';
 
 function setProcessEnv(nameFile) {
     const envConfig = dotenv.parse(fs.readFileSync(nameFile));
     Object.assign(process.env, envConfig);
 }
 
-module.exports = setProcessEnv;
+export default setProcessEnv;
