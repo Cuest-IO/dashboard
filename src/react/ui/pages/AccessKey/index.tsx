@@ -3,15 +3,14 @@ import Grid from '@mui/material/GridLegacy';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
 
-import { useClientCredentials } from '../../../engine/state/account/useClientCredentials';
+import { useClientAccessData } from '../../../engine/state/account/useClientCredentials';
 import MessagePanel from '../../components/common/MessagePanel';
 import { ConnectClusterOptions } from './ConnectClusterOptions';
 import ConnectNodeOptions from './ConnectNodeOptions';
-import { useInstallScript } from '../../../engine/state/installer/useInstallScript';
 
 const AccessKey = () => {
   const { t } = useTranslation();
-  const { data: credentials } = useClientCredentials();
+  const { data: credentials } = useClientAccessData();
 
   const contentContainerStyles = {
     py: 4,
