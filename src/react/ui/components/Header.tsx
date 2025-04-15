@@ -6,15 +6,28 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import PersonIcon from '@mui/icons-material/Person';
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import Grid from "@mui/material/Grid";
-import { Auth } from "aws-amplify";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import Grid from '@mui/material/GridLegacy';
+import { signOut, fetchUserAttributes } from 'aws-amplify/auth';
 
 export function Header() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { user, authStatus } = useAuthenticator();
+  const [attributes, setAttributes] = useState<Record<string, any> | null>(null);
 
-  const companyName = user.attributes?.['custom:Company']
+  useEffect(() => {
+    async function loadAttributes() {
+      try {
+        const attrs = await fetchUserAttributes();
+        setAttributes(attrs);
+      } catch (error) {
+        console.error('Error fetching user attributes:', error);
+      }
+    }
+    loadAttributes();
+  }, []);
+
+  const companyName = attributes ? attributes['custom:Company'] : '';
 
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -22,49 +35,32 @@ export function Header() {
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
   const handleLogout = () => {
-    try {
-      Auth.signOut().then(() => handleCloseUserMenu())
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    signOut()
+      .then(() => handleCloseUserMenu())
+      .catch(error => console.error('Sign out error:', error));
+  };
 
   useEffect(() => {
     if (user && authStatus === 'unauthenticated') {
-      window.location.reload()
+      window.location.reload();
     }
-  }, [authStatus])
+  }, [authStatus]);
 
   return (
-    <Grid
-      container
-      justifyContent='space-between'
-    >
-      <Grid
-        item
-      >
-        <Typography variant="h4" fontWeight={700} fontSize='30px' color='secondary'>
+    <Grid container justifyContent="space-between">
+      <Grid item>
+        <Typography variant="h4" fontWeight={700} fontSize="30px" color="secondary">
           {companyName}
         </Typography>
       </Grid>
-      <Grid
-        item
-      >
+      <Grid item>
         <Tooltip title="Open settings">
-          <IconButton
-            onClick={handleOpenUserMenu}
-            sx={{ p: 0, pr: 2, borderRadius: 5 }}
-          >
-            <Avatar alt={`${user.attributes?.given_name} ${user.attributes?.family_name}`}>
+          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, pr: 2, borderRadius: 5 }}>
+            <Avatar alt={`${attributes?.given_name || ''} ${attributes?.family_name || ''}`}>
               <PersonIcon />
             </Avatar>
-            <Typography
-              variant='subtitle1'
-              fontWeight={700}
-              color='secondary'
-              ml={1}
-            >
-              {`${user.attributes?.given_name} ${user.attributes?.family_name}`}
+            <Typography variant="subtitle1" fontWeight={700} color="secondary" ml={1}>
+              {`${attributes?.given_name || ''} ${attributes?.family_name || ''}`}
             </Typography>
           </IconButton>
         </Tooltip>
@@ -90,5 +86,5 @@ export function Header() {
         </Menu>
       </Grid>
     </Grid>
-  )
+  );
 }

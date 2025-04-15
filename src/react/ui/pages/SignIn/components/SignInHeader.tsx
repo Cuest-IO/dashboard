@@ -1,11 +1,5 @@
 import { Header } from './style';
 
 export default function SignInHeader() {
-  return (
-    <Header
-      component='h3'
-    >
-      Sign in to your account
-    </Header>
-  );
+  return <Header as="h3">Sign in to your account</Header>;
 }

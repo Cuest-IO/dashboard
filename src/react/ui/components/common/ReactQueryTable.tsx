@@ -1,36 +1,32 @@
 import React from 'react';
-import MaterialReactTable, { MRT_ColumnDef, MaterialReactTableProps } from "material-react-table";
-import { MRT_Localization_EN } from "material-react-table/locales/en";
-import { Skeleton } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import MaterialReactTable, { MRT_ColumnDef, MaterialReactTableProps } from 'material-react-table';
+import { MRT_Localization_EN } from 'material-react-table/locales/en';
+import { Skeleton } from '@mui/material';
+import Grid from '@mui/material/GridLegacy';
 
 interface Props<TData extends Record<string, any>> extends MaterialReactTableProps<TData> {
   data: TData[];
-  columns: (Omit<MRT_ColumnDef<TData>, 'id'> & { id: string; })[];
+  columns: (Omit<MRT_ColumnDef<TData>, 'id'> & { id: string })[];
   isLoading: boolean;
 }
 
 const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isLoading, ...rest }: Props<TData>) => {
   if (isLoading) {
     return (
-      <Grid
-        container
-        gap={3}
-        direction='column'
-      >
+      <Grid container gap={3} direction="column">
         {Array.from(Array(3).keys()).map((_, index) => (
           <Grid item xs={12} key={index}>
             <Skeleton
               variant="rectangular"
               height={50}
               sx={{
-                borderRadius: 2
+                borderRadius: 2,
               }}
             />
           </Grid>
         ))}
       </Grid>
-    )
+    );
   }
   return (
     <MaterialReactTable
@@ -40,13 +36,7 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isL
       positionPagination="bottom"
       rowCount={data.length}
       muiTablePaginationProps={{
-        rowsPerPageOptions: [
-          10,
-          20,
-          40,
-          80,
-          100,
-        ],
+        rowsPerPageOptions: [10, 20, 40, 80, 100],
         showFirstButton: false,
         showLastButton: false,
       }}
@@ -58,31 +48,31 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isL
         sx: {
           '&.MuiPaper-root': {
             boxShadow: 'none',
-            backgroundColor: 'inherit'
+            backgroundColor: 'inherit',
           },
-          'table': {
+          table: {
             borderCollapse: 'separate',
             borderSpacing: '0 16px',
-            padding: '0 8px'
+            padding: '0 8px',
           },
-          'thead': {
+          thead: {
             '& tr': {
               background: 'inherit',
               boxShadow: 'none',
               '& th': {
-                border: 'none'
-              }
-            }
+                border: 'none',
+              },
+            },
           },
-          'tbody': {
+          tbody: {
             '& tr td:first-of-type': {
               borderTopLeftRadius: '8px',
-              borderBottomLeftRadius: '8px'
+              borderBottomLeftRadius: '8px',
             },
             '& tr td:last-child': {
               borderTopRightRadius: '8px',
-              borderBottomRightRadius: '8px'
-            }
+              borderBottomRightRadius: '8px',
+            },
           },
         },
       }}
@@ -96,8 +86,8 @@ const ReactQueryTable = <TData extends Record<string, any>>({ data, columns, isL
       }}
       muiBottomToolbarProps={{
         sx: {
-          boxShadow: 'none'
-        }
+          boxShadow: 'none',
+        },
       }}
       {...rest}
     />

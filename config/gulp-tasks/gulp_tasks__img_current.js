@@ -1,16 +1,13 @@
-const gulp = require("gulp");
-const filter = require("gulp-filter");
-const imagemin = require("gulp-imagemin");
-const imageminPngquant = require("imagemin-pngquant");
-const tinypngCompress = require("gulp-tinypng-compress");
-const flatten = require("gulp-flatten");
+import gulp from "gulp";
+import flatten from "gulp-flatten";
+import imagemin from "gulp-imagemin";
+import imageminPngquant from "imagemin-pngquant";
+import tinypngCompress from "gulp-tinypng-compress";
+import filter from "gulp-filter";  // Added import for gulp-filter
 
-
-module.exports = function(config) {
-  const filterForTiny = filter(['**/*.{png,jpg,jpeg}'],
-    { restore: true });
-  const filterForImageMin = filter(['**/*.{svg,gif}'],
-    { restore: true });
+export default function(config) {
+  const filterForTiny = filter(['**/*.{png,jpg,jpeg}'], { restore: true });
+  const filterForImageMin = filter(['**/*.{svg,gif}'], { restore: true });
   console.log(config.private.images);
 
   return gulp.src(config.private.images)

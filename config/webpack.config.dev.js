@@ -1,12 +1,12 @@
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const dartSass = require('dart-sass');
-const TerserPlugin = require('terser-webpack-plugin');
-const common = require('./webpack.common.js');
+import { merge } from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import dartSass from 'dart-sass';
+import TerserPlugin from 'terser-webpack-plugin';
+import common from './webpack.common.js';
 
 // DEVELOPMENT конфигурация
-module.exports = merge(common, {
+export default merge(common, {
   mode: process.env.NODE_ENV,
   devtool: 'source-map',
   optimization: {

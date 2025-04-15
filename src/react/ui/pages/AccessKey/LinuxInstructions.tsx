@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FileCopy as FileCopyIcon } from '@mui/icons-material';
 import { Button, IconButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { ClientCredentialsResponse } from '../../../engine/dto/account';
@@ -17,7 +17,6 @@ const LinuxInstructions = ({ credentials }: LinuxInstructionsProps) => {
   const { apiHost, version, apiKey, encodedPayLoad } = credentials;
 
   const [expanded, setExpanded] = useState(false);
-
   const fullScript = `curl -sSLf -H "x-api-key: ${apiKey}" "${apiHost}/installer/script?version=${version}&os=linux" | xargs curl | sudo version=${version} payload="${encodedPayLoad}" sh`;
 
   const handleCopy = () => {

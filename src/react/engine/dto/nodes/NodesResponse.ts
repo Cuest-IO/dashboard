@@ -9,6 +9,7 @@ export interface NodeItemResponse {
   accessStatus?: AccessStatuses;
   device?: Resources;
   vm?: Resources;
+  version?: string;
 }
 
 export type NodesResponse = NodeItemResponse[]
