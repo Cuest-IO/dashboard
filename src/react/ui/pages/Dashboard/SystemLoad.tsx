@@ -1,8 +1,7 @@
-import React from "react";
-import { Formatter } from "recharts/types/component/DefaultLegendContent";
-import { Label, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
-import Box from "@mui/material/Box";
-
+import React from 'react';
+import { Formatter } from 'recharts/types/component/DefaultLegendContent';
+import { Label, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import Box from '@mui/material/Box';
 
 interface Props {
   data: {
@@ -11,34 +10,26 @@ interface Props {
     fill: string;
   }[];
   label: string;
-  unit: string
+  unit: string;
 }
 const SystemLoad: React.FC<Props> = ({ data, label, unit }) => {
   const renderColorfulLegendText: Formatter = (value, entry) => {
     return (
-      <Box
-        component='span'
-        color={(theme) => theme.palette.secondary.main}
-        fontWeight={500}
-        pl='5px'
-      >
-        <Box component='span'>{value}</Box>
-        <Box
-          component='span'
-          position='absolute'
-          right='0px'
-        >
-          {entry?.payload?.value}{unit}
+      <Box component="span" sx={{ color: theme => theme.palette.secondary.main }} fontWeight={500} pl="5px">
+        <Box component="span">{value}</Box>
+        <Box component="span" position="absolute" right="0px">
+          {entry?.payload?.value}
+          {unit}
         </Box>
       </Box>
     );
   };
 
   return (
-    <ResponsiveContainer width='47%' height={168}>
+    <ResponsiveContainer width="47%" height={168}>
       <PieChart
         margin={{
-          left: 8
+          left: 8,
         }}
       >
         <Legend
@@ -68,15 +59,15 @@ const SystemLoad: React.FC<Props> = ({ data, label, unit }) => {
             position="center"
             fill="grey"
             style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              fontFamily: "Product Sans"
+              fontSize: '16px',
+              fontWeight: 'bold',
+              fontFamily: 'Product Sans',
             }}
           />
         </Pie>
       </PieChart>
     </ResponsiveContainer>
   );
-}
+};
 
-export default SystemLoad
+export default SystemLoad;

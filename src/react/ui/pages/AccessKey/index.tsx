@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Paper from '@mui/material/Paper';
 import { useTranslation } from 'react-i18next';
 

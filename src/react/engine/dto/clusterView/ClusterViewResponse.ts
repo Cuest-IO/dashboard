@@ -10,6 +10,9 @@ export interface ClusterViewItemResponse {
   accessStatus: AccessStatuses;
   hostname: string;
   os: string;
+  firstConnect?: number;
+  lastConnect?: number;
+  arch?: string;
   version?: string;
 }
 

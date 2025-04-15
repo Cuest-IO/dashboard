@@ -1,8 +1,5 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-} from 'axios';
-import { Auth } from "aws-amplify";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 export class ApiAxiosClient {
   public axios: AxiosInstance;
@@ -17,23 +14,23 @@ export class ApiAxiosClient {
 
     this.axios.interceptors.request.use(
       async config => {
+        const session = await fetchAuthSession();
+        const token = session.tokens?.idToken?.toString();
         // @ts-ignore
         // eslint-disable-next-line no-param-reassign
         config.headers = {
-          'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
-        }
+        };
         return config;
       },
       error => {
-        Promise.reject(error)
-      });
+        Promise.reject(error);
+      },
+    );
   }
 
-  get = async <TData = unknown>(
-    url: string,
-    config?: AxiosRequestConfig<never>,
-  ): Promise<TData> => {
+  get = async <TData = unknown>(url: string, config?: AxiosRequestConfig<never>): Promise<TData> => {
     const response = await this.axios.get<TData>(url, config);
 
     return response.data;
@@ -44,10 +41,10 @@ export class ApiAxiosClient {
     data: TBody,
     config?: AxiosRequestConfig<never>,
   ): Promise<TData> => {
-    const response = await this.axios.put<TData>(url, data, config)
+    const response = await this.axios.put<TData>(url, data, config);
 
-    return response.data
-  }
+    return response.data;
+  };
 }
 
 export default new ApiAxiosClient();

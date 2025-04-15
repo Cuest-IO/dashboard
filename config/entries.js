@@ -1,7 +1,10 @@
-const path = require('path');
-const { globSync } = require('glob');
+import path, { dirname } from 'path';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'url';
 
-module.exports = () => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+function getEntries() {
   let pages = {
     index: [
       path.join(__dirname, `../${process.env.FOLDER_PRIVATE_BASE}/index.js`),
@@ -17,4 +20,6 @@ module.exports = () => {
     pages[dir].push(path.join(__dirname, `../${file}`));
   });
   return pages;
-};
+}
+
+export default getEntries;

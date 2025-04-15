@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { CardContent, Grid } from '@mui/material';
+import { CardContent } from '@mui/material';
 import PodsTable from './PodsTable';
 import ResourceChart from './ResourceChart';
-import { ClusterViewNode } from "../../../engine/helpers/nodesStateUpdate";
-import Card from "../../components/common/Card";
-import NodeViewCardHeader from "./NodeViewCardHeader";
+import { ClusterViewNode } from '../../../engine/helpers/nodesStateUpdate';
+import Card from '../../components/common/Card';
+import NodeViewCardHeader from './NodeViewCardHeader';
+import Grid from '@mui/material/GridLegacy';
 
 interface Props {
   node: ClusterViewNode;
@@ -13,50 +14,41 @@ interface Props {
 
 const NodeViewCard: React.FC<Props> = ({ node, toggleDialog }: Props) => {
   return (
-    <Card
-      header={
-        <NodeViewCardHeader node={node} toggleDialog={toggleDialog} />
-      }
-    >
+    <Card header={<NodeViewCardHeader node={node} toggleDialog={toggleDialog} />}>
       <CardContent
         sx={{
-          p: 0
+          p: 0,
         }}
       >
         <Grid
           container
-          alignItems='center'
-          direction='column'
+          alignItems="center"
+          direction="column"
           gap={4}
           sx={{
-            p: 0
+            p: 0,
           }}
         >
           <Grid
             item
-            width='100%'
-            alignItems='center'
-            height={(theme) => theme.spacing(25)}
+            width="100%"
+            alignItems="center"
+            height={theme => theme.spacing(25)}
             sx={{
               '&> div': {
-                display: 'inline-block'
-              }
+                display: 'inline-block',
+              },
             }}
           >
-            <ResourceChart node={node} key={node.nodeId}/>
+            <ResourceChart node={node} key={node.nodeId} />
           </Grid>
-          <Grid
-            item
-            width='100%'
-            minHeight={(theme) => theme.spacing(30)}
-            maxHeight={(theme) => theme.spacing(30)}
-          >
-            <PodsTable node={node} key={node.nodeId}/>
+          <Grid item width="100%" minHeight={theme => theme.spacing(30)} maxHeight={theme => theme.spacing(30)}>
+            <PodsTable node={node} key={node.nodeId} />
           </Grid>
         </Grid>
       </CardContent>
     </Card>
-  )
+  );
 };
 
 export default NodeViewCard;

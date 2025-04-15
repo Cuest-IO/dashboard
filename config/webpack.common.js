@@ -1,16 +1,20 @@
-const path = require('path');
-const webpack = require('webpack');
-const WebpackNotifierPlugin = require('webpack-notifier');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { globSync } = require('glob');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const WebpackFavicons = require('webpack-favicons');
+import path, { dirname } from 'path';
+import webpack from 'webpack';
+import WebpackNotifierPlugin from 'webpack-notifier';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { globSync } from 'glob';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+import WebpackFavicons from 'webpack-favicons';
 
-const setProcessEnv = require('./env');
-const getEntries = require('./entries');
-const twigOption = require('./webpack-settings/webpack.twig.option');
+import setProcessEnv from './env.js';
+import getEntries from './entries.js'; 
+import twigOption from './webpack-settings/webpack.twig.option.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function generateHTMLPlugins() {
   if (process.env.TWIG_PROCESS === 'true') {
@@ -35,7 +39,7 @@ function generateHTMLPlugins() {
 
 // Добавление ENV переменных в конфигурацию
 setProcessEnv(path.join(__dirname, `../.env.${process.env.NODE_ENV}`));
-module.exports = {
+export default {
   entry: getEntries(),
   optimization: {
     minimize: process.env.NODE_ENV !== 'local',

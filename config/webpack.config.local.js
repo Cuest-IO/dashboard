@@ -1,11 +1,11 @@
-const path = require('path');
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const dartSass = require('dart-sass');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
-const common = require('./webpack.common.js');
+import path from 'path';
+import { merge } from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import dartSass from 'dart-sass';
+import LiveReloadPlugin from 'webpack-livereload-plugin';
+import common from './webpack.common.js';
 
-module.exports = merge(common, {
+export default merge(common, {
   mode: 'development',
   devtool: 'source-map',
   devServer: {

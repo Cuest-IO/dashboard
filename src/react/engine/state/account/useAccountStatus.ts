@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useAccountService } from "./useAccountService";
-import { AccountStatusResponse } from "../../dto/account";
+import { useAccountService } from './useAccountService';
+import { AccountStatusResponse } from '../../dto/account';
 
 export const useAccountStatus = () => {
   const accountService = useAccountService();

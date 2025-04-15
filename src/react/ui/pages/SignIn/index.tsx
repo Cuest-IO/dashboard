@@ -1,42 +1,31 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import { components } from './components';
 import { formFields } from './formFields';
 import { AuthContainer, Logo, Wrapper, Bg } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
 export default function SignIn() {
-  const { authStatus } = useAuthenticator()
-  const navigator = useNavigate()
+  const { authStatus } = useAuthenticator();
+  const navigator = useNavigate();
 
   useEffect(() => {
     if (authStatus === 'authenticated') {
-      navigator('/')
+      navigator('/');
     }
-  }, [authStatus])
+  }, [authStatus]);
 
   return (
     <Wrapper container>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        md={6}
-        component={Paper}
-        sx={{ backgroundColor: '#F5F5F5' }}
-      >
-        <Logo
-          component='img'
-          alt='Crowd Cloud'
-          src={logo}
-        />
+      <Grid item xs={12} sm={12} md={6} component={Paper} sx={{ backgroundColor: '#F5F5F5' }}>
+        <Logo component="img" alt="Crowd Cloud" src={logo} />
         <AuthContainer>
           <Authenticator
-            initialState='signIn'
+            initialState="signIn"
             formFields={formFields}
             components={components}
             services={{
@@ -59,12 +48,7 @@ export default function SignIn() {
           </Authenticator>
         </AuthContainer>
       </Grid>
-      <Bg
-        item
-        xs={false}
-        sm={false}
-        md={6}
-      />
+      <Bg item xs={false} sm={false} md={6} />
     </Wrapper>
   );
-};
+}

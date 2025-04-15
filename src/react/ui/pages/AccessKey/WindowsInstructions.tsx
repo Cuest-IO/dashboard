@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/GridLegacy';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';

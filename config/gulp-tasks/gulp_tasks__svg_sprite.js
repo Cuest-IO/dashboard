@@ -1,7 +1,7 @@
-const gulp = require("gulp");
-const svgSprite = require("gulp-svg-sprite");
+import gulp from "gulp";
+import svgSprite from "gulp-svg-sprite";
 
-module.exports = function (config) {
+export default function (config) {
   return gulp.src(config.private.svg_files)
     .pipe(svgSprite({
       mode: {

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from "../components/Header";
-import { Sidebar } from "../components/Sidebar";
-import Grid from "@mui/material/Grid";
+import { Header } from '../components/Header';
+import { Sidebar } from '../components/Sidebar';
+import Grid from '@mui/material/GridLegacy';
 
 const Layout = () => {
   return (
@@ -17,20 +17,17 @@ const Layout = () => {
         // md={4}
         // lg={3}
       >
-        <Sidebar/>
+        <Sidebar />
       </Grid>
       <Grid
         item
-        width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)} - ${theme.spacing(6)})`}
-        maxWidth={(theme) => `${theme.spacing(270)} !important`}
+        width={theme => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)} - ${theme.spacing(6)})`}
+        maxWidth={theme => `${theme.spacing(270)} !important`}
         // xs={6}
         // md={8}
         // lg={9}
       >
-        <Grid
-          container
-          direction='column'
-        >
+        <Grid container direction="column">
           <Grid
             item
             // xs={12}
@@ -40,17 +37,17 @@ const Layout = () => {
           </Grid>
           <Grid
             item
-            p='24px 0'
+            p="24px 0"
             // xs={12}
-            width={(theme) => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)})`}
-            maxWidth={(theme) => `${theme.spacing(270)} !important`}
+            width={theme => `calc(100vw - ${theme.spacing(72)} - ${theme.spacing(12)})`}
+            maxWidth={theme => `${theme.spacing(270)} !important`}
           >
-            <Outlet/>
+            <Outlet />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
