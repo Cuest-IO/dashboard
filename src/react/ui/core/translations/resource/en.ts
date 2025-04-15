@@ -5,7 +5,7 @@ const resourceLanguage: ResourceLanguage = {
     name: 'English',
   },
   core: {
-    cuest: 'Cuest',
+    cuest: 'Jelly',
     dashboard: 'Dashboard',
     cluster: 'Cluster',
     clusters: 'Clusters',
@@ -75,7 +75,7 @@ const resourceLanguage: ResourceLanguage = {
     helm_install_command:
       'helm install cuest cuestio/vnode --set ACCESS_KEY={{accessKey}} --set ACCESS_SECRET={{accessSecret}} --set KUBELET_ID=vNode-123456789',
     install_linux_command:
-      'Connect your server, VM or a computer to Crowd Cloud by using our installer script, personalized for your account:',
+      'Connect your server, VM or a computer to Jelly Cloud by using our installer script, personalized for your account:',
     install_linux_command_loading: 'Loading command...',
     toggle_command_show_more: 'Show more',
     toggle_command_show_less: 'Show less',

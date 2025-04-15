@@ -22,7 +22,7 @@ export default function SignIn() {
   return (
     <Wrapper container>
       <Grid item xs={12} sm={12} md={6} component={Paper} sx={{ backgroundColor: '#F5F5F5' }}>
-        <Logo component="img" alt="Crowd Cloud" src={logo} />
+        <Logo component="img" alt="Jelly Cloud" src={logo} />
         <AuthContainer>
           <Authenticator
             initialState="signIn"
