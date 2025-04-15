@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import Paper from "@mui/material/Paper";
+import { useLocation } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -9,7 +9,7 @@ import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import LanOutlinedIcon from '@mui/icons-material/LanOutlined';
 import HiveIcon from '@mui/icons-material/Hive';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import Link from '@mui/material/Link'
+import Link from '@mui/material/Link';
 import { Logo } from './styles';
 import logo from '../../../../assets/img/logo.svg';
 
@@ -17,49 +17,45 @@ const items = [
   {
     label: 'Dashboard',
     link: '/',
-    icon: <SpaceDashboardIcon />
+    icon: <SpaceDashboardIcon />,
   },
   {
     label: 'Clusters',
     link: '/clusters',
-    icon: <HiveIcon />
+    icon: <HiveIcon />,
   },
   {
     label: 'Nodes',
     link: '/nodes',
-    icon: <LanOutlinedIcon />
+    icon: <LanOutlinedIcon />,
   },
   {
     label: 'Access Key',
     link: '/access-key',
-    icon: <VpnKeyIcon />
-  }
-]
+    icon: <VpnKeyIcon />,
+  },
+];
 
-export function Sidebar() {
-  const location = useLocation()
+const Sidebar = () => {
+  const location = useLocation();
 
   return (
     <Paper
-      sx={(theme) => ({
+      sx={theme => ({
         borderRadius: 5,
         height: 'calc(100vh - 48px)',
         minWidth: theme.spacing(72),
         maxWidth: theme.spacing(72),
-        boxShadow: '0px 6px 14px 0px #0000000A'
+        boxShadow: '0px 6px 14px 0px #0000000A',
       })}
     >
-      <Logo
-        component='img'
-        alt='Crowd Cloud'
-        src={logo}
-      />
+      <Logo component="img" alt="Jelly Cloud" src={logo} />
       <List>
         {items.map(({ label, icon, link }) => (
           <Link
             key={label}
             href={link}
-            sx={(theme) => ({
+            sx={theme => ({
               textDecoration: 'none',
               display: 'block',
               height: theme.spacing(12),
@@ -74,27 +70,27 @@ export function Sidebar() {
                   left: '284px',
                   borderTopLeftRadius: 5,
                   borderBottomLeftRadius: 5,
-                  bgcolor: theme.palette.primary.main
-                }
-              })
+                  bgcolor: theme.palette.primary.main,
+                },
+              }),
             })}
           >
             <ListItem
               disablePadding
-              sx={(theme) => ({
+              sx={theme => ({
                 color: location.pathname === link ? theme.palette.primary.main : theme.palette.secondary.light,
                 '.MuiTypography-root': {
                   fontWeight: location.pathname === link ? 700 : 400,
                 },
                 '& .MuiButtonBase-root:hover': {
-                  bgcolor: theme.palette.primary.light
-                }
+                  bgcolor: theme.palette.primary.light,
+                },
               })}
             >
               <ListItemButton>
                 <ListItemIcon
                   sx={({ palette }) => ({
-                    color: location.pathname === link ? palette.primary.main : palette.secondary.light
+                    color: location.pathname === link ? palette.primary.main : palette.secondary.light,
                   })}
                 >
                   {icon}
@@ -106,5 +102,7 @@ export function Sidebar() {
         ))}
       </List>
     </Paper>
-  )
-}
+  );
+};
+
+export default Sidebar;

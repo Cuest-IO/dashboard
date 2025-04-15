@@ -15,7 +15,7 @@ const handleCopy = (text: string) => {
   navigator.clipboard.writeText(text);
 };
 
-const HelmInstructions: React.FC<Props> = ({ credentials }) => {
+const HelmInstructions = ({ credentials }: Props) => {
   const { t } = useTranslation();
 
   const helmInstallCommand = t('access_key:helm_install_command', {
@@ -29,7 +29,7 @@ const HelmInstructions: React.FC<Props> = ({ credentials }) => {
     <Grid container direction="column">
       <Grid item xs={12}>
         <Typography>
-          Connect your Kubernetes cluster to Crowd Cloud by installing the Crowd Cloud Virtual Node. Copy and run the
+          Connect your Kubernetes cluster to Jelly Cloud by installing the Jelly Cloud Virtual Node. Copy and run the
           Helm command
         </Typography>
       </Grid>
@@ -40,7 +40,7 @@ const HelmInstructions: React.FC<Props> = ({ credentials }) => {
         </Typography>
       </Grid>
       <Grid item xs={12} pt={4}>
-        <Typography>Get cuest.io repository</Typography>
+        <Typography>Get Jelly Cloud repository</Typography>
       </Grid>
       <Grid item xs={12} pt={4}>
         <Grid container alignItems="center">
@@ -78,7 +78,7 @@ const HelmInstructions: React.FC<Props> = ({ credentials }) => {
         </Grid>
       </Grid>
       <Grid item xs={12} pt={4}>
-        <Typography>Install Crowd Cloud Virtual Node.</Typography>
+        <Typography>Install Jelly Cloud Virtual Node.</Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography>

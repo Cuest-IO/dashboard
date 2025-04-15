@@ -13,7 +13,7 @@ const WindowsInstructions = ({ credentials }: { credentials: ClientCredentialsRe
     <Grid container direction="column">
       <Grid item xs={12} pt={2} pb={4}>
         <Typography>
-          To connect your computer (aka Node) to the Kubernetes cluster, download and install the Crowd Cloud Agent from{' '}
+          To connect your computer (aka Node) to the Kubernetes cluster, download and install the Jelly Cloud Agent from{' '}
           <Link href={t('access_key:node_releases')}>the latest release</Link>
           <br />
           When prompted, please use the below access Key and Secret:
